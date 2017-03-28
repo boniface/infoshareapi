@@ -9,39 +9,51 @@ import scala.concurrent.Future
 
 class PersonTable extends CassandraTable[PersonTable, Person]{
 
-  object siteId extends StringColumn(this) with PartitionKey
-  object emailId extends StringColumn(this) with PrimaryKey
-  object date extends DateTimeColumn(this) with PrimaryKey
-  object value extends IntColumn(this)
+  object id extends StringColumn(this) with PartitionKey
+  object org  extends StringColumn(this)
+  object firstName extends StringColumn(this)
+  object emailAddress extends StringColumn(this)
+  object lastName extends StringColumn(this)
+  object password extends StringColumn(this)
+  object enabled extends BooleanColumn(this)
+  object accountNonExpired extends BooleanColumn(this)
+  object credentialsNonExpired extends BooleanColumn(this)
+  object accountNonLocked extends BooleanColumn(this)
+  object state extends StringColumn(this)
 }
 
 abstract class  PersonTableImpl extends PersonTable with RootConnector {
 
-  override lazy val tableName = "reputation"
+  override lazy val tableName = "person"
 
-  def save(reputation: Person): Future[ResultSet] = {
+  def save(person: Person): Future[ResultSet] = {
     insert
-      .value(_.siteId, reputation.siteId)
-      .value(_.emailId, reputation.emailId)
-      .value(_.date, reputation.date)
-      .value(_.value, reputation.value)
+      .value(_.org, person.org)
+      .value(_.id, person.id)
+      .value(_.firstName, person.firstName)
+      .value(_.emailAddress, person.emailAddress)
+      .value(_.lastName, person.lastName)
+      .value(_.password, person.password)
+      .value(_.enabled, person.enabled)
+      .value(_.accountNonExpired, person.accountNonExpired)
+      .value(_.credentialsNonExpired, person.credentialsNonExpired)
+      .value(_.accountNonLocked, person.accountNonLocked)
+      .value(_.state, person.state)
       .future()
   }
 
-
-  def getDayReputation(siteId: String, emailId:String, date:DateTime): Future[Option[Person]] = {
+  def getPerson(org: String, id:String): Future[Option[Person]] = {
     select
-      .where(_.siteId eqs siteId)
-      .and(_.emailId eqs emailId)
-      .and(_.date eqs date)
+      .where(_.org eqs org)
+      .and(_.id eqs id)
       .one()
   }
 
 
-  def getUserReputations(siteId: String, emailId:String): Future[Seq[Person]] = {
+  def getPeople(org: String, id:String): Future[Seq[Person]] = {
     select
-      .where(_.siteId eqs siteId)
-      .and(_.emailId eqs emailId)
+      .where(_.org eqs org)
+      .and(_.id eqs id)
       .fetchEnumerator() run Iteratee.collect()
   }
 }
