@@ -9,10 +9,10 @@ import scala.concurrent.Future
 
 class PersonTable extends CassandraTable[PersonTable, Person]{
 
-  object id extends StringColumn(this) with PartitionKey
-  object org  extends StringColumn(this)
+  object id extends StringColumn(this) with PrimaryKey
+  object org  extends StringColumn(this) with  PartitionKey
   object firstName extends StringColumn(this)
-  object emailAddress extends StringColumn(this)
+  object emailAddress extends StringColumn(this) with PrimaryKey
   object lastName extends StringColumn(this)
   object password extends StringColumn(this)
   object enabled extends BooleanColumn(this)
