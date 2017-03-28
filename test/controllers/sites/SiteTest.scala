@@ -1,6 +1,6 @@
 package controllers.sites
 
-import domain.zones.Site
+import domain.old.zones.Site
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
