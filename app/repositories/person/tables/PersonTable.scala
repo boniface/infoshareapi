@@ -49,11 +49,15 @@ abstract class  PersonTableImpl extends PersonTable with RootConnector {
       .one()
   }
 
+  def getPersonByEmail(emailAddress: String): Future[Option[Person]] = {
+    select
+      .where(_.emailAddress eqs emailAddress)
+      .one()
+  }
 
-  def getPeople(org: String, id:String): Future[Seq[Person]] = {
+  def getPeople(org: String): Future[Seq[Person]] = {
     select
       .where(_.org eqs org)
-      .and(_.id eqs id)
       .fetchEnumerator() run Iteratee.collect()
   }
 }
