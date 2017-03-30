@@ -1,6 +1,7 @@
-#INFO SHARE BACKEND/SERVER
+INFO SHARE BACKEND/SERVER
+=========================
 
-#TODO
+# TODO #
  ``doc sting must be added to make the code understandable when new devs come in``
  
 #What is InfoShare?
