@@ -1,4 +1,4 @@
-#INFO SHARE BACKEND
+#INFO SHARE BACKEND/SERVER
 
 #What is InfoShare?
 

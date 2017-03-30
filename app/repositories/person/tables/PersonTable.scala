@@ -9,10 +9,10 @@ import scala.concurrent.Future
 
 class PersonTable extends CassandraTable[PersonTable, Person]{
 
-  object id extends StringColumn(this) with PrimaryKey
   object org  extends StringColumn(this) with  PartitionKey
-  object firstName extends StringColumn(this)
+  object id extends StringColumn(this) with PrimaryKey
   object emailAddress extends StringColumn(this) with PrimaryKey
+  object firstName extends StringColumn(this)
   object lastName extends StringColumn(this)
   object password extends StringColumn(this)
   object enabled extends BooleanColumn(this)
@@ -43,22 +43,15 @@ abstract class  PersonTableImpl extends PersonTable with RootConnector {
   }
 
   def getPerson(org: String, id:String): Future[Option[Person]] = {
-    select
-      .where(_.org eqs org)
-      .and(_.id eqs id)
-      .one()
+    select.where(_.org eqs org) .and(_.id eqs id) .one()
   }
 
   def getPersonByEmail(emailAddress: String): Future[Option[Person]] = {
-    select
-      .where(_.emailAddress eqs emailAddress)
-      .one()
+    select.where(_.emailAddress eqs emailAddress).one()
   }
 
   def getPeople(org: String): Future[Seq[Person]] = {
-    select
-      .where(_.org eqs org)
-      .fetchEnumerator() run Iteratee.collect()
+    select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 }
 
