@@ -11,9 +11,7 @@ class PersonAddressTable extends CassandraTable[PersonAddressTable, PersonAddres
   object id extends StringColumn(this) with PrimaryKey
   object description extends StringColumn(this)
   object postalCode extends StringColumn(this)
-
   object date extends DateColumn(this)
-
   object state extends StringColumn(this)
 
 }
