@@ -1,9 +1,10 @@
-#INFO SHARE BACKEND/SERVER
+INFO SHARE BACKEND/SERVER
+=========================
 
-#TODO
+### TODO ###
  ``doc sting must be added to make the code understandable when new devs come in``
  
-#What is InfoShare?
+## What is InfoShare? ##
 InfoShare is an online platform where Caregivers share Information on their experiences and expertise to other Caregivers 
 within the same organization. InfoShare bridges the gap between community caregivers and the department of health along
 with all the healthcare facilities within in the city
