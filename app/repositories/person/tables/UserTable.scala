@@ -1,17 +1,16 @@
 package repositories.person.tables
 
 import com.outworkers.phantom.dsl._
-import com.outworkers.phantom.streams._
 import domain.person.Person
 
 import scala.concurrent.Future
 
 
-class PersonTable extends CassandraTable[PersonTable, Person]{
-  /** setting up or defining person table attributes */
-  object org  extends StringColumn(this) with  PartitionKey
-  object id extends StringColumn(this) with PrimaryKey
-  object emailAddress extends StringColumn(this)
+class UserTable extends CassandraTable[UserTable,Person]  {
+  /** setting up or defining user table attributes */
+  object emailAddress extends StringColumn(this) with PartitionKey
+  object org extends StringColumn(this)
+  object id extends StringColumn(this)
   object firstName extends StringColumn(this)
   object lastName extends StringColumn(this)
   object middleName extends StringColumn(this)
@@ -23,12 +22,13 @@ class PersonTable extends CassandraTable[PersonTable, Person]{
   object state extends StringColumn(this)
 }
 
-abstract class  PersonTableImpl extends PersonTable with RootConnector {
 
-  override lazy val tableName = "person"
+abstract class UserTableImpl extends UserTable with RootConnector {
+  override lazy val tableName = "users"
 
   def save(person: Person): Future[ResultSet] = {
-    /**save new user account to the db */
+    /**save new user account to the db
+      *where are you being used ?? */
     insert
       .value(_.org, person.org)
       .value(_.id, person.id)
@@ -45,15 +45,9 @@ abstract class  PersonTableImpl extends PersonTable with RootConnector {
       .future()
   }
 
-  def getPerson(org: String, id:String): Future[Option[Person]] = {
-    /** get one user on that organization based on the id given */
-    select.where(_.org eqs org) .and(_.id eqs id) .one()
+  def findByEmail(email: String): Future[Option[Person]] = {
+    /** get one user on that organization based on the email given  */
+    select.where(_.emailAddress eqs email).one()
   }
 
-
-  def getPeople(org: String): Future[Seq[Person]] = {
-    /** get all users within that organization */
-    select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
-  }
 }
-
