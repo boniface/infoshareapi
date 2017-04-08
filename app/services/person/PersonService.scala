@@ -20,3 +20,5 @@ trait PersonService extends PersonRepository{
     database.personTable.getPeople(org)
   }
 }
+
+object PersonService extends PersonService with PersonRepository
