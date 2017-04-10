@@ -16,11 +16,9 @@ trait PersonService extends PersonRepository{
     database.personTable.getPerson(org,id)
   }
 
-  def getByEmail(email:String): Future[Option[Person]] = {
-    database.personTable.getPersonByEmail(email)
-  }
-
   def getPeople(org:String): Future[Seq[Person]] = {
     database.personTable.getPeople(org)
   }
 }
+
+object PersonService extends PersonService with PersonRepository
