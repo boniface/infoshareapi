@@ -1,7 +1,18 @@
 package repositories.content
 
 
+import com.outworkers.phantom.dsl._
+import conf.connections.DataConnection
+import repositories.content.tables.ContentTypeTableImpl
 
-trait CategoryRepository {
 
+class ContentTypeDatabase (override val connector: KeySpaceDef) extends Database[ContentTypeDatabase](connector){
+  object contentTypeTable  extends ContentTypeTableImpl with connector.Connector
 }
+
+object contentTypeDatabase extends ContentTypeDatabase(DataConnection.connector)
+
+trait ContentTypeRepository {
+  def database = contentTypeDatabase
+}
+

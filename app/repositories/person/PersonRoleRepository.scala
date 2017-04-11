@@ -6,7 +6,7 @@ import repositories.person.tables.PersonRoleTableImpl
 
 
 class PersonRoleDatabase (override val connector: KeySpaceDef) extends Database[PersonRoleDatabase](connector) {
-  object PersonRoleTable extends PersonRoleTableImpl with connector.Connector
+  object personRoleTable extends PersonRoleTableImpl with connector.Connector
 }
 
 object personRoleDatabase extends PersonRoleDatabase(DataConnection.connector)
