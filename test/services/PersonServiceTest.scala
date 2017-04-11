@@ -23,15 +23,10 @@ class PersonServiceTest extends PlaySpec{
 
       val personService = PersonService
       personService.save(personRecord)
-//      val person = personService.getPeople("CPUT")
       val response = personService.getPerson("CPUT", "1")
 
-      response.toString must endWith ("thule")
+      response.toString must not endWith ("thule")
       response.foreach(ans => println(ans))
-//      person.foreach(ans => println(ans))
-
-
-
     }
   }
 
