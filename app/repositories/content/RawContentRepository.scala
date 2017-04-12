@@ -10,9 +10,9 @@ class RawContentDatabase (override val connector: KeySpaceDef) extends Database[
   object rawContentTable  extends RawContentTableImpl with connector.Connector
 }
 
-object rawContentDatabase extends RawContentDatabase(DataConnection.connector)
+object RawContentDatabase extends RawContentDatabase(DataConnection.connector)
 
 trait RawContentRepository {
-  def database = rawContentDatabase
+  def database = RawContentDatabase
 }
 

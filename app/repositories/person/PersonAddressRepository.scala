@@ -9,8 +9,8 @@ class PersonAddressDatabase (override val connector: KeySpaceDef) extends Databa
   object personAddressTable  extends PersonAddressTableImpl with connector.Connector
 }
 
-object personAddressDatabase extends PersonAddressDatabase(DataConnection.connector)
+object PersonAddressDatabase extends PersonAddressDatabase(DataConnection.connector)
 
 trait PersonAddressRepository {
-  def database = personAddressDatabase
+  def database = PersonAddressDatabase
 }

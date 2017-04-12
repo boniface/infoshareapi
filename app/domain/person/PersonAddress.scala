@@ -4,9 +4,7 @@ import java.util.Date
 
 import play.api.libs.json.Json
 
-/**
- * Created by hashcode on 2015/12/16.
- */
+
 case class PersonAddress( id: String,
                           personId: String,
                           description: String,
@@ -17,6 +15,6 @@ case class PersonAddress( id: String,
                           )
 
 object PersonAddress {
-  implicit val personaddrFmt = Json.format[PersonAddress]
+  implicit val personAddressFmt = Json.format[PersonAddress]
 
 }

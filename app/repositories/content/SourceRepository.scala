@@ -10,10 +10,10 @@ class SourceDatabase (override val connector: KeySpaceDef) extends Database[Sour
   object sourceTable  extends SourceTableImpl with connector.Connector
 }
 
-object sourceDatabase extends SourceDatabase(DataConnection.connector)
+object SourceDatabase extends SourceDatabase(DataConnection.connector)
 
 trait SourceRepository {
-  def database = sourceDatabase
+  def database = SourceDatabase
 }
 
 

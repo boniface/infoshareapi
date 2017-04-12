@@ -10,10 +10,10 @@ class PublishedContentDatabase (override val connector: KeySpaceDef) extends Dat
   object publishedContentTable  extends PublishedContentTableImpl with connector.Connector
 }
 
-object publishedContentDatabase extends PublishedContentDatabase(DataConnection.connector)
+object PublishedContentDatabase extends PublishedContentDatabase(DataConnection.connector)
 
 trait PublishedContentRepository {
-  def database = publishedContentDatabase
+  def database = PublishedContentDatabase
 }
 
 

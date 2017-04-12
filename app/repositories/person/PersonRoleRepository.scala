@@ -9,9 +9,9 @@ class PersonRoleDatabase (override val connector: KeySpaceDef) extends Database[
   object personRoleTable extends PersonRoleTableImpl with connector.Connector
 }
 
-object personRoleDatabase extends PersonRoleDatabase(DataConnection.connector)
+object PersonRoleDatabase extends PersonRoleDatabase(DataConnection.connector)
 
 trait PersonRoleRepository {
-  def  database = personRoleDatabase
+  def  database = PersonRoleDatabase
 }
 
