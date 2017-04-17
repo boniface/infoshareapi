@@ -17,7 +17,7 @@ class PersonDemographicsTable  extends CassandraTable[PersonDemographicsTable,Pe
   object raceId               extends StringColumn(this)
   object dateOfBirth          extends DateColumn(this)
   object maritalStatusId      extends StringColumn(this)
-  object numberOfDependencies extends StringColumn(this)
+  object numberOfDependencies extends IntColumn(this)
   object date                 extends DateColumn(this)
 }
 

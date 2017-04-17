@@ -8,6 +8,6 @@ case class PersonRole(personId: String,
                        )
 
 object PersonRole {
-  implicit val personroleFmt = Json.format[PersonRole]
+  implicit val personRoleFmt = Json.format[PersonRole]
 
 }
