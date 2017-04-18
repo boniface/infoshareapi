@@ -10,10 +10,10 @@ class MediaDatabase (override val connector: KeySpaceDef) extends Database[Media
   object mediaTable  extends MediaTableImpl with connector.Connector
 }
 
-object mediaDatabase extends MediaDatabase(DataConnection.connector)
+object MediaDatabase extends MediaDatabase(DataConnection.connector)
 
 trait MediaRepository {
-  def database = mediaDatabase
+  def database = MediaDatabase
 }
 
 

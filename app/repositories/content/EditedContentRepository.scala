@@ -10,9 +10,9 @@ class EditedContentDatabase (override val connector: KeySpaceDef) extends Databa
   object editedContentTable  extends EditedContentTableImpl with connector.Connector
 }
 
-object editedContentDatabase extends EditedContentDatabase(DataConnection.connector)
+object EditedContentDatabase extends EditedContentDatabase(DataConnection.connector)
 
 trait EditedContentRepository {
-  def database = editedContentDatabase
+  def database = EditedContentDatabase
 }
 

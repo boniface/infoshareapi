@@ -6,12 +6,12 @@ import play.api.libs.json.Json
 
 
 case class Organisation(
-                    id: String,
-                    name: String,
-                    details:Map[String,String],
-                    adminattached:String,
-                    date:Date,
-                    state:String
+                         id: String,
+                         name: String,
+                         details:Map[String,String],
+                         adminAttached:String,
+                         date:Date,
+                         state:String
                     )
 
 object Organisation {

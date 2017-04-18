@@ -10,9 +10,9 @@ class ContentTypeDatabase (override val connector: KeySpaceDef) extends Database
   object contentTypeTable  extends ContentTypeTableImpl with connector.Connector
 }
 
-object contentTypeDatabase extends ContentTypeDatabase(DataConnection.connector)
+object ContentTypeDatabase extends ContentTypeDatabase(DataConnection.connector)
 
 trait ContentTypeRepository {
-  def database = contentTypeDatabase
+  def database = ContentTypeDatabase
 }
 

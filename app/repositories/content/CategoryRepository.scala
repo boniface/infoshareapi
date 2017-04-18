@@ -10,10 +10,10 @@ class CategoryDatabase (override val connector: KeySpaceDef) extends Database[Ca
   object categoryTable  extends CategoryTableImpl with connector.Connector
 }
 
-object categoryDatabase extends CategoryDatabase(DataConnection.connector)
+object CategoryDatabase extends CategoryDatabase(DataConnection.connector)
 
 trait CategoryRepository {
-  def database = categoryDatabase
+  def database = CategoryDatabase
 }
 
 
