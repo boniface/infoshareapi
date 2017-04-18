@@ -14,8 +14,8 @@ How InfoShare is Envisioned
 ### TODO 
  * ``doc string must be added to make the code understandable when new devs come in``
  * ``customize the play project structure when done with everthing``
- * ``fix failing test the play project structure when done with everthing``
  * ``DO TEST CAVARAGE``
+ * ``change enums``
  
  ## Questions !
     
