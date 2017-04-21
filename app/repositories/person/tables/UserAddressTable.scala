@@ -2,13 +2,13 @@ package repositories.person.tables
 
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
-import domain.person.PersonAddress
+import domain.person.UserAddress
 
 import scala.concurrent.Future
 
 
 
-class PersonAddressTable extends CassandraTable[PersonAddressTable, PersonAddress] {
+class UserAddressTable extends CassandraTable[UserAddressTable, UserAddress] {
 
   object personId extends StringColumn(this) with PartitionKey
   object id extends StringColumn(this) with PrimaryKey
@@ -19,9 +19,9 @@ class PersonAddressTable extends CassandraTable[PersonAddressTable, PersonAddres
   object state extends StringColumn(this)
 
 }
-abstract class PersonAddressTableImpl extends PersonAddressTable with RootConnector{
+abstract class UserAddressTableImpl extends UserAddressTable with RootConnector{
 
-  def save(personAddress: PersonAddress): Future[ResultSet] = {
+  def save(personAddress: UserAddress): Future[ResultSet] = {
     insert
       .value(_.personId, personAddress.personId)
       .value(_.id, personAddress.id)
@@ -33,11 +33,11 @@ abstract class PersonAddressTableImpl extends PersonAddressTable with RootConnec
       .future()
   }
 
-  def findById(personId: String, id: String): Future[Option[PersonAddress]] = {
+  def findById(personId: String, id: String): Future[Option[UserAddress]] = {
     select.where(_.personId eqs personId).and(_.id eqs id).one()
   }
 
-  def findAllAddress(personId: String): Future[Seq[PersonAddress]] = {
+  def findAllAddress(personId: String): Future[Seq[UserAddress]] = {
     select.where(_.personId eqs personId).fetchEnumerator() run Iteratee.collect()
   }
 }

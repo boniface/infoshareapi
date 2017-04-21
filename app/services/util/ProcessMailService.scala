@@ -1,6 +1,6 @@
 package services.util
 
-import domain.person.Person
+import domain.person.User
 import domain.util.Mail
 import services.util.Impl.ProcessMailServiceImpl
 
@@ -11,11 +11,11 @@ import scala.concurrent.Future
   */
 trait ProcessMailService {
 
-  def sendMail(user: Person): Future[String]
+  def sendMail(user: User): Future[String]
 
-  def resetAccount(user: Person): Future[String]
+  def resetAccount(user: User): Future[String]
 
-  def sendMail(message: String, subject: String, user: Person, mail: Mail): Future[String]
+  def sendMail(message: String, subject: String, user: User, mail: Mail): Future[String]
 
 }
 

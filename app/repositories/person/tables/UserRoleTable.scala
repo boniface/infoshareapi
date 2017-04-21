@@ -2,12 +2,12 @@ package repositories.person.tables
 
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
-import domain.person.PersonRole
+import domain.person.UserRole
 
 import scala.concurrent.Future
 
 
-class PersonRoleTable extends CassandraTable[PersonRoleTable, PersonRole] {
+class UserRoleTable extends CassandraTable[UserRoleTable, UserRole] {
   /** setting up or defining Person Role table attributes */
 
   object personId extends StringColumn(this) with PartitionKey
@@ -16,10 +16,10 @@ class PersonRoleTable extends CassandraTable[PersonRoleTable, PersonRole] {
 
 }
 
-abstract class PersonRoleTableImpl extends PersonRoleTable with RootConnector {
+abstract class UserRoleTableImpl extends UserRoleTable with RootConnector {
   override lazy val tableName = "personRoles"
 
- def save(role: PersonRole): Future[ResultSet] = {
+ def save(role: UserRole): Future[ResultSet] = {
    /**save new user account to the db */
 
    insert
@@ -30,12 +30,12 @@ abstract class PersonRoleTableImpl extends PersonRoleTable with RootConnector {
   }
 
 
-  def findRole(id: String,roleId:String): Future[Option[PersonRole]] = {
+  def findRole(id: String,roleId:String): Future[Option[UserRole]] = {
     /** gets user role base on user id given */
     select.where(_.personId eqs id).and(_.roleId eqs roleId).one
   }
 
-  def findRolesByUserId(personId: String): Future[Seq[PersonRole]] = {
+  def findRolesByUserId(personId: String): Future[Seq[UserRole]] = {
     /** get all user roles base on the user id */
     select.where(_.personId eqs personId).fetchEnumerator() run Iteratee.collect()
   }

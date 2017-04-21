@@ -2,14 +2,14 @@ package repositories.person.tables
 
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
-import domain.person.PersonImages
+import domain.person.UserImages
 
 import scala.concurrent.Future
 
 /**
   * Images uploaded by a particular user
 */
-class PersonImagesTable extends CassandraTable[PersonImagesTable, PersonImages] {
+class UserImagesTable extends CassandraTable[UserImagesTable, UserImages] {
   /** setting up or defining Person images table attributes */
 
   object org extends StringColumn(this) with PartitionKey
@@ -30,10 +30,10 @@ class PersonImagesTable extends CassandraTable[PersonImagesTable, PersonImages] 
 
 }
 
-abstract class PersonImagesTableImpl extends PersonImagesTable with RootConnector {
+abstract class UserImagesTableImpl extends UserImagesTable with RootConnector {
   override lazy val tableName = "personImages"
 
-  def save(image: PersonImages): Future[ResultSet] = {
+  def save(image: UserImages): Future[ResultSet] = {
     /**save new Person Demographics record to the db */
     insert
       .value(_.org, image.org)
@@ -47,17 +47,17 @@ abstract class PersonImagesTableImpl extends PersonImagesTable with RootConnecto
       .future()
   }
 
-  def getPersonImage(org: String, personId: String, id: String): Future[Option[PersonImages]] = {
+  def getPersonImage(org: String, personId: String, id: String): Future[Option[UserImages]] = {
     /** gets images base on user id organization and db record id */
     select.where(_.org eqs org).and(_.personId eqs personId).and(_.id eqs id).one()
   }
 
-  def getPersonImages(org: String, personId: String): Future[Seq[PersonImages]] = {
+  def getPersonImages(org: String, personId: String): Future[Seq[UserImages]] = {
     /** gets all images base on user id and organization id */
     select.where(_.org eqs org).and(_.personId eqs personId) fetchEnumerator() run Iteratee.collect()
   }
 
-  def getCompanyPeopleImages(org: String): Future[Seq[PersonImages]] = {
+  def getCompanyPeopleImages(org: String): Future[Seq[UserImages]] = {
     /** gets all images for that organization base on org id */
     select.where(_.org eqs org) fetchEnumerator() run Iteratee.collect()
   }

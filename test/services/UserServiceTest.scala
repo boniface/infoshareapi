@@ -2,21 +2,21 @@ package services
 
 import domain.person._
 import org.scalatestplus.play.PlaySpec
-import services.person.PersonService
+import services.person.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
 
-class PersonServiceTest extends PlaySpec{
+class UserServiceTest extends PlaySpec{
 
   "PersonSrevice # getPerson" should {
     "find a person given an organisation and ID" in {
 
-      val personRecord = Person("HBC", "2", "John", "Johhny",
+      val personRecord = User("HBC", "2", "John", "Johhny",
         "john@example.com", "Doe", "password",
         true, false, true, true, "ACTIVE")
 
-      val personService = PersonService
+      val personService = UserService
       personService.save(personRecord)
 
       val person = personService.getPerson(org = "HBC", id = "2")

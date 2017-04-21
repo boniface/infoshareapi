@@ -2,12 +2,12 @@ package repositories.person.tables
 
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
-import domain.person.PersonLanguage
+import domain.person.UserLanguage
 
 import scala.concurrent.Future
 
 
-class PersonLanguageTable extends CassandraTable[PersonLanguageTable, PersonLanguage] {
+class UserLanguageTable extends CassandraTable[UserLanguageTable, UserLanguage] {
 
   object personId extends StringColumn(this) with PartitionKey
 
@@ -28,10 +28,10 @@ class PersonLanguageTable extends CassandraTable[PersonLanguageTable, PersonLang
 
 }
 
-abstract class PersonLanguageTableImpl extends PersonLanguageTable with RootConnector {
+abstract class UserLanguageTableImpl extends UserLanguageTable with RootConnector {
   override lazy val tableName = "personLang"
 
-  def save(personLanguage: PersonLanguage): Future[ResultSet] = {
+  def save(personLanguage: UserLanguage): Future[ResultSet] = {
     insert
       .value(_.personId, personLanguage.personId)
       .value(_.id, personLanguage.id)
@@ -44,11 +44,11 @@ abstract class PersonLanguageTableImpl extends PersonLanguageTable with RootConn
       .future()
   }
 
-  def findById(personId: String, id: String): Future[Option[PersonLanguage]] = {
+  def findById(personId: String, id: String): Future[Option[UserLanguage]] = {
     select.where(_.personId eqs personId).and(_.id eqs id).one()
   }
 
-  def findPersonLanguages(personId: String): Future[Seq[PersonLanguage]] = {
+  def findPersonLanguages(personId: String): Future[Seq[UserLanguage]] = {
     select.where(_.personId eqs personId).fetchEnumerator() run Iteratee.collect()
   }
 

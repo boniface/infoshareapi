@@ -3,12 +3,12 @@ package repositories.person.tables
 
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
-import domain.person.PersonDemographics
+import domain.person.UserDemographics
 
 import scala.concurrent.Future
 
 
-class PersonDemographicsTable  extends CassandraTable[PersonDemographicsTable,PersonDemographics] {
+class UserDemographicsTable  extends CassandraTable[UserDemographicsTable,UserDemographics] {
   /** setting up or defining Person Demographics table attributes */
 
   object id                   extends StringColumn(this) with PrimaryKey
@@ -21,10 +21,10 @@ class PersonDemographicsTable  extends CassandraTable[PersonDemographicsTable,Pe
   object date                 extends DateColumn(this)
 }
 
-abstract class PersonDemographicsTableImpl extends PersonDemographicsTable with RootConnector{
+abstract class UserDemographicsTableImpl extends UserDemographicsTable with RootConnector{
   override lazy val tableName = "personDemo"
 
-  def save(pd: PersonDemographics): Future[ResultSet] ={
+  def save(pd: UserDemographics): Future[ResultSet] ={
     /**save new Person Demographics record to the db */
 
     insert
@@ -38,12 +38,12 @@ abstract class PersonDemographicsTableImpl extends PersonDemographicsTable with 
         .value(_.date,pd.date)
       .future()
   }
-  def findById(personId: String, id: String): Future[Option[PersonDemographics]] = {
+  def findById(personId: String, id: String): Future[Option[UserDemographics]] = {
     /** gets user demographics base on user id and db record id */
     select.where(_.personId eqs personId).and(_.id eqs id).one()
   }
 
-  def findPersonDemographics(personId: String): Future[Seq[PersonDemographics]] = {
+  def findPersonDemographics(personId: String): Future[Seq[UserDemographics]] = {
     /** get all user demographics base on the user id */
     select.where(_.personId eqs personId).fetchEnumerator() run Iteratee.collect()
   }

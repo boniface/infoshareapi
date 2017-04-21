@@ -8,7 +8,7 @@ lazy val root = (project in file("."))
 
 scalaVersion := "2.11.8"
 
-val PhantomVersion = "2.3.1"
+val PhantomVersion = "2.6.4"
 
 maintainer := "Boniface Kabaso <boniface@kabaso.com>"
 packageSummary in Linux := "Infoshare REST API"
