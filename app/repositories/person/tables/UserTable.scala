@@ -88,6 +88,6 @@ abstract class  PersonTableImpl extends PersonTable with RootConnector {
       /** get all users within that organization */
       select.where(_.email eqs email).fetchEnumerator() run Iteratee.collect()
     }
-  }
+
 }
 

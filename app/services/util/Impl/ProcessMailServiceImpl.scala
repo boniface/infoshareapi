@@ -30,7 +30,7 @@ class ProcessMailServiceImpl extends ProcessMailService {
       val updatePerson = user.copy(password = AuthUtil.encode(passwd))
       UserService.save(updatePerson)
       val subject = "New Login Credentials "
-      val message = "Your Login Details are Username: " + updatePerson.emailAddress + " And the Password: " + passwd + "" +
+      val message = "Your Login Details are Username: " + updatePerson.email + " And the Password: " + passwd + "" +
         "</p> You can access the Site  Provided to you By the Provider. " +
         "<b>PLEASE REMEMBER TO CHANGE YOUR PASSWORD</b><p/>" +
         "We are Sure your Superiors have told you that Great Powers Come with Great Responsibility"
@@ -69,7 +69,7 @@ class ProcessMailServiceImpl extends ProcessMailService {
         UserService.save(updatePerson)
         val subject = "Your Reset New Login Credentials "
 
-        val message = "Your New Login Details are Username: " + updatePerson.emailAddress + " And the Password: " + passwd + "" +
+        val message = "Your New Login Details are Username: " + updatePerson.email + " And the Password: " + passwd + "" +
           "</p> You can access the Site  Provided to you By the Provider. " +
           "<b>PLEASE REMEMBER TO CHANGE YOUR PASSWORD</b><p/>" +
           "We are Sure your Superiors have told you that Great Powers Come with Great Responsibility"
@@ -106,7 +106,7 @@ class ProcessMailServiceImpl extends ProcessMailService {
       "<h2><u>The Message Content</u></h2>" +
       "Dear " + user.firstName + " " + user.lastName + ",<p/>" + message + "</body></html>"
     Future {
-      MailerService.send(EmailMessage(subject, user.emailAddress, mail.key, msg, msg, smtp)) match {
+      MailerService.send(EmailMessage(subject, user.email, mail.key, msg, msg, smtp)) match {
         case Success(mail) => MailEvents.MAIL_SENT
         case Failure(t) => MailEvents.MAIL_SENT_FAILED
       }
