@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 
 
 case class UserDemographics(id: String,
-                            personId: String,
+                            userId: String,
                             genderId: String,
                             raceId: String,
                             dateOfBirth: Date,

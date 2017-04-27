@@ -6,13 +6,12 @@ import play.api.libs.json.Json
 
 
 case class UserAddress(id: String,
-                       personId: String,
+                       userId: String,
                        description: String,
                        postalCode: String,
                        addressTypeId: String,
                        date: Date,
-                       state: String
-                          )
+                       state: String )
 
 object UserAddress {
   implicit val personAddressFmt = Json.format[UserAddress]

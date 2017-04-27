@@ -1,5 +1,4 @@
-package domain.demographics
-
+package conf.enums
 
 object RolesList {
   def ROLE_ADMIN: String = "ROLE_ADMIN"

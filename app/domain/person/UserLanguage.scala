@@ -5,7 +5,7 @@ import play.api.libs.json.Json
 
 
 case class UserLanguage(id: String,
-                        personId: String,
+                        userId: String,
                         languageId: String,
                         reading: String,
                         writing: String,

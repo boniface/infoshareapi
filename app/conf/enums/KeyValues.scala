@@ -1,4 +1,4 @@
-package domain.util
+package conf.enums
 
 /**
   * Created by hashcode on 2017/03/12.

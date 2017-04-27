@@ -9,7 +9,7 @@ import scala.concurrent.Future
 
 class UserLanguageTable extends CassandraTable[UserLanguageTable, UserLanguage] {
 
-  object personId extends StringColumn(this) with PartitionKey
+  object userId extends StringColumn(this) with PartitionKey
 
   object id extends StringColumn(this) with PrimaryKey
 
@@ -33,7 +33,7 @@ abstract class UserLanguageTableImpl extends UserLanguageTable with RootConnecto
 
   def save(personLanguage: UserLanguage): Future[ResultSet] = {
     insert
-      .value(_.personId, personLanguage.personId)
+      .value(_.userId, personLanguage.userId)
       .value(_.id, personLanguage.id)
       .value(_.languageId, personLanguage.languageId)
       .value(_.reading, personLanguage.reading)
@@ -44,12 +44,12 @@ abstract class UserLanguageTableImpl extends UserLanguageTable with RootConnecto
       .future()
   }
 
-  def findById(personId: String, id: String): Future[Option[UserLanguage]] = {
-    select.where(_.personId eqs personId).and(_.id eqs id).one()
+  def findById(userId: String, id: String): Future[Option[UserLanguage]] = {
+    select.where(_.userId eqs userId).and(_.id eqs id).one()
   }
 
-  def findPersonLanguages(personId: String): Future[Seq[UserLanguage]] = {
-    select.where(_.personId eqs personId).fetchEnumerator() run Iteratee.collect()
+  def findPersonLanguages(userId: String): Future[Seq[UserLanguage]] = {
+    select.where(_.userId eqs userId).fetchEnumerator() run Iteratee.collect()
   }
 
 

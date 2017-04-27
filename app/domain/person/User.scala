@@ -16,12 +16,10 @@ case class User(org: String,
                 screenName: Option[String],
                 password: String,
                 state: String,
-                date: DateTime
-                 )
+                date: DateTime)
 
 object User {
   implicit val personFmt = Json.format[User]
   def default:User= User("","","","",None,None,"","", new DateTime())
-
 
 }

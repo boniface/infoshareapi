@@ -14,7 +14,7 @@ class UserImagesTable extends CassandraTable[UserImagesTable, UserImages] {
 
   object org extends StringColumn(this) with PartitionKey
 
-  object personId extends StringColumn(this) with PrimaryKey
+  object userId extends StringColumn(this) with PrimaryKey
 
   object id extends StringColumn(this) with PrimaryKey
 
@@ -37,7 +37,7 @@ abstract class UserImagesTableImpl extends UserImagesTable with RootConnector {
     /**save new Person Demographics record to the db */
     insert
       .value(_.org, image.org)
-      .value(_.personId, image.personId)
+      .value(_.userId, image.userId)
       .value(_.id, image.id)
       .value(_.url, image.url)
       .value(_.size, image.size)
@@ -47,14 +47,14 @@ abstract class UserImagesTableImpl extends UserImagesTable with RootConnector {
       .future()
   }
 
-  def getPersonImage(org: String, personId: String, id: String): Future[Option[UserImages]] = {
+  def getPersonImage(org: String, userId: String, id: String): Future[Option[UserImages]] = {
     /** gets images base on user id organization and db record id */
-    select.where(_.org eqs org).and(_.personId eqs personId).and(_.id eqs id).one()
+    select.where(_.org eqs org).and(_.userId eqs userId).and(_.id eqs id).one()
   }
 
-  def getPersonImages(org: String, personId: String): Future[Seq[UserImages]] = {
+  def getPersonImages(org: String, userId: String): Future[Seq[UserImages]] = {
     /** gets all images base on user id and organization id */
-    select.where(_.org eqs org).and(_.personId eqs personId) fetchEnumerator() run Iteratee.collect()
+    select.where(_.org eqs org).and(_.userId eqs userId) fetchEnumerator() run Iteratee.collect()
   }
 
   def getCompanyPeopleImages(org: String): Future[Seq[UserImages]] = {

@@ -5,7 +5,7 @@ import play.api.libs.json.Json
 
 
 case class  PublishedContent(org: String,
-                              id: String,
+                             id: String,
                              dateCreated: Date,
                              creator: String,
                              source: String,
@@ -14,9 +14,7 @@ case class  PublishedContent(org: String,
                              content: String,
                              contentType: String,
                              status: String,
-                             state: String) {
-
-}
+                             state: String)
 
 object PublishedContent {
   implicit val publishedContentFmt = Json.format[PublishedContent]

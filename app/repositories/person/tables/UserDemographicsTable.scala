@@ -12,7 +12,7 @@ class UserDemographicsTable  extends CassandraTable[UserDemographicsTable,UserDe
   /** setting up or defining Person Demographics table attributes */
 
   object id                   extends StringColumn(this) with PrimaryKey
-  object personId             extends StringColumn(this) with PartitionKey
+  object userId             extends StringColumn(this) with PartitionKey
   object genderId             extends StringColumn(this)
   object raceId               extends StringColumn(this)
   object dateOfBirth          extends DateColumn(this)
@@ -29,7 +29,7 @@ abstract class UserDemographicsTableImpl extends UserDemographicsTable with Root
 
     insert
         .value(_.id,pd.id)
-        .value(_.personId,pd.personId)
+        .value(_.userId,pd.userId)
         .value(_.genderId,pd.genderId)
         .value(_.raceId,pd.raceId)
         .value(_.dateOfBirth,pd.dateOfBirth)
@@ -38,13 +38,13 @@ abstract class UserDemographicsTableImpl extends UserDemographicsTable with Root
         .value(_.date,pd.date)
       .future()
   }
-  def findById(personId: String, id: String): Future[Option[UserDemographics]] = {
+  def findById(userId: String, id: String): Future[Option[UserDemographics]] = {
     /** gets user demographics base on user id and db record id */
-    select.where(_.personId eqs personId).and(_.id eqs id).one()
+    select.where(_.userId eqs userId).and(_.id eqs id).one()
   }
 
-  def findPersonDemographics(personId: String): Future[Seq[UserDemographics]] = {
+  def findPersonDemographics(userId: String): Future[Seq[UserDemographics]] = {
     /** get all user demographics base on the user id */
-    select.where(_.personId eqs personId).fetchEnumerator() run Iteratee.collect()
+    select.where(_.userId eqs userId).fetchEnumerator() run Iteratee.collect()
   }
 }

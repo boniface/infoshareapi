@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 
 
 case class UserImages(org: String,
-                      personId: String,
+                      userId: String,
                       id: String,
                       url: String,
                       description: String,

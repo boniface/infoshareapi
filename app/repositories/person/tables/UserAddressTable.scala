@@ -10,7 +10,7 @@ import scala.concurrent.Future
 
 class UserAddressTable extends CassandraTable[UserAddressTable, UserAddress] {
 
-  object personId extends StringColumn(this) with PartitionKey
+  object userId extends StringColumn(this) with PartitionKey
   object id extends StringColumn(this) with PrimaryKey
   object addressTypeId extends StringColumn(this)
   object description extends StringColumn(this)
@@ -23,7 +23,7 @@ abstract class UserAddressTableImpl extends UserAddressTable with RootConnector{
 
   def save(personAddress: UserAddress): Future[ResultSet] = {
     insert
-      .value(_.personId, personAddress.personId)
+      .value(_.userId, personAddress.userId)
       .value(_.id, personAddress.id)
       .value(_.description, personAddress.description)
       .value(_.postalCode, personAddress.postalCode)
@@ -33,11 +33,11 @@ abstract class UserAddressTableImpl extends UserAddressTable with RootConnector{
       .future()
   }
 
-  def findById(personId: String, id: String): Future[Option[UserAddress]] = {
-    select.where(_.personId eqs personId).and(_.id eqs id).one()
+  def findById(userId: String, id: String): Future[Option[UserAddress]] = {
+    select.where(_.userId eqs userId).and(_.id eqs id).one()
   }
 
-  def findAllAddress(personId: String): Future[Seq[UserAddress]] = {
-    select.where(_.personId eqs personId).fetchEnumerator() run Iteratee.collect()
+  def findAllAddress(userId: String): Future[Seq[UserAddress]] = {
+    select.where(_.userId eqs userId).fetchEnumerator() run Iteratee.collect()
   }
 }
