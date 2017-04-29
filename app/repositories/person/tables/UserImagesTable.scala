@@ -9,7 +9,7 @@ import scala.concurrent.Future
 /**
   * Images uploaded by a particular user
 */
-class UserImagesTable extends CassandraTable[UserImagesTable, UserImages] {
+sealed class UserImagesTable extends CassandraTable[UserImagesTable, UserImages] {
   /** setting up or defining Person images table attributes */
 
   object org extends StringColumn(this) with PartitionKey
@@ -31,10 +31,9 @@ class UserImagesTable extends CassandraTable[UserImagesTable, UserImages] {
 }
 
 abstract class UserImagesTableImpl extends UserImagesTable with RootConnector {
-  override lazy val tableName = "personImages"
+  override lazy val tableName = "userImage"
 
   def save(image: UserImages): Future[ResultSet] = {
-    /**save new Person Demographics record to the db */
     insert
       .value(_.org, image.org)
       .value(_.userId, image.userId)
@@ -47,17 +46,17 @@ abstract class UserImagesTableImpl extends UserImagesTable with RootConnector {
       .future()
   }
 
-  def getPersonImage(org: String, userId: String, id: String): Future[Option[UserImages]] = {
+  def getUserImage(map: Map[String, String]): Future[Option[UserImages]] = {
     /** gets images base on user id organization and db record id */
-    select.where(_.org eqs org).and(_.userId eqs userId).and(_.id eqs id).one()
+    select.where(_.org eqs map("org")).and(_.userId eqs map("userId")).and(_.id eqs map("id")).one()
   }
 
-  def getPersonImages(org: String, userId: String): Future[Seq[UserImages]] = {
+  def getUserImages(map: Map[String, String]): Future[Seq[UserImages]] = {
     /** gets all images base on user id and organization id */
-    select.where(_.org eqs org).and(_.userId eqs userId) fetchEnumerator() run Iteratee.collect()
+    select.where(_.org eqs map("org")).and(_.userId eqs map("userId")) fetchEnumerator() run Iteratee.collect()
   }
 
-  def getCompanyPeopleImages(org: String): Future[Seq[UserImages]] = {
+  def getCompanyImages(org: String): Future[Seq[UserImages]] = {
     /** gets all images for that organization base on org id */
     select.where(_.org eqs org) fetchEnumerator() run Iteratee.collect()
   }

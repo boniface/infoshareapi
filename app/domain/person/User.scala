@@ -19,7 +19,7 @@ case class User(org: String,
                 date: DateTime)
 
 object User {
-  implicit val personFmt = Json.format[User]
+  implicit val userFmt = Json.format[User]
   def default:User= User("","","","",None,None,"","", new DateTime())
 
 }

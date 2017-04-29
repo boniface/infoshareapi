@@ -5,8 +5,8 @@ import java.util.Date
 import play.api.libs.json.Json
 
 
-case class UserDemographics(id: String,
-                            userId: String,
+case class UserDemographics(userId: String,
+                            id: String,
                             genderId: String,
                             raceId: String,
                             dateOfBirth: Date,
@@ -16,6 +16,6 @@ case class UserDemographics(id: String,
                             state:String)
 
 object UserDemographics {
-  implicit val personDemoFmt = Json.format[UserDemographics]
+  implicit val userDemoFmt = Json.format[UserDemographics]
 
 }

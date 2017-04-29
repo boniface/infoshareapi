@@ -4,11 +4,6 @@ import com.outworkers.phantom.dsl._
 import conf.connections.DataConnection
 import repositories.person.tables.{PersonTableImpl, UserTableImpl}
 
-/**
-  * i think we making connection to database?
-  *
-  * @param connector
-  */
 
 class UserDatabase(override val connector: KeySpaceDef) extends Database[UserDatabase](connector) {
 

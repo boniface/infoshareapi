@@ -6,7 +6,7 @@ import repositories.person.tables.UserDemographicsTableImpl
 
 
 class UserDemographicsDatabase(override val connector: KeySpaceDef) extends Database[UserDemographicsDatabase](connector) {
-  object userLanguageTable extends UserDemographicsTableImpl with connector.Connector
+  object userDemographicsTable extends UserDemographicsTableImpl with connector.Connector
 }
 
 object UserDemographicsDatabase extends UserDemographicsDatabase(DataConnection.connector)

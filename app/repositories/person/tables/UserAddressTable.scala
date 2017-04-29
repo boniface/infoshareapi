@@ -8,7 +8,7 @@ import scala.concurrent.Future
 
 
 
-class UserAddressTable extends CassandraTable[UserAddressTable, UserAddress] {
+sealed class UserAddressTable extends CassandraTable[UserAddressTable, UserAddress] {
 
   object userId extends StringColumn(this) with PartitionKey
   object id extends StringColumn(this) with PrimaryKey
@@ -20,21 +20,22 @@ class UserAddressTable extends CassandraTable[UserAddressTable, UserAddress] {
 
 }
 abstract class UserAddressTableImpl extends UserAddressTable with RootConnector{
+  override lazy val tableName = "userAddr"
 
-  def save(personAddress: UserAddress): Future[ResultSet] = {
+  def save(userAddr: UserAddress): Future[ResultSet] = {
     insert
-      .value(_.userId, personAddress.userId)
-      .value(_.id, personAddress.id)
-      .value(_.description, personAddress.description)
-      .value(_.postalCode, personAddress.postalCode)
-      .value(_.addressTypeId, personAddress.addressTypeId)
-      .value(_.date, personAddress.date)
-      .value(_.state, personAddress.state)
+      .value(_.userId, userAddr.userId)
+      .value(_.id, userAddr.id)
+      .value(_.addressTypeId, userAddr.addressTypeId)
+      .value(_.description, userAddr.description)
+      .value(_.postalCode, userAddr.postalCode)
+      .value(_.date, userAddr.date)
+      .value(_.state, userAddr.state)
       .future()
   }
 
-  def findById(userId: String, id: String): Future[Option[UserAddress]] = {
-    select.where(_.userId eqs userId).and(_.id eqs id).one()
+  def findById(map: Map[String,String]): Future[Option[UserAddress]] = {
+    select.where(_.userId eqs map("userId")).and(_.id eqs map("id")).one()
   }
 
   def findAllAddress(userId: String): Future[Seq[UserAddress]] = {

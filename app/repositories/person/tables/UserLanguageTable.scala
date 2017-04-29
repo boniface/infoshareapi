@@ -7,7 +7,7 @@ import domain.person.UserLanguage
 import scala.concurrent.Future
 
 
-class UserLanguageTable extends CassandraTable[UserLanguageTable, UserLanguage] {
+sealed class UserLanguageTable extends CassandraTable[UserLanguageTable, UserLanguage] {
 
   object userId extends StringColumn(this) with PartitionKey
 
@@ -29,26 +29,27 @@ class UserLanguageTable extends CassandraTable[UserLanguageTable, UserLanguage] 
 }
 
 abstract class UserLanguageTableImpl extends UserLanguageTable with RootConnector {
-  override lazy val tableName = "personLang"
+  override lazy val tableName = "userLangs"
 
-  def save(personLanguage: UserLanguage): Future[ResultSet] = {
+  def save(userLanguage: UserLanguage): Future[ResultSet] = {
     insert
-      .value(_.userId, personLanguage.userId)
-      .value(_.id, personLanguage.id)
-      .value(_.languageId, personLanguage.languageId)
-      .value(_.reading, personLanguage.reading)
-      .value(_.speaking, personLanguage.speaking)
-      .value(_.writing, personLanguage.writing)
-      .value(_.date, personLanguage.date)
-      .value(_.state, personLanguage.state)
+      .value(_.userId, userLanguage.userId)
+      .value(_.id, userLanguage.id)
+      .value(_.languageId, userLanguage.languageId)
+      .value(_.reading, userLanguage.reading)
+      .value(_.speaking, userLanguage.speaking)
+      .value(_.writing, userLanguage.writing)
+      .value(_.date, userLanguage.date)
+      .value(_.state, userLanguage.state)
       .future()
   }
 
-  def findById(userId: String, id: String): Future[Option[UserLanguage]] = {
-    select.where(_.userId eqs userId).and(_.id eqs id).one()
+  def findById(map: Map[String, String]): Future[Option[UserLanguage]] = {
+    select.where(_.userId eqs map("userId")).and(_.id eqs map("id")).one()
   }
 
-  def findPersonLanguages(userId: String): Future[Seq[UserLanguage]] = {
+
+  def findUserLanguages(userId: String): Future[Seq[UserLanguage]] = {
     select.where(_.userId eqs userId).fetchEnumerator() run Iteratee.collect()
   }
 

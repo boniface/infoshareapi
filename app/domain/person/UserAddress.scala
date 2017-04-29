@@ -5,15 +5,15 @@ import java.util.Date
 import play.api.libs.json.Json
 
 
-case class UserAddress(id: String,
-                       userId: String,
+case class UserAddress(userId: String,
+                       id: String,
+                       addressTypeId: String,
                        description: String,
                        postalCode: String,
-                       addressTypeId: String,
                        date: Date,
                        state: String )
 
 object UserAddress {
-  implicit val personAddressFmt = Json.format[UserAddress]
+  implicit val userAddressFmt = Json.format[UserAddress]
 
 }

@@ -6,7 +6,7 @@ import repositories.person.tables.UserImagesTableImpl
 
 
 class UserImagesDatabase(override val connector: KeySpaceDef) extends Database[UserImagesDatabase](connector) {
-  object userLanguageTable extends UserImagesTableImpl with connector.Connector
+  object userImagesTable extends UserImagesTableImpl with connector.Connector
 }
 
 object UserImagesDatabase extends UserImagesDatabase(DataConnection.connector)

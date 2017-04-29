@@ -1,4 +1,4 @@
-package conf.enums
+package domain.demographics
 
 /**
   * Created by user42 on 2016/09/08.

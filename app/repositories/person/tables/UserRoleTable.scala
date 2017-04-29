@@ -7,7 +7,7 @@ import domain.person.UserRole
 import scala.concurrent.Future
 
 
-class UserRoleTable extends CassandraTable[UserRoleTable, UserRole] {
+sealed class UserRoleTable extends CassandraTable[UserRoleTable, UserRole] {
   /** setting up or defining Person Role table attributes */
 
   object userId extends StringColumn(this) with PartitionKey
@@ -17,11 +17,9 @@ class UserRoleTable extends CassandraTable[UserRoleTable, UserRole] {
 }
 
 abstract class UserRoleTableImpl extends UserRoleTable with RootConnector {
-  override lazy val tableName = "personRoles"
+  override lazy val tableName = "userRoles"
 
  def save(role: UserRole): Future[ResultSet] = {
-   /**save new user account to the db */
-
    insert
       .value(_.userId, role.userId)
       .value(_.roleId, role.roleId)
@@ -30,17 +28,17 @@ abstract class UserRoleTableImpl extends UserRoleTable with RootConnector {
   }
 
 
-  def findRole(id: String,roleId:String): Future[Option[UserRole]] = {
+  def findRole(map: Map[String, String]): Future[Option[UserRole]] = {
     /** gets user role base on user id given */
-    select.where(_.userId eqs id).and(_.roleId eqs roleId).one
+    select.where(_.userId eqs map("userId")).and(_.roleId eqs map("roleId")).one
   }
 
   def findRolesByUserId(userId: String): Future[Seq[UserRole]] = {
     /** get all user roles base on the user id */
     select.where(_.userId eqs userId).fetchEnumerator() run Iteratee.collect()
   }
-  def deleteById(id: String,roleId:String): Future[ResultSet] = {
+  def deleteById(map: Map[String, String]): Future[ResultSet] = {
     /** delete user role base on the user id and role id */
-    delete.where(_.userId eqs id).and(_.roleId eqs roleId).future()
+    delete.where(_.userId eqs map("userId")).and(_.roleId eqs map("roleId")).future()
   }
 }
