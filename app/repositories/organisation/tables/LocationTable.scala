@@ -32,7 +32,7 @@ class LocationTable extends CassandraTable[LocationTable, Location] {
 }
 
 abstract class LocationTableImpl extends LocationTable with RootConnector {
-  override lazy val tableName = "locations"
+  override lazy val tableName = "location"
 
   def save(location: Location): Future[ResultSet] = {
     insert

@@ -1,7 +1,7 @@
 package services.setup
 
 import com.outworkers.phantom.dsl.ResultSet
-import repositories.person._
+import repositories.users._
 import repositories.util._
 
 import scala.concurrent.Future

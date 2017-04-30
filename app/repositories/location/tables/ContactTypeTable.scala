@@ -13,7 +13,7 @@ sealed class ContactTypeTable extends CassandraTable[ContactTypeTable,ContactTyp
 }
 
 abstract class ContactTypeTableImpl extends ContactTypeTable with RootConnector {
-  override lazy val tableName = "contentTypes"
+  override lazy val tableName = "contTypes"
 
   def save(contypes: ContactType): Future[ResultSet] = {
     insert

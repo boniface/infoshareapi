@@ -14,13 +14,13 @@ class AddressTypeTable extends CassandraTable[AddressTypeTable,AddressType]{
 }
 
 abstract class AddressTypeTableImpl extends AddressTypeTable with RootConnector {
-  override lazy val tableName = "addressType"
+  override lazy val tableName = "addrType"
 
-  def save(addtype: AddressType): Future[ResultSet] = {
+  def save(addr: AddressType): Future[ResultSet] = {
     insert
-      .value(_.id, addtype.id)
-      .value(_.name, addtype.name)
-      .value(_.state, addtype.state)
+      .value(_.id, addr.id)
+      .value(_.name, addr.name)
+      .value(_.state, addr.state)
       .future()
   }
 

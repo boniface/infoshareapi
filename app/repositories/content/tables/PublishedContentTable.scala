@@ -3,11 +3,11 @@ package repositories.content.tables
 
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
-import domain.content.EditedContent
+import domain.content.PublishedContent
 
 import scala.concurrent.Future
 
-class PublishedContentTable extends CassandraTable[EditedContentTable, EditedContent] {
+class PublishedContentTable extends CassandraTable[PublishedContentTable, PublishedContent] {
 
   object org extends StringColumn(this) with PartitionKey
 
@@ -34,9 +34,9 @@ class PublishedContentTable extends CassandraTable[EditedContentTable, EditedCon
 }
 
 abstract class PublishedContentTableImpl extends PublishedContentTable with RootConnector {
-  override lazy val tableName = "publishedContent"
+  override lazy val tableName = "publishedCont"
 
-  def save(content: EditedContent): Future[ResultSet] = {
+  def save(content: PublishedContent): Future[ResultSet] = {
     insert
       .value(_.org, content.org)
       .value(_.id, content.id)
@@ -52,15 +52,15 @@ abstract class PublishedContentTableImpl extends PublishedContentTable with Root
       .future()
   }
 
-  def getContentById(org:String, id: String): Future[Option[EditedContent]] = {
-    select.where(_.org eqs org).and(_.id eqs id).one()
+  def getContentById(map: Map[String, String]): Future[Option[PublishedContent]] = {
+    select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def getAllContents(org:String): Future[Seq[EditedContent]] = {
+  def getAllContents(org:String): Future[Seq[PublishedContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 
-  def getContents(org:String,startValue: Int): Future[Iterator[EditedContent]] = {
+  def getContents(org:String,startValue: Int): Future[Iterator[PublishedContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.slice(startValue, 20)
   }
 }

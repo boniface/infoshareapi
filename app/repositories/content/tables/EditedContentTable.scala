@@ -33,7 +33,7 @@ class EditedContentTable extends CassandraTable[EditedContentTable, EditedConten
 }
 
 abstract class EditedContentTableImpl extends EditedContentTable with RootConnector {
-  override lazy val tableName = "editedContent"
+  override lazy val tableName = "editedCont"
 
   def save(content: EditedContent): Future[ResultSet] = {
     insert
@@ -51,8 +51,8 @@ abstract class EditedContentTableImpl extends EditedContentTable with RootConnec
       .future()
   }
 
-  def getContentById(org:String, id: String): Future[Option[EditedContent]] = {
-    select.where(_.org eqs org).and(_.id eqs id).one()
+  def getContentById(map: Map[String,String]): Future[Option[EditedContent]] = {
+    select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
   def getAllContents(org:String): Future[Seq[EditedContent]] = {

@@ -1,10 +1,10 @@
 package controllers.users
 
 import conf.security.{Crediential, TokenCheck, TokenFailExcerption}
-import domain.person.{User, UserRole}
+import domain.users.{User, UserRole}
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
-import services.person.UserCreationService
+import services.users.UserCreationService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 

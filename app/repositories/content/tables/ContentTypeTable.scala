@@ -18,7 +18,7 @@ class ContentTypeTable extends CassandraTable[ContentTypeTable, ContentType] {
 }
 
 abstract  class ContentTypeTableImpl extends ContentTypeTable with RootConnector {
-  override lazy val tableName = "contentTypes"
+  override lazy val tableName = "contentType"
 
   def save(contentType: ContentType): Future[ResultSet] = {
     insert

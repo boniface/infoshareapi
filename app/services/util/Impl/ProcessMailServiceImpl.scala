@@ -4,11 +4,11 @@ import java.util.UUID
 
 import conf.security.AuthUtil
 import conf.util.{HashcodeKeys, Util}
-import domain.person.User
+import domain.users.User
 import domain.syslog.SystemLogEvents
 import domain.util.{EmailMessage, Mail, MailEvents, SmtpConfig}
 import org.joda.time.DateTime
-import services.person.UserService
+import services.users.UserService
 import services.syslog.SyslogService
 import services.util.{MailService, ProcessMailService}
 
