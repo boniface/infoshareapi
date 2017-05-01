@@ -9,7 +9,7 @@ import scala.concurrent.duration._
 
 class UserRoleServiceTest extends FunSuite with BeforeAndAfter {
   val userRoleService = UserRoleService
-  var userRoleEntity: UserRole = _
+  var userRoleEntity, updateEntity: UserRole = _
 
   before{
     userRoleEntity = UserRole("test@test.com",RolesID.ADMIN,"ACTIVE")
@@ -35,8 +35,10 @@ class UserRoleServiceTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Upadte USER_ROLE"){
-    userRoleEntity.copy(roleId = RolesID.ROLE_PUBLISHER)
-    Await.result(userRoleService.save(userRoleEntity),2.minutes)
+    updateEntity = userRoleEntity.copy(roleId = RolesID.ROLE_PUBLISHER)
+    val update = Await.result(userRoleService.save(updateEntity),2.minutes)
+    assert(update.isExhausted)
+
     val result = Await.result(userRoleService.getUserRole(Map("emailId"->userRoleEntity.emailId,"roleId"-> RolesID.ROLE_PUBLISHER)),2.minutes)
     assert(result.head.roleId==RolesID.ROLE_PUBLISHER)
   }
@@ -47,5 +49,6 @@ class UserRoleServiceTest extends FunSuite with BeforeAndAfter {
     assert(result2.isEmpty)
     assert(result.isExhausted)
   }
+
 }
 

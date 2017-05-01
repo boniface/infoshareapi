@@ -25,4 +25,4 @@ trait RoleService extends RoleRepository{
 
 }
 
-object RoleService extends RaceService with RoleRepository
+object RoleService extends RoleService with RoleRepository

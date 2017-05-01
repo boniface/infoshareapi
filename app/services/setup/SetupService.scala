@@ -2,6 +2,7 @@ package services.setup
 
 import com.outworkers.phantom.dsl.ResultSet
 import repositories.users._
+import repositories.content._
 import repositories.util._
 
 import scala.concurrent.Future
@@ -33,6 +34,16 @@ object SetupService {
       setup <- UserDatabase.userTable.create.ifNotExists().future()
       setup <- UserDatabase.personTable.create.ifNotExists().future()
       setup <- UserRoleDatabase.userRoleTable.create.ifNotExists().future()
+
+      //      content
+      setup <- CategoryDatabase.categoryTable.create.ifNotExists().future()
+      setup <- ContentTypeDatabase.contentTypeTable.create.ifNotExists().future()
+      setup <- EditedContentDatabase.editedContentTable.create.ifNotExists().future()
+      setup <- MediaDatabase.mediaTable.create.ifNotExists().future()
+      setup <- PublishedContentDatabase.publishedContentTable.create.ifNotExists().future()
+      setup <- RawContentDatabase.rawContentTable.create.ifNotExists().future()
+      setup <- SourceDatabase.sourceTable.create.ifNotExists().future()
+
     }yield setup
   }
 

@@ -38,7 +38,9 @@ class UserLanguageServiceTest extends FunSuite with BeforeAndAfter{
 
   test("UPDATE USER_LANG"){
     updateEntity = userLangEntity.copy(speaking = "Isizulu",date = new Date())
-    Await.result(userLangService.save(updateEntity), 2.minutes)
+    val update = Await.result(userLangService.save(updateEntity), 2.minutes)
+    assert(update.isExhausted)
+
     val resp = Await.result(userLangService.getUserLangById(Map("emailId"-> userLangEntity.emailId,"id"-> userLangEntity.id)),2.minutes)
 
     assert(resp.head.id == userLangEntity.id)

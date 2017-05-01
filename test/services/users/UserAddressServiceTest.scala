@@ -37,7 +37,9 @@ class UserAddressServiceTest extends FunSuite with BeforeAndAfter  {
 
   test("UPDATE USER_Address"){
     updateEntity = userAddressEntity.copy(postalCode = "3276",date = new Date())
-    Await.result(userAddressService.save(updateEntity), 2.minutes)
+    val update  = Await.result(userAddressService.save(updateEntity), 2.minutes)
+    assert(update.isExhausted)
+
     val resp = Await.result(userAddressService.getAddrById(Map("emailId"-> userAddressEntity.emailId,"id"-> userAddressEntity.id)),2.minutes)
 
     assert(resp.head.id == userAddressEntity.id)

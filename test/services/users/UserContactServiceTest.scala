@@ -37,7 +37,9 @@ class UserContactServiceTest extends FunSuite with BeforeAndAfter  {
 
   test("UPDATE USER_Contact"){
     updateEntity = userContactEntity.copy(contactNumber = "021 784 3598",date = new Date())
-    Await.result(userContactService.save(updateEntity), 2.minutes)
+    val update = Await.result(userContactService.save(updateEntity), 2.minutes)
+    assert(update.isExhausted)
+
     val resp = Await.result(userContactService.getById(Map("emailId"-> updateEntity.emailId,"id"-> updateEntity.id)),2.minutes)
 
     assert(resp.head.id == updateEntity.id)

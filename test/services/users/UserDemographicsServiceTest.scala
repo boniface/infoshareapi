@@ -38,7 +38,9 @@ class UserDemographicsServiceTest extends FunSuite with BeforeAndAfter{
 
   test("UPDATE USER_DEMOGRAPHICS"){
     updateEntity = userDemoEntity.copy(dateOfBirth = new Date(),genderId = "Male")
-    Await.result(userDemoService.save(updateEntity), 2.minutes)
+    val update = Await.result(userDemoService.save(updateEntity), 2.minutes)
+    assert(update.isExhausted)
+
     val resp = Await.result(userDemoService.getDemoById(Map("emailId"-> userDemoEntity.emailId,"id"-> userDemoEntity.id)),2.minutes)
 
     assert(resp.head.id == userDemoEntity.id)

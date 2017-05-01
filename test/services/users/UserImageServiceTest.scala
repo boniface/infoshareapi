@@ -40,10 +40,11 @@ class UserImageServiceTest extends FunSuite with BeforeAndAfter{
 
   test("Update USER_IMAGE "){
     updateEntity = userImgEntity.copy(mime= ".jpeg", size = Some("15MB"))
-    val resp2 = Await.result(userImgService.save(updateEntity), 2.minutes)
+    val update = Await.result(userImgService.save(updateEntity), 2.minutes)
+    assert(update.isExhausted)
+
     val resp = Await.result( userImgService.getUserImageById(kwargs), 2.minutes)
 
-    assert(resp2.isExhausted)
     assert(resp.head.org equals userImgEntity.org)
     assert(resp.head.emailId equals userImgEntity.emailId)
     assert(resp.head.id equals updateEntity.id)
