@@ -4,16 +4,13 @@ import com.outworkers.phantom.dsl.ResultSet
 import domain.content.PublishedContent
 import repositories.content.PublishedContentRepository
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
 trait PublishedContentService extends PublishedContentRepository{
 
   def save(cont : PublishedContent): Future[ResultSet] = {
-    for{
-      rawContent <- database.publishedContentTable.save(cont)
-    } yield rawContent
+    database.publishedContentTable.save(cont)
   }
   def getContentById(map: Map[String,String]): Future[Option[PublishedContent]] = {
     database.publishedContentTable.getContentById(map)

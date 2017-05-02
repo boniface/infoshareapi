@@ -4,17 +4,13 @@ import com.outworkers.phantom.dsl.ResultSet
 import domain.demographics.LanguageProficiency
 import repositories.demographics.LanguageProficiencyRepository
 
-
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
 trait LanguageProficiencyService extends LanguageProficiencyRepository {
 
   def save(obj: LanguageProficiency): Future[ResultSet] = {
-    for {
-      saveEntity <- database.languageProficiencyTable.save(obj)
-    } yield saveEntity
+    database.languageProficiencyTable.save(obj)
   }
 
   def getById(id: String): Future[Option[LanguageProficiency]] = {

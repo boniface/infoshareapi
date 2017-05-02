@@ -11,9 +11,7 @@ import scala.concurrent.Future
 trait UserRoleService extends UserRoleRepository{
 
   def save(role: UserRole): Future[ResultSet] = {
-    for{
-      saveEntity <- database.userRoleTable.save(role)
-    } yield saveEntity
+    database.userRoleTable.save(role)
   }
 
   def getUserRole(map: Map[String,String]): Future[Option[UserRole]] = {

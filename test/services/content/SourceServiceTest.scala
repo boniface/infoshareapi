@@ -49,5 +49,4 @@ class SourceServiceTest extends FunSuite with BeforeAndAfter{
 
   }
 
-
 }

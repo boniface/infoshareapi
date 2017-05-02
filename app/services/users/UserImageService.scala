@@ -12,9 +12,7 @@ import scala.concurrent.Future
 trait UserImageService extends UserImagesRepository {
 
   def save(userImg: UserImages): Future[ResultSet] = {
-    for{
-      saveImage <- database.userImagesTable.save(userImg)
-    } yield saveImage
+    database.userImagesTable.save(userImg)
   }
 
   def getUserImageById(map: Map[String, String]): Future[Option[UserImages]] = {

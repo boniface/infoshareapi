@@ -4,16 +4,13 @@ import com.outworkers.phantom.dsl.ResultSet
 import domain.content.RawContent
 import repositories.content.RawContentRepository
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
 trait RawContentService extends RawContentRepository{
 
   def save(cont : RawContent): Future[ResultSet] = {
-    for{
-      rawContent <- database.rawContentTable.save(cont)
-    } yield rawContent
+    database.rawContentTable.save(cont)
   }
   def getContentById(map: Map[String,String]): Future[Option[RawContent]] = {
     database.rawContentTable.getContentById(map)

@@ -10,9 +10,7 @@ import scala.concurrent.Future
 trait StorageUrlService extends StorageUrlRepository{
 
   def save(link: StorageUrl): Future[ResultSet] = {
-    for {
-      linkEntity <- database.storageUrlTable.save(link)
-    } yield linkEntity
+    database.storageUrlTable.save(link)
   }
 
   def getLinkById(id: String): Future[Option[StorageUrl]] = {

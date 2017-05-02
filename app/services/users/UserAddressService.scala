@@ -11,9 +11,7 @@ import scala.concurrent.Future
 trait UserAddressService extends UserAddressRepository{
 
   def save(userAddr: UserAddress): Future[ResultSet] = {
-    for {
-      saveEntity <- database.userAddressTable.save(userAddr)
-    } yield saveEntity
+    database.userAddressTable.save(userAddr)
   }
 
   def getAddrById(map: Map[String, String]): Future[Option[UserAddress]] =  {

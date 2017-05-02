@@ -4,7 +4,6 @@ import repositories.content.ContentTypeRepository
 import com.outworkers.phantom.dsl.ResultSet
 import domain.content.ContentType
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
@@ -12,9 +11,7 @@ import scala.concurrent.Future
 trait ContentTypeService extends ContentTypeRepository{
 
   def save(contentType: ContentType): Future[ResultSet] = {
-    for {
-      contentType <- database.contentTypeTable.save(contentType)
-    } yield contentType
+    database.contentTypeTable.save(contentType)
   }
 
   def getContentTypeById(id: String): Future[Option[ContentType]] = {

@@ -4,7 +4,6 @@ import com.outworkers.phantom.dsl.ResultSet
 import domain.content.Source
 import repositories.content.SourceRepository
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
@@ -12,9 +11,7 @@ trait SourceService extends SourceRepository{
 
 
   def save(obj : Source): Future[ResultSet] = {
-    for{
-      sourceEntity <- database.sourceTable.save(obj)
-    } yield sourceEntity
+    database.sourceTable.save(obj)
   }
 
   def getSourceById(map: Map[String,String]): Future[Option[Source]] = {

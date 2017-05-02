@@ -11,9 +11,7 @@ import scala.concurrent.Future
 trait UserDemographicsService extends UserDemographicsRepository {
 
   def save(userDemo: UserDemographics): Future[ResultSet] ={
-    for{
-      userDemoEntity <- database.userDemographicsTable.save(userDemo)
-    } yield userDemoEntity
+    database.userDemographicsTable.save(userDemo)
   }
   def getDemoById(map: Map[String, String]): Future[Option[UserDemographics]] = {
     database.userDemographicsTable.findById(map)

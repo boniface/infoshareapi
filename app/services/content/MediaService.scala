@@ -4,16 +4,13 @@ import com.outworkers.phantom.dsl.ResultSet
 import domain.content.Media
 import repositories.content.MediaRepository
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
 trait MediaService extends MediaRepository{
 
   def save(media: Media): Future[ResultSet] = {
-    for {
-      mediaEntity <-database.mediaTable.save(media)
-    } yield mediaEntity
+      database.mediaTable.save(media)
   }
 
   def getContentMediaById(map: Map[String,String]):Future[Option[Media]] = {

@@ -11,9 +11,7 @@ import scala.concurrent.Future
 trait UserLanguageService extends UserLanguageRepository{
 
   def save(userLanguage: UserLanguage): Future[ResultSet] = {
-    for{
-      saveEntity <- database.userLanguageTable.save(userLanguage)
-    } yield saveEntity
+    database.userLanguageTable.save(userLanguage)
   }
 
   def getUserLangById(map: Map[String, String]): Future[Option[UserLanguage]] = {

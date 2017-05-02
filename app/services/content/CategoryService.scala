@@ -4,16 +4,13 @@ import com.outworkers.phantom.dsl.ResultSet
 import domain.content.Category
 import repositories.content.CategoryRepository
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
 trait CategoryService extends CategoryRepository{
 
   def save(category: Category): Future[ResultSet] = {
-    for {
-      saveCategory <- database.categoryTable.save(category)
-    } yield saveCategory
+    database.categoryTable.save(category)
   }
 
   def getCategoryById(id: String): Future[Option[Category]] = {

@@ -11,9 +11,7 @@ import scala.concurrent.Future
 trait LocationTypeService extends LocationTypeRepository{
 
   def save(obj: LocationType): Future[ResultSet] = {
-    for {
-      locEntity <- database.locationTypeTable.save(obj)
-    } yield locEntity
+    database.locationTypeTable.save(obj)
   }
 
   def getLocById(id: String):Future[Option[LocationType]] = {
