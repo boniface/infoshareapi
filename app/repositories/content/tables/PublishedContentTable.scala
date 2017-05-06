@@ -60,7 +60,7 @@ abstract class PublishedContentTableImpl extends PublishedContentTable with Root
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 
-  def getContents(org:String,startValue: Int): Future[Iterator[PublishedContent]] = {
+  def getPaginatedContents(org:String, startValue: Int): Future[Iterator[PublishedContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.slice(startValue, 20)
   }
 }

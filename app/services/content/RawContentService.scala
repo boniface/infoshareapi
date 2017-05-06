@@ -20,8 +20,8 @@ trait RawContentService extends RawContentRepository{
     database.rawContentTable.getAllContents(org)
   }
 
-  def getContents(org:String, startValue: Int): Future[Iterator[RawContent]] = {
-    database.rawContentTable.getContents(org, startValue)
+  def getPaginatedContents(org:String, startValue: Int): Future[Iterator[RawContent]] = {
+    database.rawContentTable.getPaginatedContents(org, startValue)
   }
 
 }

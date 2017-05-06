@@ -20,8 +20,8 @@ trait PublishedContentService extends PublishedContentRepository{
     database.publishedContentTable.getAllContents(org)
   }
 
-  def getContents(org:String, startValue: Int): Future[Iterator[PublishedContent]] = {
-    database.publishedContentTable.getContents(org, startValue)
+  def getPaginatedContents(org: String, pageNum: Int): Future[Iterator[PublishedContent]] = {
+    database.publishedContentTable.getPaginatedContents(org, pageNum)
   }
 
 }

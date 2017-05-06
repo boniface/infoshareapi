@@ -61,7 +61,7 @@ abstract class RawContentTableImpl extends RawContentTable with RootConnector {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 
-  def getContents(org:String, startValue: Int): Future[Iterator[RawContent]] = {
+  def getPaginatedContents(org:String, startValue: Int): Future[Iterator[RawContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.slice(startValue, 20)
   }
 }

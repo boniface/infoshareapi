@@ -20,8 +20,8 @@ trait EditedContentService extends EditedContentRepository{
     database.editedContentTable.getAllContents(org)
   }
 
-  def getContents(org:String, startValue: Int): Future[Iterator[EditedContent]] = {
-    database.editedContentTable.getContents(org, startValue)
+  def getPaginatedContents(org:String, startValue: Int): Future[Iterator[EditedContent]] = {
+    database.editedContentTable.getPaginatedContents(org, startValue)
   }
 
 }

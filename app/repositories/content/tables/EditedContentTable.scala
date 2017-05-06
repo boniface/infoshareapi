@@ -59,7 +59,7 @@ abstract class EditedContentTableImpl extends EditedContentTable with RootConnec
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 
-  def getContents(org:String,startValue: Int): Future[Iterator[EditedContent]] = {
+  def getPaginatedContents(org:String, startValue: Int): Future[Iterator[EditedContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.slice(startValue, 20)
   }
 }
