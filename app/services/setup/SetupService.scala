@@ -3,7 +3,10 @@ package services.setup
 import com.outworkers.phantom.dsl.ResultSet
 import repositories.users._
 import repositories.content._
-import repositories.util._
+import repositories.demographics._
+import repositories.location._
+import repositories.storage._
+import repositories.util.{KeysDatabase, ItemStatusDatabase, MailDatabase, RolesDatabase, TokenDatabase}
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -23,7 +26,7 @@ object SetupService {
       setup <- KeysDatabase.keysTable.create.ifNotExists().future()
       setup <- MailDatabase.mailTable.create.ifNotExists().future()
       setup <- TokenDatabase.tokenTable.create.ifNotExists().future()
-      setup <- RoleDatabase.roleTable.create.ifNotExists().future()
+      setup <- RolesDatabase.rolesTable.create.ifNotExists().future()
 
       //     user
       setup <- UserAddressDatabase.userAddressTable.create.ifNotExists().future()
@@ -43,6 +46,21 @@ object SetupService {
       setup <- PublishedContentDatabase.publishedContentTable.create.ifNotExists().future()
       setup <- RawContentDatabase.rawContentTable.create.ifNotExists().future()
       setup <- SourceDatabase.sourceTable.create.ifNotExists().future()
+
+      //    demographics
+      setup <- GenderDatabase.genderTable.create.ifNotExists().future()
+      setup <- LanguageDatabase.languageTable.create.ifNotExists().future()
+      setup <- LanguageProficiencyDatabase.languageProficiencyTable.create.ifNotExists().future()
+      setup <- RaceDatabase.raceTable.create.ifNotExists().future()
+      setup <- RoleDatabase.roleTable.create.ifNotExists().future()
+
+      //    location
+      setup <- AddressTypeDatabase.addressTypeTable.create.ifNotExists().future()
+      setup <- ContactTypeDatabase.contactTypeTable.create.ifNotExists().future()
+      setup <- LocationTypeDatabase.locationTypeTable.create.ifNotExists().future()
+
+      //    storage
+      setup <- StorageUrlDatabase.storageUrlTable.create.ifNotExists().future()
 
     }yield setup
   }

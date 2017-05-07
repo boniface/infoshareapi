@@ -20,7 +20,7 @@ class RoleTable extends CassandraTable[RoleTable, Role] {
 }
 
 abstract class RoleTableImpl extends RoleTable with RootConnector {
-  override lazy val tableName = "roles"
+  override lazy val tableName = "role"
 
   def save(role: Role): Future[ResultSet] = {
     insert

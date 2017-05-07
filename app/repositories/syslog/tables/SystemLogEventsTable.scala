@@ -32,7 +32,7 @@ abstract class SystemLogEventsTableImpl extends SystemLogEventsTable with RootCo
 
   def save(systemLogEvents: SystemLogEvents): Future[ResultSet] = {
     insert
-      .value(_.siteId, systemLogEvents.siteId)
+      .value(_.siteId, systemLogEvents.org)
       .value(_.id, systemLogEvents.id)
       .value(_.eventName, systemLogEvents.eventName)
       .value(_.eventType, systemLogEvents.eventType)

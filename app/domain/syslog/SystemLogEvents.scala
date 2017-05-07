@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 /**
   * Created by hashcode on 2016/08/12.
   */
-case class SystemLogEvents(siteId: String,
+case class SystemLogEvents(org: String,
                            id: String,
                            eventName: String,
                            eventType: String,

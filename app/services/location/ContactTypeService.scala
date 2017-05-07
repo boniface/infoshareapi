@@ -13,10 +13,10 @@ trait ContactTypeService extends ContactTypeRepository{
     database.contactTypeTable.save(obj)
   }
 
-  def getAddressById(id: String):Future[Option[ContactType]] = {
+  def getContactById(id: String):Future[Option[ContactType]] = {
     database.contactTypeTable.findById(id)
   }
-  def getAllAddresses: Future[Seq[ContactType]] = {
+  def getAllContactType: Future[Seq[ContactType]] = {
     database.contactTypeTable.findAll
   }
 

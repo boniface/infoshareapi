@@ -6,12 +6,12 @@ import domain.util.Roles
 
 import scala.concurrent.Future
 
-class RoleTable extends CassandraTable[RoleTable, Roles] {
+class RolesTable extends CassandraTable[RolesTable, Roles] {
   object id extends StringColumn(this) with PartitionKey
   object rolename extends StringColumn(this)
   }
 
-abstract class  RoleTableImpl extends RoleTable with RootConnector {
+abstract class  RolesTableImpl extends RolesTable with RootConnector {
 
   override lazy val tableName = "roles"
 

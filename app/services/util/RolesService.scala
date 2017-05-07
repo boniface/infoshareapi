@@ -2,30 +2,27 @@ package services.util
 
 import com.outworkers.phantom.dsl.ResultSet
 import domain.util.Roles
-import repositories.util.RoleRepository
+import repositories.util.RolesRepository
 
 import scala.concurrent.Future
 
 /**
   * Created by hashcode on 2017/01/29.
   */
-trait RoleService extends RoleRepository {
+trait RolesService extends RolesRepository {
 
   def save(role: Roles): Future[ResultSet] = {
-
-    database.roleTable.save(role)
+    database.rolesTable.save(role)
   }
 
   def getRoleById(id: String): Future[Option[Roles]] = {
-
-    database.roleTable.getRoleById(id)
+    database.rolesTable.getRoleById(id)
   }
 
   def getRoles: Future[Seq[Roles]] = {
-
-    database.roleTable.getRoles
+    database.rolesTable.getRoles
   }
 
 }
 
-object RoleService extends RoleService with RoleRepository
+object RolesService extends RolesService with RolesRepository
