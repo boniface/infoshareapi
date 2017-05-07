@@ -19,7 +19,7 @@ class StorageUrlTable extends CassandraTable[StorageUrlTable, StorageUrl] {
 }
 
 abstract class StorageUrlTableImpl extends StorageUrlTable with RootConnector {
-  override lazy val tableName = "storageUrls"
+  override lazy val tableName = "storageUrl"
 
   def save(link: StorageUrl): Future[ResultSet] = {
     insert

@@ -1,6 +1,0 @@
-package repositories
-
-
-class Placeholder {
-
-}

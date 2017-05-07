@@ -26,7 +26,7 @@ class OrganisationLogoTable extends CassandraTable[OrganisationLogoTable, Organi
 }
 
 abstract class OrganisationLogoTableImpl extends OrganisationLogoTable with RootConnector {
-  override lazy val tableName = "orgLogos"
+  override lazy val tableName = "orgLogo"
 
   def save(dept: OrganisationLogo) = {
     insert

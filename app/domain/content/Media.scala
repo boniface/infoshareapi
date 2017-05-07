@@ -9,9 +9,7 @@ case class Media(contentId: String,
                  url: String,
                  mime: String,
                  date: Date,
-                 state:String) {
-
-}
+                 state:String)
 
 object Media{
   implicit val mediaFmt = Json.format[Media]

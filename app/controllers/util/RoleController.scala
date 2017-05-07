@@ -4,7 +4,7 @@ import conf.security.{TokenCheck, TokenFailExcerption}
 import domain.util.Roles
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
-import services.util.RoleService
+import services.util.RolesService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -19,7 +19,7 @@ class RoleController extends Controller {
       val entity = Json.fromJson[Roles](input).get
       val response = for {
         auth <- TokenCheck.getToken(request)
-        results <- RoleService.save(entity)
+        results <- RolesService.save(entity)
       } yield results
       response.map(ans => Ok(Json.toJson(entity)))
         .recover {
@@ -34,7 +34,7 @@ class RoleController extends Controller {
       val input = request.body
       val response = for {
         auth <- TokenCheck.getTokenfromParam(request)
-        results <- RoleService.getRoleById(id)
+        results <- RolesService.getRoleById(id)
       } yield results
       response.map(ans => Ok(Json.toJson(ans)))
         .recover {
@@ -48,7 +48,7 @@ class RoleController extends Controller {
       val input = request.body
       val response = for {
         auth <- TokenCheck.getTokenfromParam(request)
-        results <- RoleService.getRoles
+        results <- RolesService.getRoles
       } yield results
       response.map(ans => Ok(Json.toJson(ans)))
         .recover {

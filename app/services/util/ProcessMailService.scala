@@ -1,6 +1,6 @@
 package services.util
 
-import domain.person.User
+import domain.users.User
 import domain.util.Mail
 import services.util.Impl.ProcessMailServiceImpl
 

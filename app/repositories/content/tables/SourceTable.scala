@@ -31,8 +31,8 @@ abstract class SourceTableImpl extends SourceTable with RootConnector {
       .future()
   }
 
-  def getSourceById(org:String,id: String): Future[Option[Source]] = {
-    select.where(_.org eqs org).and(_.id eqs id).one()
+  def getSourceById(map: Map[String,String]): Future[Option[Source]] = {
+    select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
   def getAllSources(org:String): Future[Seq[Source]] = {

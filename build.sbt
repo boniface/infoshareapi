@@ -75,6 +75,8 @@ libraryDependencies += "org.apache.commons" % "commons-email" % "1.4"
 libraryDependencies += "com.rometools" % "rome" % "1.7.1"
 
 libraryDependencies += "com.gravity.goose" % "goose_2.11" % "2.2.8"
+libraryDependencies += "io.netty" % "netty-transport-native-epoll" % "4.1.5.Final" classifier "linux-x86_64"
+
 
 
 

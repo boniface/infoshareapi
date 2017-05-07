@@ -15,14 +15,14 @@ class LocationTypeTable extends CassandraTable[LocationTypeTable,LocationType]{
 }
 
 abstract class LocationTypeTableImpl extends LocationTypeTable with RootConnector {
-  override lazy val tableName = "locationTypes"
+  override lazy val tableName = "locTypes"
 
-  def save(locationtypes: LocationType): Future[ResultSet] = {
+  def save(loc: LocationType): Future[ResultSet] = {
     insert
-      .value(_.id, locationtypes.id)
-      .value(_.name, locationtypes.name)
-      .value(_.code, locationtypes.code)
-      .value(_.state, locationtypes.state)
+      .value(_.id, loc.id)
+      .value(_.name, loc.name)
+      .value(_.code, loc.code)
+      .value(_.state, loc.state)
       .future()
   }
 

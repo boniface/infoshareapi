@@ -1,0 +1,63 @@
+package repositories.users.tables
+
+import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.streams._
+import domain.users.UserImages
+
+import scala.concurrent.Future
+
+/**
+  * Images uploaded by a particular user
+*/
+sealed class UserImagesTable extends CassandraTable[UserImagesTable, UserImages] {
+  /** setting up or defining Person images table attributes */
+
+  object org extends StringColumn(this) with PartitionKey
+
+  object emailId extends StringColumn(this) with PrimaryKey
+
+  object id extends StringColumn(this) with PrimaryKey
+
+  object url extends StringColumn(this)
+
+  object description extends StringColumn(this)
+
+  object size extends OptionalStringColumn(this)
+
+  object mime extends StringColumn(this)
+
+  object date extends DateColumn(this)
+
+}
+
+abstract class UserImagesTableImpl extends UserImagesTable with RootConnector {
+  override lazy val tableName = "userImg"
+
+  def save(image: UserImages): Future[ResultSet] = {
+    insert
+      .value(_.org, image.org)
+      .value(_.emailId, image.emailId)
+      .value(_.id, image.id)
+      .value(_.url, image.url)
+      .value(_.size, image.size)
+      .value(_.mime, image.mime)
+      .value(_.description, image.description)
+      .value(_.date, image.date)
+      .future()
+  }
+
+  def getUserImage(map: Map[String, String]): Future[Option[UserImages]] = {
+    /** gets images base on user id organization and db record id */
+    select.where(_.org eqs map("org")).and(_.emailId eqs map("emailId")).and(_.id eqs map("id")).one()
+  }
+
+  def getUserImages(map: Map[String, String]): Future[Seq[UserImages]] = {
+    /** gets all images base on user id and organization id */
+    select.where(_.org eqs map("org")).and(_.emailId eqs map("emailId")) fetchEnumerator() run Iteratee.collect()
+  }
+
+  def getCompanyImages(org: String): Future[Seq[UserImages]] = {
+    /** gets all images for that organization base on org id */
+    select.where(_.org eqs org) fetchEnumerator() run Iteratee.collect()
+  }
+}

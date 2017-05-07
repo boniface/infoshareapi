@@ -8,3 +8,4 @@ target
 /RUNNING_PID
 logback.xml
 project/project/
+*.orig
