@@ -11,23 +11,23 @@ import scala.concurrent.Future
   */
 
 
-class MailTable extends CassandraTable[MailTable, Mail] {
+abstract class MailTable extends Table[MailTable, Mail] {
 
-  object siteId extends StringColumn(this) with PartitionKey
+  object siteId extends StringColumn with PartitionKey
 
-  object id extends StringColumn(this) with PrimaryKey
+  object id extends StringColumn with PrimaryKey
 
-  object key extends StringColumn(this)
+  object key extends StringColumn
 
-  object value extends StringColumn(this)
+  object value extends StringColumn
 
-  object host extends StringColumn(this)
+  object host extends StringColumn
 
-  object port extends StringColumn(this)
+  object port extends StringColumn
 
-  object state extends StringColumn(this)
+  object state extends StringColumn
 
-  object date extends DateColumn(this)
+  object date extends DateColumn
 
 
 }
@@ -57,4 +57,5 @@ abstract class  MailTableImpl extends MailTable with RootConnector {
     select.where(_.siteId eqs siteId).fetchEnumerator() run Iteratee.collect()
   }
 }
+
 

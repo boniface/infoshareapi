@@ -2,31 +2,34 @@ package repositories.util.tables
 
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
-import domain.util.Roles
+import domain.demographics.Role
 
 import scala.concurrent.Future
 
-class RolesTable extends CassandraTable[RolesTable, Roles] {
-  object id extends StringColumn(this) with PartitionKey
-  object rolename extends StringColumn(this)
-  }
+abstract class RoleTable extends Table[RoleTable, Role] {
 
-abstract class  RolesTableImpl extends RolesTable with RootConnector {
+  object id extends StringColumn with PartitionKey
+
+  object rolename extends StringColumn
+
+}
+
+abstract class RoleTableImpl extends RoleTable with RootConnector {
 
   override lazy val tableName = "roles"
 
-  def save(role: Roles): Future[ResultSet] = {
+  def save(role: Role): Future[ResultSet] = {
     insert
       .value(_.id, role.id)
-      .value(_.rolename, role.rolename)
+      .value(_.rolename, role.name)
       .future()
   }
 
-  def getRoleById(id: String): Future[Option[Roles]] = {
+  def getRoleById(id: String): Future[Option[Role]] = {
     select.where(_.id eqs id).one()
   }
 
-  def getRoles: Future[Seq[Roles]] = {
+  def getRoles: Future[Seq[Role]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
 }
