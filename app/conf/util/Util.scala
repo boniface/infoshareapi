@@ -53,13 +53,7 @@ object Util {
     (code + "-" + salt)
   }
 
-  def getBrowser ={
-    val config = new Configuration
-    config.setBrowserUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.99 Safari/537.36")
-    config.setBrowserReferer("https://www.google.com/")
 
-    new Goose(config)
-  }
   def getDate(date: String): Date = {
     date match{
       case "TODAY" =>  DateTime.now.withTimeAtStartOfDay().toLocalDate.toDate

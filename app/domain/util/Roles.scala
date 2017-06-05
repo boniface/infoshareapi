@@ -5,14 +5,12 @@ import play.api.libs.json.Json
 /**
   * Created by hashcode on 2016/08/12.
   */
-case class SmtpConfig(port: Int = 587,
-                      host: String = "smtp.gmail.com",
-                      user: String,
-                      password: String)
+case class Roles(id: String, rolename: String)
 
-object SmtpConfig {
+object Roles {
 
-  implicit val smtpFmt = Json.format[SmtpConfig]
+  implicit val rolesFmt = Json.format[Roles]
 
-  def identity: SmtpConfig = SmtpConfig(0, "", "", "")
+  def identity: Roles = Roles(RoleValues.ANONYMOUS, RoleValues.ANONYMOUS)
+
 }
