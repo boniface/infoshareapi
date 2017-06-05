@@ -1,5 +1,5 @@
 // The Play plugin
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.0-RC1")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.0-RC2")
 
 // for autoplugins
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.2.0-M9")

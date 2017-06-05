@@ -9,7 +9,7 @@ lazy val root = (project in file("."))
 scalaVersion := "2.12.2"
 
 val PhantomVersion = "2.9.2"
-val PlayFrameWorkVersion = "2.6.0-RC1"
+val PlayFrameWorkVersion = "2.6.0-RC2"
 val circeVersion = "0.8.0"
 
 maintainer := "Boniface Kabaso <boniface@kabaso.com>"
@@ -74,6 +74,7 @@ libraryDependencies += "com.github.t3hnar" % "scala-bcrypt_2.12" % "3.0"
 libraryDependencies += "org.apache.commons" % "commons-lang3" % "3.5"
 libraryDependencies += "org.apache.commons" % "commons-email" % "1.4"
 libraryDependencies += "com.esotericsoftware" % "kryo" % "4.0.0"
+libraryDependencies += "com.roundeights" % "hasher_2.12" % "1.2.0"
 
 
 
