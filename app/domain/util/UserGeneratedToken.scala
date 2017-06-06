@@ -12,4 +12,6 @@ case class UserGeneratedToken(token: String,
 
 object UserGeneratedToken {
   implicit val tokenForm = Json.format[UserGeneratedToken]
+
+  def identity: UserGeneratedToken = UserGeneratedToken("", "", "", "")
 }

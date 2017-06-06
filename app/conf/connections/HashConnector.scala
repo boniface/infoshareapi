@@ -6,7 +6,7 @@ import com.datastax.driver.core.SocketOptions
 import com.outworkers.phantom.connectors.{ContactPoint, ContactPoints}
 import com.typesafe.config.ConfigFactory
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /**
   * Created by hashcode on 2017/01/29.
@@ -17,7 +17,7 @@ object Config {
   val port = 9042
   val connectionTimeoutMillis = 7000// Default is 5000
   val readTimeoutMillis = 15000// Default is 12000
-  val hosts: Seq[String] = Config.config.getStringList("cassandra.host").toList
+  val hosts: Seq[String] = Config.config.getStringList("cassandra.host").asScala.toList
   val inets = hosts.map(InetAddress.getByName)
   val keyspace: String = Config.config.getString("cassandra.keyspace")
 //  val clusterName: String = Config.config.getString("cassandra.cluster.name")

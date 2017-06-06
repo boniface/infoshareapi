@@ -9,7 +9,7 @@ import repositories.storage._
 import repositories.util.{KeysDatabase, ItemStatusDatabase, MailDatabase, RolesDatabase, TokenDatabase}
 
 import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
+import com.outworkers.phantom.dsl.context
 
 /**
   * Created by hashcode on 2017/04/21.
