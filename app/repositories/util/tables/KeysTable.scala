@@ -11,13 +11,13 @@ import scala.concurrent.Future
   * Created by kuminga on 2016/08/29.
   */
   */
-sealed class KeysTable extends CassandraTable[KeysTable, Keys] {
+abstract class KeysTable extends Table[KeysTable, Keys] {
 
-  object id extends StringColumn(this) with PartitionKey
+  object id extends StringColumn with PartitionKey
 
-  object value extends StringColumn(this)
+  object value extends StringColumn
 
-  object status extends StringColumn(this)
+  object status extends StringColumn
 
 
 }

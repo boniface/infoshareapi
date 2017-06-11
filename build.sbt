@@ -6,9 +6,11 @@ lazy val root = (project in file("."))
   .enablePlugins(PlayScala, DebianPlugin, DockerPlugin,JavaServerAppPackaging,SystemdPlugin)
 
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.2"
 
-val PhantomVersion = "2.6.4"
+val PhantomVersion = "2.9.2"
+val PlayFrameWorkVersion = "2.6.0-RC2"
+val circeVersion = "0.8.0"
 
 maintainer := "Boniface Kabaso <boniface@kabaso.com>"
 packageSummary in Linux := "Infoshare REST API"
@@ -46,37 +48,48 @@ javaOptions in Universal ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  jdbc,
-  cache,
-  ws
-)
+  "io.circe" %% "circe-core",
+  "io.circe" %% "circe-generic",
+  "io.circe" %% "circe-parser"
+).map(_ % circeVersion)
+
+
 libraryDependencies += filters
-libraryDependencies += "org.scalatestplus.play" % "scalatestplus-play_2.11" % "2.0.0"
+libraryDependencies += "org.scalatestplus.play" % "scalatestplus-play_2.12" % "3.0.0-RC1"
 libraryDependencies += "javax.mail" % "javax.mail-api" % "1.5.6"
 libraryDependencies += "org.typelevel" %% "cats" % "0.9.0"
 
-libraryDependencies += "com.outworkers" % "phantom-dsl_2.11" % PhantomVersion
-libraryDependencies += "com.outworkers" % "phantom-streams_2.11" % PhantomVersion
-libraryDependencies += "com.outworkers" % "phantom-connectors_2.11" % PhantomVersion
 
-libraryDependencies += "com.github.karelcemus" % "play-redis_2.11" % "1.3.1"
-libraryDependencies += "com.github.romix.akka" % "akka-kryo-serialization_2.11" % "0.5.0"
+libraryDependencies += "com.outworkers" % "phantom-dsl_2.12" % PhantomVersion
+libraryDependencies += "com.outworkers" % "phantom-connectors_2.12" % PhantomVersion
+libraryDependencies += "com.outworkers" % "phantom-streams_2.12" % PhantomVersion
+libraryDependencies += "com.outworkers" % "phantom-jdk8_2.12" % PhantomVersion
+
+
+libraryDependencies += "com.github.romix.akka" % "akka-kryo-serialization_2.12" % "0.5.2"
 libraryDependencies += "com.esotericsoftware" % "kryo" % "4.0.0"
-libraryDependencies += "com.github.t3hnar" % "scala-bcrypt_2.11" % "3.0"
+libraryDependencies += "com.github.t3hnar" % "scala-bcrypt_2.12" % "3.0"
 
-
-libraryDependencies += "junit" % "junit" % "4.12"
-libraryDependencies += "me.lessis" % "base64_2.11" % "0.2.0"
 
 libraryDependencies += "org.apache.commons" % "commons-lang3" % "3.5"
 libraryDependencies += "org.apache.commons" % "commons-email" % "1.4"
+libraryDependencies += "com.esotericsoftware" % "kryo" % "4.0.0"
+libraryDependencies += "com.roundeights" % "hasher_2.12" % "1.2.0"
 
 
-libraryDependencies += "com.rometools" % "rome" % "1.7.1"
 
-libraryDependencies += "com.gravity.goose" % "goose_2.11" % "2.2.8"
-libraryDependencies += "io.netty" % "netty-transport-native-epoll" % "4.1.5.Final" classifier "linux-x86_64"
 
+
+libraryDependencies += "com.typesafe.play" % "play-iteratees_2.12" % "2.6.1"
+libraryDependencies += "com.typesafe.play" % "play-iteratees-reactive-streams_2.12" % "2.6.1"
+
+
+
+
+libraryDependencies += "com.typesafe.play" % "play-json_2.12" % PlayFrameWorkVersion
+libraryDependencies += "com.typesafe.play" % "play-akka-http-server_2.12" % PlayFrameWorkVersion
+libraryDependencies += "com.typesafe.play" % "play-guice_2.12" % PlayFrameWorkVersion
+libraryDependencies += "com.typesafe.play" % "play-ws_2.12" % PlayFrameWorkVersion
 
 
 
@@ -94,6 +107,7 @@ resolvers ++= Seq(
   "Twitter Repository" at "http://maven.twttr.com",
   "Websudos releases" at "https://dl.bintray.com/websudos/oss-releases/",
   "Goose Updates " at "https://dl.bintray.com/raisercostin/maven/",
+  "Akka Snapshot Repository" at "http://repo.akka.io/snapshots/",
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots"),
   Resolver.sonatypeRepo("public")

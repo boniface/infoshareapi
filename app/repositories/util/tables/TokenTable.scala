@@ -9,15 +9,15 @@ import scala.concurrent.Future
 /**
   * Created by hashcode on 2015/06/09.
   */
-class TokenTable extends CassandraTable[TokenTable, Token] {
+abstract class TokenTable extends Table[TokenTable, Token] {
 
-  object id extends StringColumn(this) with PartitionKey
+  object id extends StringColumn with PartitionKey
 
-  object tokenValue extends StringColumn(this)
+  object tokenValue extends StringColumn
 
 }
 
-abstract class  TokenTableImpl extends TokenTable with RootConnector {
+abstract class TokenTableImpl extends TokenTable with RootConnector {
   override lazy val tableName = "tokens"
 
   def save(token: Token): Future[ResultSet] = {
