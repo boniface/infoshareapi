@@ -1,5 +1,7 @@
 package services.util
-import java.util.Date
+
+
+import java.time.{LocalDateTime =>Date}
 
 import domain.util.Mail
 import org.scalatest.FunSuite
@@ -13,7 +15,7 @@ import scala.concurrent.duration._
 class MailServiceTest extends FunSuite{
 
 
-  val entity = Mail("CPUT","1","MAILL","mail.host.com","smtp.google.com","587","ACTIVE", new Date)
+  val entity = Mail("CPUT","1","MAILL","mail.host.com","smtp.google.com","587","ACTIVE", Date.now())
   val updatedEntity = entity.copy(state = "INACTIVE")
   val service = MailService
 

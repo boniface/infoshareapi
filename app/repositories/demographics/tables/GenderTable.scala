@@ -6,10 +6,12 @@ import domain.demographics.Gender
 
 import scala.concurrent.Future
 
-sealed class GenderTable extends CassandraTable[GenderTable,Gender]{
-  object id extends StringColumn(this) with PartitionKey
-  object name extends StringColumn(this)
-  object state extends StringColumn(this)
+abstract class GenderTable extends Table[GenderTable,Gender]{
+  object id extends StringColumn with PartitionKey
+
+  object name extends StringColumn
+
+  object state extends StringColumn
 
 }
 

@@ -1,23 +1,33 @@
 package repositories.users.tables
 
+import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.users.User
 
 import scala.concurrent.Future
 
 
-sealed class UserTable extends CassandraTable[UserTable,User]  {
-  /** setting up or defining user table attributes */
-  object org extends StringColumn(this) with PartitionKey
-  object email extends StringColumn(this) with PrimaryKey
-  object firstName extends StringColumn(this)
-  object lastName extends StringColumn(this)
-  object middleName extends OptionalStringColumn(this)
-  object screenName extends OptionalStringColumn(this)
-  object password extends StringColumn(this)
-  object state extends StringColumn(this)
-  object date extends DateTimeColumn(this)
+abstract class UserTable extends Table[UserTable,User]  {
+  
+  object org extends StringColumn with PartitionKey
+
+  object email extends StringColumn with PrimaryKey
+
+  object firstName extends StringColumn
+
+  object lastName extends StringColumn
+
+  object middleName extends OptionalStringColumn
+
+  object screenName extends OptionalStringColumn
+
+  object password extends StringColumn
+
+  object state extends StringColumn
+
+  object date extends Col[Date]
 }
 
 
@@ -52,17 +62,25 @@ abstract class UserTableImpl extends UserTable with RootConnector {
 
 }
 
-sealed class PersonTable extends CassandraTable[PersonTable, User]{
-  /** setting up or defining person table attributes */
-  object email extends StringColumn(this) with PartitionKey
-  object org extends StringColumn(this) with PrimaryKey
-  object firstName extends StringColumn(this)
-  object lastName extends StringColumn(this)
-  object middleName extends OptionalStringColumn(this)
-  object screenName extends OptionalStringColumn(this)
-  object password extends StringColumn(this)
-  object state extends StringColumn(this)
-  object date extends DateTimeColumn(this)
+abstract class PersonTable extends Table[PersonTable, User]{
+
+  object email extends StringColumn with PartitionKey
+
+  object org extends StringColumn with PrimaryKey
+
+  object firstName extends StringColumn
+
+  object lastName extends StringColumn
+
+  object middleName extends OptionalStringColumn
+
+  object screenName extends OptionalStringColumn
+
+  object password extends StringColumn
+
+  object state extends StringColumn
+
+  object date extends Col[Date]
 }
 
 abstract class  PersonTableImpl extends PersonTable with RootConnector {

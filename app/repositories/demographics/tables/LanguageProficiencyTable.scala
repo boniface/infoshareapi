@@ -6,10 +6,13 @@ import domain.demographics.LanguageProficiency
 
 import scala.concurrent.Future
 
-class LanguageProficiencyTable extends CassandraTable[LanguageProficiencyTable,LanguageProficiency]{
-  object id extends StringColumn(this) with PartitionKey
-  object name extends StringColumn(this)
-  object state extends StringColumn(this)
+abstract class LanguageProficiencyTable extends Table[LanguageProficiencyTable,LanguageProficiency]{
+  
+  object id extends StringColumn with PartitionKey
+  
+  object name extends StringColumn
+  
+  object state extends StringColumn
 
 }
 

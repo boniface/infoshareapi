@@ -1,8 +1,6 @@
 package conf.enums
 
-/**
-  * Created by hashcode on 2016/10/05.
-  */
+
 object MailEvents {
   def MAIL: String = "MAIL"
   def MAIL_SENT: String = "MAIL SENT"

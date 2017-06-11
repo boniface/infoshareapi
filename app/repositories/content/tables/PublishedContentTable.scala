@@ -1,35 +1,37 @@
 package repositories.content.tables
 
 
+import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.content.PublishedContent
 
 import scala.concurrent.Future
 
-class PublishedContentTable extends CassandraTable[PublishedContentTable, PublishedContent] {
+abstract class PublishedContentTable extends Table[PublishedContentTable, PublishedContent] {
 
-  object org extends StringColumn(this) with PartitionKey
+  object org extends StringColumn with PartitionKey
 
-  object id extends StringColumn(this) with PrimaryKey
+  object id extends StringColumn with PrimaryKey
 
-  object dateCreated extends DateColumn(this)
+  object dateCreated extends Col[Date]
 
-  object creator extends StringColumn(this)
+  object creator extends StringColumn
 
-  object source extends StringColumn(this)
+  object source extends StringColumn
 
-  object category extends StringColumn(this)
+  object category extends StringColumn
 
-  object title extends StringColumn(this)
+  object title extends StringColumn
 
-  object content extends StringColumn(this)
+  object content extends StringColumn
 
-  object contentType extends StringColumn(this)
+  object contentType extends StringColumn
 
-  object status extends StringColumn(this)
+  object status extends StringColumn
 
-  object state extends StringColumn(this)
+  object state extends StringColumn
 
 }
 

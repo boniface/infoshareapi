@@ -1,14 +1,13 @@
 package repositories.util.tables
 
+
+import java.time.{LocalDateTime =>Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.util.Mail
 
 import scala.concurrent.Future
-
-/**
-  * Created by kuminga on 2016/08/29.
-  */
 
 
 abstract class MailTable extends Table[MailTable, Mail] {
@@ -27,7 +26,7 @@ abstract class MailTable extends Table[MailTable, Mail] {
 
   object state extends StringColumn
 
-  object date extends DateColumn
+  object date extends Col[Date]
 
 
 }

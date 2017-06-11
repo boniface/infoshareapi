@@ -1,6 +1,6 @@
 package domain.content
 
-import java.util.Date
+import java.time.{LocalDateTime =>Date}
 import play.api.libs.json.Json
 
 
@@ -18,6 +18,6 @@ case class  PublishedContent(org: String,
 
 object PublishedContent {
   implicit val publishedContentFmt = Json.format[PublishedContent]
-
+  def identity: PublishedContent = PublishedContent("", "", Date.now(), "", "", "", "", "", "", "", "")
 }
 

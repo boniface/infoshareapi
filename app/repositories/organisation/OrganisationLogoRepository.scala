@@ -2,15 +2,16 @@ package repositories.organisation
 
 import com.outworkers.phantom.dsl._
 import conf.connections.DataConnection
-import repositories.organisation.tables.OrganisationTableImpl
+import repositories.organisation.tables.OrganisationLogoTableImpl
 
-class OrganisationDatabase (override val connector: KeySpaceDef) extends Database[OrganisationDatabase](connector) {
-  object organisationTable extends OrganisationTableImpl with connector.Connector
+
+class OrganisationLogoDatabase (override val connector: KeySpaceDef) extends Database[OrganisationDatabase](connector) {
+  object organisationLogoTable extends OrganisationLogoTableImpl with connector.Connector
 }
 
-object OrganisationDatabase extends OrganisationDatabase(DataConnection.connector)
+object OrganisationLogoDatabase extends OrganisationLogoDatabase(DataConnection.connector)
 
-trait OrganisationRepository {
-  def  database = OrganisationDatabase
+trait OrganisationLogoRepository {
+  def  database = OrganisationLogoDatabase
 }
 

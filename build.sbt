@@ -77,13 +77,8 @@ libraryDependencies += "com.esotericsoftware" % "kryo" % "4.0.0"
 libraryDependencies += "com.roundeights" % "hasher_2.12" % "1.2.0"
 
 
-
-
-
 libraryDependencies += "com.typesafe.play" % "play-iteratees_2.12" % "2.6.1"
 libraryDependencies += "com.typesafe.play" % "play-iteratees-reactive-streams_2.12" % "2.6.1"
-
-
 
 
 libraryDependencies += "com.typesafe.play" % "play-json_2.12" % PlayFrameWorkVersion
@@ -91,6 +86,8 @@ libraryDependencies += "com.typesafe.play" % "play-akka-http-server_2.12" % Play
 libraryDependencies += "com.typesafe.play" % "play-guice_2.12" % PlayFrameWorkVersion
 libraryDependencies += "com.typesafe.play" % "play-ws_2.12" % PlayFrameWorkVersion
 
+
+libraryDependencies += "me.lessis" % "base64_2.11" % "0.2.0"
 
 
 resolvers ++= Seq(

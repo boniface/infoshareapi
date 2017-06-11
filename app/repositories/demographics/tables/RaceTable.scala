@@ -6,10 +6,13 @@ import domain.demographics.Race
 
 import scala.concurrent.Future
 
-class RaceTable extends CassandraTable[RaceTable,Race]{
-  object id extends StringColumn(this) with PartitionKey
-  object name extends StringColumn(this)
-  object state extends StringColumn(this)
+abstract class RaceTable extends Table[RaceTable,Race]{
+  
+  object id extends StringColumn with PartitionKey
+  
+  object name extends StringColumn
+  
+  object state extends StringColumn
 
 }
 

@@ -1,6 +1,6 @@
 package services.users
 
-import java.util.Date
+import java.time.{LocalDateTime =>Date}
 
 import domain.users.UserContact
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -16,7 +16,7 @@ class UserContactServiceTest extends FunSuite with BeforeAndAfter  {
 
   before{
     userContactEntity = UserContact(emailId = "test@test.com",id= "1", addressTypeId = "1",
-      contactNumber = "+2774 791 3185", date = new Date(), state = "ACTIVE")
+      contactNumber = "+2774 791 3185", date = Date.now(), state = "ACTIVE")
   }
 
   test("Create USER_Contact"){
@@ -36,7 +36,7 @@ class UserContactServiceTest extends FunSuite with BeforeAndAfter  {
   }
 
   test("UPDATE USER_Contact"){
-    updateEntity = userContactEntity.copy(contactNumber = "021 784 3598",date = new Date())
+    updateEntity = userContactEntity.copy(contactNumber = "021 784 3598",date = Date.now())
     val update = Await.result(userContactService.save(updateEntity), 2.minutes)
     assert(update.isExhausted)
 

@@ -1,8 +1,6 @@
-package domain.demographics
+package conf.enums
 
-/**
-  * Created by user42 on 2016/09/08.
-  */
+
 object MaritalStatusList {
 
   def MARRIED: String = "MARRIED"

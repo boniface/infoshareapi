@@ -1,18 +1,17 @@
 package domain.syslog
 
-import org.joda.time.DateTime
+import java.time.{LocalDateTime => Date}
 import play.api.libs.json.Json
 
-/**
-  * Created by hashcode on 2016/08/12.
-  */
+
 case class SystemLogEvents(org: String,
                            id: String,
                            eventName: String,
                            eventType: String,
                            message: String,
-                           date: DateTime)
+                           date: Date)
 
 object SystemLogEvents {
   implicit val syseventLog = Json.format[SystemLogEvents]
+  def identity: SystemLogEvents = SystemLogEvents("", "", "", "", "", Date.now())
 }

@@ -1,7 +1,7 @@
 package services.syslog
 
 import domain.syslog.SystemLogEvents
-import org.joda.time.DateTime
+import java.time.{LocalDateTime => Date}
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
 
@@ -12,7 +12,7 @@ class SyslogServiceTest extends FunSuite with BeforeAndAfter {
 
   before{
     syslogEntity = SystemLogEvents(org = "BO", id = "1", eventName = "test",eventType = "test",
-                                    message = "my test",date = new DateTime())
+                                    message = "my test",date = Date.now())
   }
 
   //todo finish test

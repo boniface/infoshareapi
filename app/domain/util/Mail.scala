@@ -1,12 +1,9 @@
 package domain.util
 
-import java.util.Date
-
+import java.time.{LocalDateTime =>Date}
 import play.api.libs.json.Json
 
-/**
-  * Created by kuminga on 2016/09/01.
-  */
+
 case class Mail(siteId: String,
                 id: String,
                 key: String,
@@ -19,5 +16,5 @@ case class Mail(siteId: String,
 object Mail {
   implicit val mailFmt = Json.format[Mail]
 
-  def identity:Mail = Mail("","","","","","","",new Date)
+  def identity:Mail = Mail("","","","","","","",Date.now())
 }

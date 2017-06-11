@@ -1,6 +1,8 @@
 package repositories.users.tables
 
+import java.time.{LocalDateTime =>Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.users.UserAddress
 
@@ -8,15 +10,21 @@ import scala.concurrent.Future
 
 
 
-sealed class UserAddressTable extends CassandraTable[UserAddressTable, UserAddress] {
+abstract class UserAddressTable extends Table[UserAddressTable, UserAddress] {
 
-  object emailId extends StringColumn(this) with PartitionKey
-  object id extends StringColumn(this) with PrimaryKey
-  object addressTypeId extends StringColumn(this)
-  object description extends StringColumn(this)
-  object postalCode extends StringColumn(this)
-  object date extends DateColumn(this)
-  object state extends StringColumn(this)
+  object emailId extends StringColumn with PartitionKey
+  
+  object id extends StringColumn with PrimaryKey
+  
+  object addressTypeId extends StringColumn
+  
+  object description extends StringColumn
+  
+  object postalCode extends StringColumn
+  
+  object date extends Col[Date]
+  
+  object state extends StringColumn
 
 }
 abstract class UserAddressTableImpl extends UserAddressTable with RootConnector{

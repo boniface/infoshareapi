@@ -5,8 +5,14 @@ package conf.enums
   */
 object HashcodeKeys  extends  Enumeration{
   val RSSFEED=Value("RSS")
-  val GeocodingAPI, CDN_URL, MAILORG, DEALLOCATED, ALLOCATED, DISABLED, ACTIVE, INACTIVE, MARGINTOKENKEY = Value
-
-
+  val GeocodingAPI,
+  CDN_URL,
+  MAILORG,
+  DEALLOCATED,
+  ALLOCATED,
+  DISABLED,
+  ACTIVE,
+  INACTIVE,
+  MARGINTOKENKEY = Value
 
 }

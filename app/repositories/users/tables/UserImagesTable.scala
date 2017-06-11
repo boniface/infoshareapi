@@ -1,32 +1,31 @@
 package repositories.users.tables
 
+import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.users.UserImages
 
 import scala.concurrent.Future
 
-/**
-  * Images uploaded by a particular user
-*/
-sealed class UserImagesTable extends CassandraTable[UserImagesTable, UserImages] {
-  /** setting up or defining Person images table attributes */
 
-  object org extends StringColumn(this) with PartitionKey
+abstract class UserImagesTable extends Table[UserImagesTable, UserImages] {
 
-  object emailId extends StringColumn(this) with PrimaryKey
+  object org extends StringColumn with PartitionKey
 
-  object id extends StringColumn(this) with PrimaryKey
+  object emailId extends StringColumn with PrimaryKey
 
-  object url extends StringColumn(this)
+  object id extends StringColumn with PrimaryKey
 
-  object description extends StringColumn(this)
+  object url extends StringColumn
 
-  object size extends OptionalStringColumn(this)
+  object description extends StringColumn
 
-  object mime extends StringColumn(this)
+  object size extends OptionalStringColumn
 
-  object date extends DateColumn(this)
+  object mime extends StringColumn
+
+  object date extends Col[Date]
 
 }
 

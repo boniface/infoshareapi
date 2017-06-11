@@ -7,4 +7,5 @@ case class Gender(id:String, name:String, state:String)
 
 object Gender{
   implicit val genderFmt = Json.format[Gender]
+  def identity: Gender = Gender("", "", "")
 }

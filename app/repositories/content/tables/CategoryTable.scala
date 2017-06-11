@@ -7,13 +7,13 @@ import scala.concurrent.Future
 
 import domain.content.Category
 
-class CategoryTable extends CassandraTable[CategoryTable, Category] {
+abstract class CategoryTable extends Table[CategoryTable, Category] {
 
-  object id extends StringColumn(this) with PartitionKey
+  object id extends StringColumn with PartitionKey
 
-  object name extends StringColumn(this)
+  object name extends StringColumn
 
-  object description extends StringColumn(this)
+  object description extends StringColumn
 
 }
 

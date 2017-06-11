@@ -1,25 +1,27 @@
 package repositories.organisation.tables
 
+import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.organisation.Organisation
 
 import scala.concurrent.Future
 
 
-class OrganisationTable extends CassandraTable[OrganisationTable, Organisation] {
+abstract class OrganisationTable extends Table[OrganisationTable, Organisation] {
 
-  object id extends StringColumn(this) with PartitionKey
+  object id extends StringColumn with PartitionKey
 
-  object name extends StringColumn(this)
+  object name extends StringColumn
 
-  object details extends MapColumn[String,String](this) // when this is highlighted its Intellij bug
+  object details extends MapColumn[String,String]
 
-  object adminAttached extends StringColumn(this)
+  object adminAttached extends StringColumn
 
-  object date extends DateColumn(this)
+  object date extends Col[Date]
 
-  object state extends StringColumn(this)
+  object state extends StringColumn
 
 
 }

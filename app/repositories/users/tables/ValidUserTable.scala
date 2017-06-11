@@ -1,6 +1,6 @@
 package repositories.users.tables
 
-import java.time.LocalDateTime
+import java.time.{LocalDateTime =>Date}
 
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.jdk8._
@@ -9,14 +9,12 @@ import domain.users.ValidUser
 
 import scala.concurrent.Future
 
-/**
-  * Created by hashcode on 2017/06/11.
-  */
+
 abstract class ValidUserTable extends Table[ValidUserTable, ValidUser] {
 
   object userId extends StringColumn with PartitionKey
 
-  object date extends Col[LocalDateTime] with PrimaryKey
+  object date extends Col[Date] with PrimaryKey
 
   object action extends StringColumn
 

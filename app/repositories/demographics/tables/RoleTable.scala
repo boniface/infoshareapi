@@ -7,15 +7,15 @@ import domain.demographics.Role
 import scala.concurrent.Future
 
 
-class RoleTable extends CassandraTable[RoleTable, Role] {
+abstract class RoleTable extends Table[RoleTable, Role] {
 
-  object id extends StringColumn(this) with PartitionKey
+  object id extends StringColumn with PartitionKey
 
-  object name extends StringColumn(this)
+  object name extends StringColumn
 
-  object description extends StringColumn(this)
+  object description extends StringColumn
 
-  object state extends StringColumn(this)
+  object state extends StringColumn
 
 }
 

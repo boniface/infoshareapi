@@ -7,13 +7,13 @@ import domain.content.ContentType
 
 import scala.concurrent.Future
 
-class ContentTypeTable extends CassandraTable[ContentTypeTable, ContentType] {
+abstract class ContentTypeTable extends Table[ContentTypeTable, ContentType] {
 
-  object id extends StringColumn(this) with PartitionKey
+  object id extends StringColumn with PartitionKey
 
-  object name extends StringColumn(this)
+  object name extends StringColumn
 
-  object description extends StringColumn(this)
+  object description extends StringColumn
 
 }
 

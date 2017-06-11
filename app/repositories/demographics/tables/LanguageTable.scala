@@ -6,10 +6,12 @@ import domain.demographics.Language
 
 import scala.concurrent.Future
 
-class LanguageTable extends CassandraTable[LanguageTable,Language]{
-  object id extends StringColumn(this) with PartitionKey
-  object name extends StringColumn(this)
-  object state extends StringColumn(this)
+abstract class LanguageTable extends Table[LanguageTable,Language]{
+  object id extends StringColumn with PartitionKey
+
+  object name extends StringColumn
+
+  object state extends StringColumn
 
 }
 

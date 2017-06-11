@@ -1,22 +1,28 @@
 package repositories.content.tables
 
-
+import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.content.Media
 
 import scala.concurrent.Future
 
-class MediaTable extends CassandraTable[MediaTable, Media] {
+abstract class MediaTable extends Table[MediaTable, Media] {
 
-  object contentId extends StringColumn(this) with PartitionKey
-  object id extends StringColumn(this) with PrimaryKey
-  object description extends StringColumn(this)
-  object url extends StringColumn(this)
-  object mime extends StringColumn(this)
-  object date extends DateColumn(this)
-  object state extends StringColumn(this)
+  object contentId extends StringColumn with PartitionKey
 
+  object id extends StringColumn with PrimaryKey
+
+  object description extends StringColumn
+
+  object url extends StringColumn
+
+  object mime extends StringColumn
+
+  object date extends Col[Date]
+
+  object state extends StringColumn
 
 }
 

@@ -1,33 +1,35 @@
 package repositories.organisation.tables
 
+import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.organisation.Location
 
 import scala.concurrent.Future
 
 
-class LocationTable extends CassandraTable[LocationTable, Location] {
+abstract class LocationTable extends Table[LocationTable, Location] {
 
-  object org extends StringColumn(this) with PartitionKey
+  object org extends StringColumn with PartitionKey
 
-  object id extends StringColumn(this) with PrimaryKey
+  object id extends StringColumn with PrimaryKey
 
-  object name extends StringColumn(this)
+  object name extends StringColumn
 
-  object locationTypeId extends StringColumn(this)
+  object locationTypeId extends StringColumn
 
-  object code extends StringColumn(this)
+  object code extends StringColumn
 
-  object latitude extends StringColumn(this)
+  object latitude extends StringColumn
 
-  object longitude extends StringColumn(this)
+  object longitude extends StringColumn
 
-  object parentId extends StringColumn(this)
+  object parentId extends StringColumn
 
-  object state extends StringColumn(this)
+  object state extends StringColumn
 
-  object date extends DateColumn(this)
+  object date extends Col[Date]
 
 }
 

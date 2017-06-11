@@ -7,15 +7,15 @@ import domain.content.Source
 import scala.concurrent.Future
 
 
-class SourceTable extends CassandraTable[SourceTable, Source] {
+abstract class SourceTable extends Table[SourceTable, Source] {
 
-  object org extends StringColumn(this) with PartitionKey
+  object org extends StringColumn with PartitionKey
 
-  object id extends StringColumn(this) with PrimaryKey
+  object id extends StringColumn with PrimaryKey
 
-  object name extends StringColumn(this)
+  object name extends StringColumn
 
-  object description extends StringColumn(this)
+  object description extends StringColumn
 
 }
 

@@ -4,6 +4,7 @@ import com.outworkers.phantom.dsl._
 import conf.connections.DataConnection
 import repositories.organisation.tables.LocationTableImpl
 
+
 class LocationDatabase (override val connector: KeySpaceDef) extends Database[LocationDatabase](connector) {
   object locationTable extends LocationTableImpl with connector.Connector
 }

@@ -2,7 +2,6 @@ package conf.util
 
 import java.util.{Date, Random}
 
-import com.gravity.goose.{Configuration, Goose}
 import org.apache.commons.lang3.RandomStringUtils
 import org.joda.time.{DateTime, DateTimeConstants}
 

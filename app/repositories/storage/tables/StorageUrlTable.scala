@@ -7,13 +7,13 @@ import domain.storage.StorageUrl
 import scala.concurrent.Future
 
 
-class StorageUrlTable extends CassandraTable[StorageUrlTable, StorageUrl] {
+abstract class StorageUrlTable extends Table[StorageUrlTable, StorageUrl] {
 
-  object id extends StringColumn(this) with PartitionKey
+  object id extends StringColumn with PartitionKey
 
-  object name extends StringColumn(this)
+  object name extends StringColumn
 
-  object url extends StringColumn(this)
+  object url extends StringColumn
 
 
 }

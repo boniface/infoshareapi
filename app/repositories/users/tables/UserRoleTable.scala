@@ -7,12 +7,13 @@ import domain.users.UserRole
 import scala.concurrent.Future
 
 
-sealed class UserRoleTable extends CassandraTable[UserRoleTable, UserRole] {
-  /** setting up or defining Person Role table attributes */
+abstract class UserRoleTable extends Table[UserRoleTable, UserRole] {
 
-  object emailId extends StringColumn(this) with PartitionKey
-  object roleId extends StringColumn(this) with PrimaryKey
-  object state extends StringColumn(this)
+  object emailId extends StringColumn with PartitionKey
+
+  object roleId extends StringColumn with PrimaryKey
+
+  object state extends StringColumn
 
 }
 

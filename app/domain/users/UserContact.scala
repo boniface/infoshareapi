@@ -1,6 +1,6 @@
 package domain.users
 
-import java.util.Date
+import java.time.{LocalDateTime => Date}
 import play.api.libs.json.Json
 
 
@@ -13,5 +13,6 @@ case class UserContact(emailId: String,
 
 object UserContact {
   implicit val userContactFmt = Json.format[UserContact]
+  def identity: UserContact = UserContact("", "", "", "", Date.now(), "")
 
 }

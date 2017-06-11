@@ -1,29 +1,32 @@
 package repositories.users.tables
 
+
+import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.users.UserLanguage
 
 import scala.concurrent.Future
 
 
-sealed class UserLanguageTable extends CassandraTable[UserLanguageTable, UserLanguage] {
+abstract class UserLanguageTable extends Table[UserLanguageTable, UserLanguage] {
 
-  object emailId extends StringColumn(this) with PartitionKey
+  object emailId extends StringColumn with PartitionKey
 
-  object id extends StringColumn(this) with PrimaryKey
+  object id extends StringColumn with PrimaryKey
 
-  object languageId extends StringColumn(this)
+  object languageId extends StringColumn
 
-  object reading extends StringColumn(this)
+  object reading extends StringColumn
 
-  object writing extends StringColumn(this)
+  object writing extends StringColumn
 
-  object speaking extends StringColumn(this)
+  object speaking extends StringColumn
 
-  object date extends DateColumn(this)
+  object date extends Col[Date]
 
-  object state extends StringColumn(this)
+  object state extends StringColumn
 
 
 }

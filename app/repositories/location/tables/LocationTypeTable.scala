@@ -6,11 +6,15 @@ import domain.location.LocationType
 
 import scala.concurrent.Future
 
-class LocationTypeTable extends CassandraTable[LocationTypeTable,LocationType]{
-  object id extends StringColumn(this) with PartitionKey
-  object name extends StringColumn(this)
-  object code extends StringColumn(this)
-  object state extends StringColumn(this)
+abstract class LocationTypeTable extends Table[LocationTypeTable,LocationType]{
+
+  object id extends StringColumn with PartitionKey
+ 
+  object name extends StringColumn
+ 
+  object code extends StringColumn
+ 
+  object state extends StringColumn
 
 }
 

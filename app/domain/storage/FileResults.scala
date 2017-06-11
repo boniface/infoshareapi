@@ -11,5 +11,5 @@ case class FileResults(id: String,
 
 object FileResults {
   implicit val fileResultFmt = Json.format[FileResults]
-
+  def identity: FileResults = FileResults("", "", None, "")
 }

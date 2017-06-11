@@ -6,10 +6,13 @@ import domain.location.AddressType
 
 import scala.concurrent.Future
 
-class AddressTypeTable extends CassandraTable[AddressTypeTable,AddressType]{
-  object id extends StringColumn(this) with PartitionKey
-  object name extends StringColumn(this)
-  object state extends StringColumn(this)
+abstract class AddressTypeTable extends Table[AddressTypeTable,AddressType]{
+  
+  object id extends StringColumn with PartitionKey
+  
+  object name extends StringColumn
+  
+  object state extends StringColumn
 
 }
 

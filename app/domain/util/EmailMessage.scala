@@ -2,9 +2,7 @@ package domain.util
 
 import play.api.libs.json.Json
 
-/**
-  * Created by hashcode on 2016/10/05.
-  */
+
 case class EmailMessage( subject: String,
                          recipient: String,
                          from: String,

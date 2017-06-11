@@ -1,6 +1,6 @@
 package domain.users
 
-import java.util.Date
+import java.time.{LocalDateTime =>Date}
 import play.api.libs.json.Json
 
 
@@ -15,5 +15,5 @@ case class UserLanguage(emailId: String,
 
 object UserLanguage {
   implicit val usersLangFmt = Json.format[UserLanguage]
-
+  def identity: UserLanguage = UserLanguage("", "", "", "", "", "", Date.now(), "")
 }

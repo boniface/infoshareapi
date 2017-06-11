@@ -7,4 +7,5 @@ case class Language(id:String, name:String, state:String)
 
 object Language{
   implicit val langFmt = Json.format[Language]
+  def identity: Language = Language("", "", "")
 }

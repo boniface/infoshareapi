@@ -1,28 +1,27 @@
 package repositories.syslog.tables
 
+import java.time.{LocalDateTime =>Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.syslog.SystemLogEvents
 
 import scala.concurrent.Future
 
 
-/**
-  * Created by Quest on 2016/10/25.
-  */
-class SystemLogEventsTable extends CassandraTable[SystemLogEventsTable, SystemLogEvents] {
+abstract class SystemLogEventsTable extends Table[SystemLogEventsTable, SystemLogEvents] {
 
-  object siteId extends StringColumn(this) with PartitionKey
+  object siteId extends StringColumn with PartitionKey
 
-  object id extends StringColumn(this) with PrimaryKey
+  object id extends StringColumn with PrimaryKey
 
-  object eventName extends StringColumn(this)
+  object eventName extends StringColumn
 
-  object eventType extends StringColumn(this)
+  object eventType extends StringColumn
 
-  object message extends StringColumn(this)
+  object message extends StringColumn
 
-  object date extends DateTimeColumn(this)
+  object date extends Col[Date]
 
 }
 
