@@ -107,7 +107,6 @@ resolvers ++= Seq(
   "Twitter Repository" at "http://maven.twttr.com",
   "Websudos releases" at "https://dl.bintray.com/websudos/oss-releases/",
   "Goose Updates " at "https://dl.bintray.com/raisercostin/maven/",
-  "Akka Snapshot Repository" at "http://repo.akka.io/snapshots/",
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots"),
   Resolver.sonatypeRepo("public")

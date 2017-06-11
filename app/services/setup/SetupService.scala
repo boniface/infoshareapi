@@ -26,7 +26,7 @@ object SetupService {
       setup <- KeysDatabase.keysTable.create.ifNotExists().future()
       setup <- MailDatabase.mailTable.create.ifNotExists().future()
       setup <- TokenDatabase.tokenTable.create.ifNotExists().future()
-      setup <- RolesDatabase.rolesTable.create.ifNotExists().future()
+//      setup <- RolesDatabase.rolesTable.create.ifNotExists().future()
 
       //     user
       setup <- UserAddressDatabase.userAddressTable.create.ifNotExists().future()
@@ -61,6 +61,9 @@ object SetupService {
 
       //    storage
       setup <- StorageUrlDatabase.storageUrlTable.create.ifNotExists().future()
+
+      // Valid User
+      setup <-ValidUserDatabase.validUserTable.create.ifNotExists().future()
 
     }yield setup
   }

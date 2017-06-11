@@ -10,7 +10,8 @@ import play.api.routing.sird._
   * Created by hashcode on 2017/03/04.
   */
 class UsersRouter @Inject()
-(userCreationRouter: UserCreationController)
+(userCreationRouter: UserCreationController,
+ validUserController: ValidUserController)
   extends SimpleRouter {
   override def routes: Routes = {
     //ROLES
@@ -24,8 +25,18 @@ class UsersRouter @Inject()
       userCreationRouter.isRegistered
     case POST(p"/user/login") =>
       userCreationRouter.login
-    case GET(p"/user/getuser/$email") =>
-      userCreationRouter.getUser(email)
+
+
+    // Valid Users
+    case POST(p"/valid/create") =>
+      validUserController.create
+    case GET(p"/valid/user/$userId") =>
+      validUserController.isUserValid(userId)
+    case GET(p"/valid/events/$userId") =>
+      validUserController.getValidUserEvents(userId)
+    case GET(p"/valid/users") =>
+      validUserController.getValidUsers
+
 
   }
 }
