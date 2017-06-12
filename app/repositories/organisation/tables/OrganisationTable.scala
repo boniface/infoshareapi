@@ -15,14 +15,13 @@ abstract class OrganisationTable extends Table[OrganisationTable, Organisation] 
 
   object name extends StringColumn
 
-  object details extends MapColumn[String,String]
+  object details extends MapColumn[String, String]
 
   object adminAttached extends StringColumn
 
   object date extends Col[Date]
 
   object state extends StringColumn
-
 
 }
 
@@ -40,7 +39,7 @@ abstract class OrganisationTableImpl extends OrganisationTable with RootConnecto
       .future()
   }
 
-  def updateCompany(company:Organisation):Future[ResultSet] ={
+  def updateCompany(company: Organisation): Future[ResultSet] = {
     insert
       .value(_.id, company.id)
       .value(_.name, company.name)
@@ -58,8 +57,5 @@ abstract class OrganisationTableImpl extends OrganisationTable with RootConnecto
   def findAll: Future[Seq[Organisation]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
-
-
-
 
 }

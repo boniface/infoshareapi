@@ -9,9 +9,6 @@ import base64.Encode.{apply => toBase64, urlSafe => toBase64UrlSafe}
 import com.github.t3hnar.bcrypt._
 import org.apache.commons.lang3.RandomStringUtils
 
-/**
-  * Created by hashcode on 2015/11/01.
-  */
 trait AuthUtil {
   def hashAuth(key: String): String
 
@@ -44,9 +41,11 @@ object AuthUtil {
 
     // This Scala implementation of password hashing was inspired by:
     // https://crackstation.net/hashing-security.htm#javasourcecode
-    def hashPassword(password: String): String = hashPassword(password, generateRandomBytes(SizeOfPasswordSaltInBytes))
+    def hashPassword(password: String): String =
+      hashPassword(password, generateRandomBytes(SizeOfPasswordSaltInBytes))
 
-    def hashPassword(password: String, salt: Array[Byte]): String = hashPassword(password, salt, DefaultNrOfPasswordHashIterations)
+    def hashPassword(password: String, salt: Array[Byte]): String =
+      hashPassword(password, salt, DefaultNrOfPasswordHashIterations)
 
     def hashPassword(password: String, salt: Array[Byte], nrOfIterations: Int): String = {
       val hash = pbkdf2(password, salt, nrOfIterations)
@@ -56,6 +55,7 @@ object AuthUtil {
     }
 
     def validatePassword(password: String, hashedPassword: String): Boolean = {
+
       /** Compares two byte arrays in length-constant time to prevent timing attacks. */
       def slowEquals(a: Array[Byte], b: Array[Byte]): Boolean = {
         var diff = a.length ^ b.length;

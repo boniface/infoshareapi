@@ -3,7 +3,6 @@ package domain.users
 import java.time.{LocalDateTime => Date}
 import play.api.libs.json.Json
 
-
 case class UserContact(emailId: String,
                        id: String,
                        addressTypeId: String,

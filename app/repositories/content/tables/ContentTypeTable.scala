@@ -1,6 +1,5 @@
 package repositories.content.tables
 
-
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
 import domain.content.ContentType
@@ -17,12 +16,12 @@ abstract class ContentTypeTable extends Table[ContentTypeTable, ContentType] {
 
 }
 
-abstract  class ContentTypeTableImpl extends ContentTypeTable with RootConnector {
+abstract class ContentTypeTableImpl extends ContentTypeTable with RootConnector {
   override lazy val tableName = "contentType"
 
   def save(contentType: ContentType): Future[ResultSet] = {
     insert
-      .value(_.id,contentType.id)
+      .value(_.id, contentType.id)
       .value(_.name, contentType.name)
       .value(_.description, contentType.description)
       .future()
@@ -36,4 +35,3 @@ abstract  class ContentTypeTableImpl extends ContentTypeTable with RootConnector
     select.fetchEnumerator() run Iteratee.collect()
   }
 }
-

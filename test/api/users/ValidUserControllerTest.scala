@@ -2,7 +2,7 @@ package api.users
 
 import java.time.LocalDateTime
 
-import conf.util.Events
+import conf.util.enums.Events
 import domain.users.ValidUser
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerTest

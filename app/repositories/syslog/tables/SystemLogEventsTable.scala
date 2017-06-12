@@ -1,6 +1,6 @@
 package repositories.syslog.tables
 
-import java.time.{LocalDateTime =>Date}
+import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._

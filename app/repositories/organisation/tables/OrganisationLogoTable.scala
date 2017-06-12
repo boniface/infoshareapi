@@ -47,6 +47,6 @@ abstract class OrganisationLogoTableImpl extends OrganisationLogoTable with Root
   }
 
   def findCompanyLogos(org: String): Future[Seq[OrganisationLogo]] = {
-    select.where(_.org eqs org) fetchEnumerator() run Iteratee.collect()
+    select.where(_.org eqs org) fetchEnumerator () run Iteratee.collect()
   }
 }

@@ -6,7 +6,6 @@ import domain.storage.StorageUrl
 
 import scala.concurrent.Future
 
-
 abstract class StorageUrlTable extends Table[StorageUrlTable, StorageUrl] {
 
   object id extends StringColumn with PartitionKey
@@ -14,7 +13,6 @@ abstract class StorageUrlTable extends Table[StorageUrlTable, StorageUrl] {
   object name extends StringColumn
 
   object url extends StringColumn
-
 
 }
 

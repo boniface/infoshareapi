@@ -6,7 +6,6 @@ import domain.demographics.Role
 
 import scala.concurrent.Future
 
-
 abstract class RoleTable extends Table[RoleTable, Role] {
 
   object id extends StringColumn with PartitionKey
@@ -24,7 +23,7 @@ abstract class RoleTableImpl extends RoleTable with RootConnector {
 
   def save(role: Role): Future[ResultSet] = {
     insert
-      .value(_.id,role.id)
+      .value(_.id, role.id)
       .value(_.name, role.name)
       .value(_.description, role.description)
       .value(_.state, role.state)
@@ -39,4 +38,3 @@ abstract class RoleTableImpl extends RoleTable with RootConnector {
     select.fetchEnumerator() run Iteratee.collect()
   }
 }
-

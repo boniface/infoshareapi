@@ -6,14 +6,14 @@ import domain.location.LocationType
 
 import scala.concurrent.Future
 
-abstract class LocationTypeTable extends Table[LocationTypeTable,LocationType]{
+abstract class LocationTypeTable extends Table[LocationTypeTable, LocationType] {
 
   object id extends StringColumn with PartitionKey
- 
+
   object name extends StringColumn
- 
+
   object code extends StringColumn
- 
+
   object state extends StringColumn
 
 }
@@ -30,14 +30,14 @@ abstract class LocationTypeTableImpl extends LocationTypeTable with RootConnecto
       .future()
   }
 
-  def findById(id: String):Future[Option[LocationType]] = {
+  def findById(id: String): Future[Option[LocationType]] = {
     select.where(_.id eqs id).one()
   }
   def findAll: Future[Seq[LocationType]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
 
-  def deleteById(id:String): Future[ResultSet] = {
+  def deleteById(id: String): Future[ResultSet] = {
     delete.where(_.id eqs id).future()
   }
 }

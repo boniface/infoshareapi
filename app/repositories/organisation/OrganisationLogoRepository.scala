@@ -12,6 +12,5 @@ class OrganisationLogoDatabase (override val connector: KeySpaceDef) extends Dat
 object OrganisationLogoDatabase extends OrganisationLogoDatabase(DataConnection.connector)
 
 trait OrganisationLogoRepository {
-  def  database = OrganisationLogoDatabase
+  def database = OrganisationLogoDatabase
 }
-

@@ -1,6 +1,6 @@
 package domain.util
 
-import conf.enums.RoleValues
+import conf.util.enums.RolesID
 import play.api.libs.json.Json
 
 
@@ -11,6 +11,6 @@ object Roles {
 
   implicit val rolesFmt = Json.format[Roles]
 
-  def identity: Roles = Roles(RoleValues.ANONYMOUS, RoleValues.ANONYMOUS)
+  def identity: Roles = Roles(RolesID.ANONYMOUS, RolesID.ANONYMOUS)
 
 }

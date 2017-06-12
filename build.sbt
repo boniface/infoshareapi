@@ -88,6 +88,8 @@ libraryDependencies += "com.typesafe.play" % "play-ws_2.12" % PlayFrameWorkVersi
 
 
 libraryDependencies += "me.lessis" % "base64_2.11" % "0.2.0"
+libraryDependencies += "org.apache.logging.log4j" % "log4j-slf4j-impl" % "2.8.2" % "test"
+libraryDependencies += "log4j" % "log4j" % "1.2.17"
 
 
 resolvers ++= Seq(

@@ -8,7 +8,6 @@ import domain.organisation.Location
 
 import scala.concurrent.Future
 
-
 abstract class LocationTable extends Table[LocationTable, Location] {
 
   object org extends StringColumn with PartitionKey

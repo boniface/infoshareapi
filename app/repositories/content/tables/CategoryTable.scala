@@ -1,6 +1,5 @@
 package repositories.content.tables
 
-
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
 import scala.concurrent.Future
@@ -22,7 +21,7 @@ abstract class CategoryTableImpl extends CategoryTable with RootConnector {
 
   def save(category: Category): Future[ResultSet] = {
     insert
-      .value(_.id,category.id )
+      .value(_.id, category.id)
       .value(_.name, category.name)
       .value(_.description, category.description)
       .future()

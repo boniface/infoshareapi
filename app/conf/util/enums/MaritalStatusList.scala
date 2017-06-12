@@ -1,8 +1,9 @@
-package conf.enums
+package conf.util.enums
 
+import javax.inject.Singleton
 
+@Singleton
 object MaritalStatusList {
-
   def MARRIED: String = "MARRIED"
 
   def SINGLE: String = "SINGLE"

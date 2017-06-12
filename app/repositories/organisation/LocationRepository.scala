@@ -12,6 +12,5 @@ class LocationDatabase (override val connector: KeySpaceDef) extends Database[Lo
 object LocationDatabase extends LocationDatabase(DataConnection.connector)
 
 trait LocationRepository {
-  def  database = LocationDatabase
+  def database = LocationDatabase
 }
-

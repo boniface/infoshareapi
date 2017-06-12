@@ -6,12 +6,12 @@ import domain.location.ContactType
 
 import scala.concurrent.Future
 
-abstract class ContactTypeTable extends Table[ContactTypeTable,ContactType]{
-  
+abstract class ContactTypeTable extends Table[ContactTypeTable, ContactType] {
+
   object id extends StringColumn with PartitionKey
-  
+
   object name extends StringColumn
-  
+
   object state extends StringColumn
 }
 
@@ -26,14 +26,14 @@ abstract class ContactTypeTableImpl extends ContactTypeTable with RootConnector 
       .future()
   }
 
-  def findById(id: String):Future[Option[ContactType]] = {
+  def findById(id: String): Future[Option[ContactType]] = {
     select.where(_.id eqs id).one()
   }
   def findAll: Future[Seq[ContactType]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
 
-  def deleteById(id:String): Future[ResultSet] = {
+  def deleteById(id: String): Future[ResultSet] = {
     delete.where(_.id eqs id).future()
   }
 }

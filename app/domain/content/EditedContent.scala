@@ -1,8 +1,7 @@
 package domain.content
 
-import java.time.{LocalDateTime =>Date}
+import java.time.{LocalDateTime => Date}
 import play.api.libs.json.Json
-
 
 case class EditedContent(org: String,
                          id: String,

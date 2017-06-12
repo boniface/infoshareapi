@@ -1,4 +1,3 @@
 package domain.storage
 
-
-case class FileMeta(fileName:String, contentType:String)
+case class FileMeta(fileName: String, contentType: String)

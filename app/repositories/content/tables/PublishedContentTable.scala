@@ -1,6 +1,5 @@
 package repositories.content.tables
 
-
 import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.jdk8._
@@ -54,15 +53,16 @@ abstract class PublishedContentTableImpl extends PublishedContentTable with Root
       .future()
   }
 
-  def getContentById(map: Map[String, String]): Future[Option[PublishedContent]] = {
+  def getContentById(
+      map: Map[String, String]): Future[Option[PublishedContent]] = {
     select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def getAllContents(org:String): Future[Seq[PublishedContent]] = {
+  def getAllContents(org: String): Future[Seq[PublishedContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 
-  def getPaginatedContents(org:String, startValue: Int): Future[Iterator[PublishedContent]] = {
+  def getPaginatedContents(org: String, startValue: Int): Future[Iterator[PublishedContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.slice(startValue, 20)
   }
 }

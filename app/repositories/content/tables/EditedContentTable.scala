@@ -53,15 +53,15 @@ abstract class EditedContentTableImpl extends EditedContentTable with RootConnec
       .future()
   }
 
-  def getContentById(map: Map[String,String]): Future[Option[EditedContent]] = {
+  def getContentById(map: Map[String, String]): Future[Option[EditedContent]] = {
     select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def getAllContents(org:String): Future[Seq[EditedContent]] = {
+  def getAllContents(org: String): Future[Seq[EditedContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 
-  def getPaginatedContents(org:String, startValue: Int): Future[Iterator[EditedContent]] = {
+  def getPaginatedContents(  org: String, startValue: Int): Future[Iterator[EditedContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.slice(startValue, 20)
   }
 }

@@ -1,8 +1,7 @@
 package domain.users
 
-import java.time.{LocalDateTime =>Date}
+import java.time.{LocalDateTime => Date}
 import play.api.libs.json.Json
-
 
 case class UserLanguage(emailId: String,
                         id: String,

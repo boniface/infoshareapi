@@ -7,9 +7,6 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.reflect.io.File
 
-/**
-  * Created by hashcode on 2017/02/18.
-  */
 object TokenCheck {
 
   def getTokenForUpload(request: Request[MultipartFormData[File]]) = {
@@ -17,17 +14,14 @@ object TokenCheck {
     getTokenValue(request.headers.get("Authorization"))
   }
 
-
   def getTokenfromParam(request: Request[AnyContent]) = {
     getTokenValue(request.headers.get("Authorization"))
   }
-
 
   def getToken(request: Request[JsValue]) = {
     getTokenValue(request.headers.get("Authorization"))
 
   }
-
 
   def getTokenValue(token: Option[String]): Future[LogInStatus] = {
     val tokenValue = token match {
@@ -46,4 +40,3 @@ object TokenCheck {
     }
   }
 }
-

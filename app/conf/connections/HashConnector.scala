@@ -11,12 +11,11 @@ import scala.collection.JavaConverters._
 /**
   * Created by hashcode on 2017/01/29.
   */
-
 object Config {
   val config = ConfigFactory.load()
   val port = 9042
-  val connectionTimeoutMillis = 7000// Default is 5000
-  val readTimeoutMillis = 15000// Default is 12000
+  val connectionTimeoutMillis = 7000 // Default is 5000
+  val readTimeoutMillis = 15000 // Default is 12000
   val hosts: Seq[String] = Config.config.getStringList("cassandra.host").asScala.toList
   val inets = hosts.map(InetAddress.getByName)
   val keyspace: String = Config.config.getString("cassandra.keyspace")
@@ -31,9 +30,8 @@ object DataConnection {
 
   lazy val connector = ContactPoints(Config.hosts, Config.port)
     .withClusterBuilder(
-      _.withCredentials(
-        Config.config.getString("cassandra.username"),
-        Config.config.getString("cassandra.password"))
+      _.withCredentials(Config.config.getString("cassandra.username"),
+                        Config.config.getString("cassandra.password"))
         .withClusterName("Test Cluster")
         .withSocketOptions(new SocketOptions()
           .setReadTimeoutMillis(Config.readTimeoutMillis)

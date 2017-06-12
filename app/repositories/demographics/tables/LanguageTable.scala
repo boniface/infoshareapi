@@ -6,7 +6,7 @@ import domain.demographics.Language
 
 import scala.concurrent.Future
 
-abstract class LanguageTable extends Table[LanguageTable,Language]{
+abstract class LanguageTable extends Table[LanguageTable, Language] {
   object id extends StringColumn with PartitionKey
 
   object name extends StringColumn
@@ -26,14 +26,14 @@ abstract class LanguageTableImpl extends LanguageTable with RootConnector {
       .future()
   }
 
-  def findById(id: String):Future[Option[Language]] = {
+  def findById(id: String): Future[Option[Language]] = {
     select.where(_.id eqs id).one()
   }
   def findAll: Future[Seq[Language]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
 
-  def deleteById(id:String): Future[ResultSet] = {
+  def deleteById(id: String): Future[ResultSet] = {
     delete.where(_.id eqs id).future()
   }
 }

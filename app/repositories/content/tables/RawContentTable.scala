@@ -8,7 +8,6 @@ import domain.content.RawContent
 
 import scala.concurrent.Future
 
-
 abstract class RawContentTable extends Table[RawContentTable, RawContent] {
 
   object org extends StringColumn with PartitionKey
@@ -54,15 +53,15 @@ abstract class RawContentTableImpl extends RawContentTable with RootConnector {
       .future()
   }
 
-  def getContentById(map: Map[String,String]): Future[Option[RawContent]] = {
+  def getContentById(map: Map[String, String]): Future[Option[RawContent]] = {
     select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def getAllContents(org:String): Future[Seq[RawContent]] = {
+  def getAllContents(org: String): Future[Seq[RawContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 
-  def getPaginatedContents(org:String, startValue: Int): Future[Iterator[RawContent]] = {
+  def getPaginatedContents(org: String, startValue: Int): Future[Iterator[RawContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.slice(startValue, 20)
   }
 }

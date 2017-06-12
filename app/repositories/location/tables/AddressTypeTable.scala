@@ -6,12 +6,12 @@ import domain.location.AddressType
 
 import scala.concurrent.Future
 
-abstract class AddressTypeTable extends Table[AddressTypeTable,AddressType]{
-  
+abstract class AddressTypeTable extends Table[AddressTypeTable, AddressType] {
+
   object id extends StringColumn with PartitionKey
-  
+
   object name extends StringColumn
-  
+
   object state extends StringColumn
 
 }
@@ -27,14 +27,14 @@ abstract class AddressTypeTableImpl extends AddressTypeTable with RootConnector 
       .future()
   }
 
-  def findById(id: String):Future[Option[AddressType]] = {
+  def findById(id: String): Future[Option[AddressType]] = {
     select.where(_.id eqs id).one()
   }
   def findAll: Future[Seq[AddressType]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
 
-  def deleteById(id:String): Future[ResultSet] = {
+  def deleteById(id: String): Future[ResultSet] = {
     delete.where(_.id eqs id).future()
   }
 }

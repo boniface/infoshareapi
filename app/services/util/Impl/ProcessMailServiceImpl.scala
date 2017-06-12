@@ -2,13 +2,14 @@ package services.util.Impl
 
 import java.util.UUID
 
-import conf.enums.MailEvents
+import conf.util.enums.{HashcodeKeys, MailEvents}
 import conf.security.AuthUtil
-import conf.util.{HashcodeKeys, Util}
+import conf.util.Util
 import domain.users.User
 import domain.syslog.SystemLogEvents
 import domain.util.{EmailMessage, Mail, SmtpConfig}
 import java.time.LocalDateTime
+
 import services.users.UserService
 import services.syslog.SyslogService
 import services.util.{MailService, ProcessMailService}

@@ -1,6 +1,6 @@
 package services.users
 
-import conf.enums.RolesID
+import conf.util.enums.RolesID
 import domain.users.UserRole
 import org.scalatest.{BeforeAndAfter, FunSuite}
 

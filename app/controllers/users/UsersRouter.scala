@@ -6,13 +6,9 @@ import play.api.routing.Router.Routes
 import play.api.routing.SimpleRouter
 import play.api.routing.sird._
 
-/**
-  * Created by hashcode on 2017/03/04.
-  */
-class UsersRouter @Inject()
-(userCreationRouter: UserCreationController,
- validUserController: ValidUserController)
-  extends SimpleRouter {
+class UsersRouter @Inject()(userCreationRouter: UserCreationController,
+                            validUserController: ValidUserController)
+    extends SimpleRouter {
   override def routes: Routes = {
     //ROLES
     case POST(p"/create/$roleId") =>
@@ -26,7 +22,6 @@ class UsersRouter @Inject()
     case POST(p"/user/login") =>
       userCreationRouter.login
 
-
     // Valid Users
     case POST(p"/valid/create") =>
       validUserController.create
@@ -36,7 +31,6 @@ class UsersRouter @Inject()
       validUserController.getValidUserEvents(userId)
     case GET(p"/valid/users") =>
       validUserController.getValidUsers
-
 
   }
 }

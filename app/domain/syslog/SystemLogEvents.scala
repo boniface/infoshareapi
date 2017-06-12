@@ -3,7 +3,6 @@ package domain.syslog
 import java.time.{LocalDateTime => Date}
 import play.api.libs.json.Json
 
-
 case class SystemLogEvents(org: String,
                            id: String,
                            eventName: String,

@@ -6,7 +6,7 @@ import domain.demographics.Gender
 
 import scala.concurrent.Future
 
-abstract class GenderTable extends Table[GenderTable,Gender]{
+abstract class GenderTable extends Table[GenderTable, Gender] {
   object id extends StringColumn with PartitionKey
 
   object name extends StringColumn
@@ -26,14 +26,14 @@ abstract class GenderTableImpl extends GenderTable with RootConnector {
       .future()
   }
 
-  def findById(id: String):Future[Option[Gender]] = {
+  def findById(id: String): Future[Option[Gender]] = {
     select.where(_.id eqs id).one()
   }
   def findAll: Future[Seq[Gender]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
 
-  def deleteById(id:String): Future[ResultSet] = {
+  def deleteById(id: String): Future[ResultSet] = {
     delete.where(_.id eqs id).future()
   }
 }
