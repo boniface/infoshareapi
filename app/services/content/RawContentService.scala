@@ -1,18 +1,19 @@
 package services.content
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.content.RawContent
 import repositories.content.RawContentRepository
 
 import scala.concurrent.Future
 
+trait RawContentService extends RawContentRepository {
 
-trait RawContentService extends RawContentRepository{
-
-  def save(cont : RawContent): Future[ResultSet] = {
+  def save(cont: RawContent): Future[ResultSet] = {
     database.rawContentTable.save(cont)
   }
-  def getContentById(map: Map[String,String]): Future[Option[RawContent]] = {
+  def getContentById(map: Map[String, String]): Future[Option[RawContent]] = {
     database.rawContentTable.getContentById(map)
   }
 
@@ -25,5 +26,5 @@ trait RawContentService extends RawContentRepository{
   }
 
 }
-
+@Singleton
 object RawContentService extends RawContentService with RawContentRepository

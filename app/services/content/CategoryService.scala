@@ -2,12 +2,12 @@ package services.content
 
 import com.outworkers.phantom.dsl.ResultSet
 import domain.content.Category
+import javax.inject.Singleton
 import repositories.content.CategoryRepository
 
 import scala.concurrent.Future
 
-
-trait CategoryService extends CategoryRepository{
+trait CategoryService extends CategoryRepository {
 
   def save(category: Category): Future[ResultSet] = {
     database.categoryTable.save(category)
@@ -22,5 +22,5 @@ trait CategoryService extends CategoryRepository{
   }
 
 }
-
+@Singleton
 object CategoryService extends CategoryService with CategoryRepository

@@ -3,12 +3,11 @@ package services.content
 import repositories.content.ContentTypeRepository
 import com.outworkers.phantom.dsl.ResultSet
 import domain.content.ContentType
+import javax.inject.Singleton
 
 import scala.concurrent.Future
 
-
-
-trait ContentTypeService extends ContentTypeRepository{
+trait ContentTypeService extends ContentTypeRepository {
 
   def save(contentType: ContentType): Future[ResultSet] = {
     database.contentTypeTable.save(contentType)
@@ -23,5 +22,5 @@ trait ContentTypeService extends ContentTypeRepository{
   }
 
 }
-
+@Singleton
 object ContentTypeService extends ContentTypeService with ContentTypeRepository

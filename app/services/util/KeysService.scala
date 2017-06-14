@@ -12,7 +12,6 @@ import scala.concurrent.Future
 trait KeysService extends KeysRepository {
 
   def save(key: Keys): Future[ResultSet] = {
-
     database.keysTable.save(key)
   }
 

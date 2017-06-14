@@ -2,7 +2,10 @@
 #####                   APP ROUTERS                #####
 ########################################################
 ->      /users              controllers.users.UsersRouter
-->      /util               controllers.util.UtilRouter
+->      /utils              controllers.util.UtilRouter
+->      /content            controllers.content.ContentRouter
+->      /demo               controllers.demographics.DemographicsRouter
 
 # static files resources
+GET     /                   controllers.App.index
 GET     /assets/*file       controllers.Assets.versioned(path="/public", file: Asset)

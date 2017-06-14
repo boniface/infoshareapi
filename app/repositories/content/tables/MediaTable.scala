@@ -43,13 +43,10 @@ abstract class MediaTableImpl extends MediaTable with RootConnector {
 
   def getContentMediaById(map: Map[String, String]): Future[Option[Media]] = {
     select
-      .where(_.contentId eqs map("contentId"))
-      .and(_.id eqs map("id"))
-      .one()
+      .where(_.contentId eqs map("contentId")).and(_.id eqs map("id")).one()
   }
   def getAllContentMedia(contentId: String): Future[Seq[Media]] = {
-    select.where(_.contentId eqs contentId) fetchEnumerator () run Iteratee
-      .collect()
+    select.where(_.contentId eqs contentId) fetchEnumerator () run Iteratee.collect()
   }
 
 }

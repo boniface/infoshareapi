@@ -77,7 +77,6 @@ libraryDependencies += "com.typesafe.play" % "play-guice_2.12" % PlayFrameWorkVe
 libraryDependencies += "com.typesafe.play" % "play-ws_2.12" % PlayFrameWorkVersion
 
 libraryDependencies += "me.lessis" % "base64_2.11" % "0.2.0"
-libraryDependencies += "log4j" % "log4j" % "1.2.17"
 
 resolvers ++= Seq(
   "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",

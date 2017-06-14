@@ -1,5 +1,7 @@
 package services.content
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.content.Source
 import repositories.content.SourceRepository
@@ -23,5 +25,5 @@ trait SourceService extends SourceRepository{
   }
 
 }
-
+@Singleton
 object SourceService extends SourceService with SourceRepository

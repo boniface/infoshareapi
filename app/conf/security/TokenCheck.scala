@@ -10,7 +10,6 @@ import scala.reflect.io.File
 object TokenCheck {
 
   def getTokenForUpload(request: Request[MultipartFormData[File]]) = {
-
     getTokenValue(request.headers.get("Authorization"))
   }
 
@@ -34,9 +33,5 @@ object TokenCheck {
     })
   }
 
-  private def check(token: String) = {
-    Future {
-      token.equalsIgnoreCase("Token")
-    }
-  }
+  private def check(token: String) = Future { token.equalsIgnoreCase("Token") }
 }

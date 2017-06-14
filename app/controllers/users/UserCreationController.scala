@@ -20,12 +20,10 @@ class UserCreationController extends InjectedController {
       _ <- TokenCheck.getToken(request)
       results <- UserCreationService.apply.createUser(entity, role)
     } yield results
-    response
-      .map(_ => Ok(Json.toJson(entity)))
-      .recover {
-        case _: TokenFailExcerption => Unauthorized
-        case _: Exception => InternalServerError
-      }
+    response.map(_ => Ok(Json.toJson(entity))).recover {
+      case _: TokenFailExcerption => Unauthorized
+      case _: Exception => InternalServerError
+    }
   }
 
   def updateUser = Action.async(parse.json) { request =>
@@ -35,12 +33,10 @@ class UserCreationController extends InjectedController {
       _ <- TokenCheck.getToken(request)
       results <- UserCreationService.apply.updateUser(entity)
     } yield results
-    response
-      .map(_ => Ok(Json.toJson(entity)))
-      .recover {
-        case _: TokenFailExcerption => Unauthorized
-        case _: Exception => InternalServerError
-      }
+    response.map(_ => Ok(Json.toJson(entity))).recover {
+      case _: TokenFailExcerption => Unauthorized
+      case _: Exception => InternalServerError
+    }
   }
 
   def registerUser = Action.async(parse.json) { request =>
@@ -50,12 +46,10 @@ class UserCreationController extends InjectedController {
       _ <- TokenCheck.getToken(request)
       results <- UserCreationService.apply.registerUser(entity)
     } yield results
-    response
-      .map(_ => Ok(Json.toJson(entity)))
-      .recover {
-        case _: TokenFailExcerption => Unauthorized
-        case _: Exception => InternalServerError
-      }
+    response.map(_ => Ok(Json.toJson(entity))).recover {
+      case _: TokenFailExcerption => Unauthorized
+      case _: Exception => InternalServerError
+    }
   }
 
   def login = Action.async(parse.json) { request =>
@@ -65,12 +59,10 @@ class UserCreationController extends InjectedController {
       _ <- TokenCheck.getToken(request)
       results <- UserCreationService.apply.loginUser(entity)
     } yield results
-    response
-      .map(ans => Ok(Json.toJson(ans)))
-      .recover {
-        case _: TokenFailExcerption => Unauthorized
-        case _: Exception => InternalServerError
-      }
+    response.map(ans => Ok(Json.toJson(ans))).recover {
+      case _: TokenFailExcerption => Unauthorized
+      case _: Exception => InternalServerError
+    }
   }
 
   def isRegistered = Action.async(parse.json) { request =>
@@ -80,12 +72,10 @@ class UserCreationController extends InjectedController {
       _ <- TokenCheck.getToken(request)
       results <- UserCreationService.apply.isUserRegistered(entity)
     } yield results
-    response
-      .map(ans => Ok(Json.toJson(ans)))
-      .recover {
-        case _: TokenFailExcerption => Unauthorized
-        case _: Exception => InternalServerError
-      }
+    response.map(ans => Ok(Json.toJson(ans))).recover {
+      case _: TokenFailExcerption => Unauthorized
+      case _: Exception => InternalServerError
+    }
   }
 
   def getUser(email: String) = Action.async {
@@ -94,11 +84,9 @@ class UserCreationController extends InjectedController {
         _ <- TokenCheck.getTokenfromParam(request)
         results <- UserCreationService.apply.getUser(email)
       } yield results
-      response
-        .map(ans => Ok(Json.toJson(ans)))
-        .recover {
-          case _: TokenFailExcerption => Unauthorized
-          case _: Exception => InternalServerError
-        }
+      response.map(ans => Ok(Json.toJson(ans))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
+      }
   }
 }

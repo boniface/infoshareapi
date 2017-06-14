@@ -19,12 +19,10 @@ class MailSettingsController extends InjectedController {
       _ <- TokenCheck.getToken(request)
       results <- MailService.save(entity)
     } yield results
-    response
-      .map(_ => Ok(Json.toJson(entity)))
-      .recover {
-        case _: TokenFailExcerption => Unauthorized
-        case _: Exception => InternalServerError
-      }
+    response.map(_ => Ok(Json.toJson(entity))).recover {
+      case _: TokenFailExcerption => Unauthorized
+      case _: Exception => InternalServerError
+    }
   }
 
   def getMailSettingById(siteId: String, id: String) = Action.async {
@@ -33,12 +31,10 @@ class MailSettingsController extends InjectedController {
         _ <- TokenCheck.getTokenfromParam(request)
         results <- MailService.getMailSettingById(siteId, id)
       } yield results
-      response
-        .map(ans => Ok(Json.toJson(ans)))
-        .recover {
-          case _: TokenFailExcerption => Unauthorized
-          case _: Exception => InternalServerError
-        }
+      response.map(ans => Ok(Json.toJson(ans))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
+      }
   }
 
   def getSiteMailSettings(siteId: String) = Action.async {
@@ -47,11 +43,9 @@ class MailSettingsController extends InjectedController {
         _ <- TokenCheck.getTokenfromParam(request)
         results <- MailService.getAllMailSettings(siteId)
       } yield results
-      response
-        .map(ans => Ok(Json.toJson(ans)))
-        .recover {
-          case _: TokenFailExcerption => Unauthorized
-          case _: Exception => InternalServerError
-        }
+      response.map(ans => Ok(Json.toJson(ans))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
+      }
   }
 }

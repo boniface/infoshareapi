@@ -4,7 +4,7 @@ import javax.inject.Singleton
 
 import conf.security.{TokenCheck, TokenFailExcerption}
 import domain.users.ValidUser
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.Json
 import play.api.mvc._
 import services.users.ValidUserService
 
@@ -23,12 +23,10 @@ class ValidUserController extends InjectedController {
       _ <- TokenCheck.getToken(request)
       results <- ValidUserService.save(entity)
     } yield results
-    response
-      .map(_ => Ok(Json.toJson(entity)))
-      .recover {
-        case _: TokenFailExcerption => Unauthorized
-        case _: Exception => InternalServerError
-      }
+    response.map(_ => Ok(Json.toJson(entity))).recover {
+      case _: TokenFailExcerption => Unauthorized
+      case _: Exception => InternalServerError
+    }
   }
 
   def isUserValid(userId: String) = Action.async {
