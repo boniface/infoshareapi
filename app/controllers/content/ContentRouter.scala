@@ -65,7 +65,7 @@ class ContentRouter @Inject()(contentTypeCtrl: ContentTypeCtrl,
     case GET(p"/media/all/$org") =>
       mediaCtrl.getAll(org)
     case GET(p"/media/$content_Id/$id") =>
-      sourceCtrl.getById(content_Id, id)
+      mediaCtrl.getById(content_Id, id)
     case POST(p"/media/create") =>
       mediaCtrl.create
 
