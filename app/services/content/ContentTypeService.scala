@@ -13,12 +13,12 @@ trait ContentTypeService extends ContentTypeRepository {
     database.contentTypeTable.save(contentType)
   }
 
-  def getContentTypeById(id: String): Future[Option[ContentType]] = {
-    database.contentTypeTable.getContentTypeById(id)
+  def getById(id: String): Future[Option[ContentType]] = {
+    database.contentTypeTable.getById(id)
   }
 
-  def getAllContentTypes: Future[Seq[ContentType]] = {
-    database.contentTypeTable.getAllContentTypes
+  def getAll: Future[Seq[ContentType]] = {
+    database.contentTypeTable.getAll
   }
 
 }

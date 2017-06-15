@@ -24,7 +24,7 @@ class UserAddressServiceTest extends FunSuite with BeforeAndAfter  {
   }
 
   test("Get USER_Address"){
-    val resp = Await.result(userAddressService.getAddrById(Map("emailId"-> userAddressEntity.emailId,"id"-> userAddressEntity.id)),2.minutes)
+    val resp = Await.result(userAddressService.getById(Map("emailId"-> userAddressEntity.emailId,"id"-> userAddressEntity.id)),2.minutes)
 
     assert(resp.head.id == userAddressEntity.id)
     assert(resp.head.emailId  == userAddressEntity.emailId)
@@ -40,7 +40,7 @@ class UserAddressServiceTest extends FunSuite with BeforeAndAfter  {
     val update  = Await.result(userAddressService.save(updateEntity), 2.minutes)
     assert(update.isExhausted)
 
-    val resp = Await.result(userAddressService.getAddrById(Map("emailId"-> userAddressEntity.emailId,"id"-> userAddressEntity.id)),2.minutes)
+    val resp = Await.result(userAddressService.getById(Map("emailId"-> userAddressEntity.emailId,"id"-> userAddressEntity.id)),2.minutes)
 
     assert(resp.head.id == userAddressEntity.id)
     assert(resp.head.emailId  == userAddressEntity.emailId)
@@ -54,7 +54,7 @@ class UserAddressServiceTest extends FunSuite with BeforeAndAfter  {
 
   test("GET ALL USER_ADDRESS"){
     val saveResp = Await.result(userAddressService.save(userAddressEntity.copy(id = "9",postalCode = "3658")), 2.minutes)
-    val resp = Await.result(userAddressService.getUserAllAddress(userAddressEntity.emailId),2.minutes)
+    val resp = Await.result(userAddressService.getAll(userAddressEntity.emailId),2.minutes)
     assert(resp.size > 1)
     assert(saveResp.isExhausted)
   }

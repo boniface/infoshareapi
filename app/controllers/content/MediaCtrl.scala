@@ -28,13 +28,26 @@ class MediaCtrl extends InjectedController {
 
   def getById(content_Id: String, id: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      val perms: Map[String, String] =
-        Map("contentId" -> content_Id, "id" -> id)
-      service.getContentMediaById(perms) map (msg => Ok(Json.toJson(msg)))
+      val args = Map("contentId" -> content_Id, "id" -> id)
+      val resp = for {
+        _ <- TokenCheck.getTokenfromParam(request)
+        results <- service.getById(args)
+      } yield results
+      resp.map(msg => Ok(Json.toJson(msg))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
+      }
   }
 
   def getAll(content_id: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      service.getAllContentMedia(content_id) map (msg => Ok(Json.toJson(msg)))
+      val resp = for {
+        _ <- TokenCheck.getTokenfromParam(request)
+        results <- service.getAll(content_id)
+      } yield results
+      resp.map(msg => Ok(Json.toJson(msg))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
+      }
   }
 }

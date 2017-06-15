@@ -1,14 +1,13 @@
 package services.syslog
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.syslog.SystemLogEvents
 import repositories.syslog.SyslogRepository
 
 import scala.concurrent.Future
 
-/**
-  * Created by hashcode on 2017/01/29.
-  */
 trait SyslogService extends SyslogRepository {
 
   def save(systemLogEvents: SystemLogEvents): Future[ResultSet] = {
@@ -25,5 +24,5 @@ trait SyslogService extends SyslogRepository {
 
 }
 
-
+@Singleton
 object SyslogService extends SyslogService with SyslogRepository

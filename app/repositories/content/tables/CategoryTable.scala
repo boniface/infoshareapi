@@ -27,11 +27,11 @@ abstract class CategoryTableImpl extends CategoryTable with RootConnector {
       .future()
   }
 
-  def getCategoryById(id: String): Future[Option[Category]] = {
+  def getById(id: String): Future[Option[Category]] = {
     select.where(_.id eqs id).one()
   }
 
-  def getAllCategories: Future[Seq[Category]] = {
+  def getAll: Future[Seq[Category]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
 }

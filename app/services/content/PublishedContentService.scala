@@ -13,12 +13,12 @@ trait PublishedContentService extends PublishedContentRepository {
   def save(cont: PublishedContent): Future[ResultSet] = {
     database.publishedContentTable.save(cont)
   }
-  def getContentById(map: Map[String,String]): Future[Option[PublishedContent]] = {
-    database.publishedContentTable.getContentById(map)
+  def getById(map: Map[String,String]): Future[Option[PublishedContent]] = {
+    database.publishedContentTable.getById(map)
   }
 
-  def getAllContents(org: String): Future[Seq[PublishedContent]] = {
-    database.publishedContentTable.getAllContents(org)
+  def getAll(org: String): Future[Seq[PublishedContent]] = {
+    database.publishedContentTable.getAll(org)
   }
 
   def getPaginatedContents(org: String, pageNum: Int): Future[Iterator[PublishedContent]] = {

@@ -29,12 +29,12 @@ abstract class UserRoleTableImpl extends UserRoleTable with RootConnector {
   }
 
 
-  def findRole(map: Map[String, String]): Future[Option[UserRole]] = {
+  def findRolesByemailId(map: Map[String, String]): Future[Option[UserRole]] = {
     /** gets user role base on user id given */
     select.where(_.emailId eqs map("emailId")).and(_.roleId eqs map("roleId")).one
   }
 
-  def findRolesByemailId(emailId: String): Future[Seq[UserRole]] = {
+  def findRole(emailId: String): Future[Seq[UserRole]] = {
     /** get all user roles base on the user id */
     select.where(_.emailId eqs emailId).fetchEnumerator() run Iteratee.collect()
   }

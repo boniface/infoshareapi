@@ -23,7 +23,7 @@ class SourceServiceTest extends FunSuite with BeforeAndAfter{
   }
 
   test("Get Source BY_ID"){
-    val resp = Await.result(sourceService.getSourceById(Map("org"->sourceEntity.org,"id"-> sourceEntity.id)), 2.minutes)
+    val resp = Await.result(sourceService.getById(Map("org"->sourceEntity.org,"id"-> sourceEntity.id)), 2.minutes)
     assert(resp.head.id == sourceEntity.id)
     assert(resp.head.name == sourceEntity.name)
     assert(resp.head.org == sourceEntity.org)
@@ -35,14 +35,14 @@ class SourceServiceTest extends FunSuite with BeforeAndAfter{
     val update = Await.result(sourceService.save(updateEntity), 2.minutes)
     assert(update.isExhausted)
 
-    val resp = Await.result(sourceService.getSourceById(Map("org"->updateEntity.org,"id"-> sourceEntity.id)), 2.minutes)
+    val resp = Await.result(sourceService.getById(Map("org"->updateEntity.org,"id"-> sourceEntity.id)), 2.minutes)
     assert(resp.head.org == updateEntity.org)
     assert(resp.head.org != sourceEntity.org)
   }
 
   test("Get All Source"){
     val result = Await.result(sourceService.save(sourceEntity.copy(id = "2")), 2.minutes)
-    val resp = Await.result(sourceService.getAllSources(sourceEntity.org), 2.minutes)
+    val resp = Await.result(sourceService.getAll(sourceEntity.org), 2.minutes)
 
     assert(resp.size > 1)
     assert(result.isExhausted)

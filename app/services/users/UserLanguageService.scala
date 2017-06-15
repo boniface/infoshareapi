@@ -1,14 +1,14 @@
 package services.users
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.users.UserLanguage
 import repositories.users.UserLanguageRepository
-import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.concurrent.Future
 
-
-trait UserLanguageService extends UserLanguageRepository{
+trait UserLanguageService extends UserLanguageRepository {
 
   def save(userLanguage: UserLanguage): Future[ResultSet] = {
     database.userLanguageTable.save(userLanguage)
@@ -23,5 +23,5 @@ trait UserLanguageService extends UserLanguageRepository{
   }
 
 }
-
+@Singleton
 object UserLanguageService extends UserLanguageService with UserLanguageRepository

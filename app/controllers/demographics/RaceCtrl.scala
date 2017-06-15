@@ -26,4 +26,40 @@ class RaceCtrl extends InjectedController {
       case _: Exception => InternalServerError
     }
   }
+
+  def getById(id: String) = Action.async {
+    implicit request: Request[AnyContent] =>
+      val resp = for {
+        _ <- TokenCheck.getTokenfromParam(request)
+        results <- service.getById(id)
+      } yield results
+      resp.map(msg => Ok(Json.toJson(msg))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
+      }
+  }
+
+  def getAll = Action.async { implicit request: Request[AnyContent] =>
+    val resp = for {
+      _ <- TokenCheck.getTokenfromParam(request)
+      results <- service.getAll
+    } yield results
+    resp.map(msg => Ok(Json.toJson(msg))).recover {
+      case _: TokenFailExcerption => Unauthorized
+      case _: Exception => InternalServerError
+    }
+  }
+
+  def delete(id: String) = Action.async {
+    implicit request: Request[AnyContent] =>
+      val resp = for {
+        _ <- TokenCheck.getTokenfromParam(request)
+        results <- service.deleteById(id)
+      } yield results
+      resp.map(msg => Ok(Json.toJson(msg.isExhausted))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
+      }
+  }
+
 }

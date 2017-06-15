@@ -1,16 +1,16 @@
 package services.users
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.users.UserDemographics
 import repositories.users.UserDemographicsRepository
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-
 
 trait UserDemographicsService extends UserDemographicsRepository {
 
-  def save(userDemo: UserDemographics): Future[ResultSet] ={
+  def save(userDemo: UserDemographics): Future[ResultSet] = {
     database.userDemographicsTable.save(userDemo)
   }
   def getDemoById(map: Map[String, String]): Future[Option[UserDemographics]] = {
@@ -22,5 +22,5 @@ trait UserDemographicsService extends UserDemographicsRepository {
   }
 
 }
-
+@Singleton
 object UserDemographicsService extends UserDemographicsService with UserDemographicsRepository

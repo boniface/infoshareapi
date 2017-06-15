@@ -1,4 +1,4 @@
-package conf.util.enums
+package conf.util
 
 import javax.inject.Singleton
 

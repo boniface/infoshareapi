@@ -20,7 +20,7 @@ class ContentRouter @Inject()(contentTypeCtrl: ContentTypeCtrl,
       categoryCtrl.create
     case GET(p"/category/$id") =>
       categoryCtrl.getById(id)
-    case GET(p"/categoryies") =>
+    case GET(p"/categories") =>
       categoryCtrl.getAll
 
     // contentType
@@ -36,8 +36,8 @@ class ContentRouter @Inject()(contentTypeCtrl: ContentTypeCtrl,
       rawContentCtrl.getAll(org)
     case GET(p"/raw/$org/$id") =>
       rawContentCtrl.getById(org, id)
-//    case GET(p"/raw/range/$org/${int(start_value)}") =>
-//      rawContentCtrl.getPaginated(org, start_value)
+    case GET(p"/raw/range/$org/${int(start_value)}") =>
+      rawContentCtrl.getPaginated(org, start_value)
     case POST(p"/raw/create") =>
       rawContentCtrl.create
 
@@ -46,8 +46,8 @@ class ContentRouter @Inject()(contentTypeCtrl: ContentTypeCtrl,
       editedContentCtrl.getAll(org)
     case GET(p"/edited/$org/$id") =>
       editedContentCtrl.getById(org, id)
-//    case GET(p"/edited/range/$org/${int(start_value)}") =>
-//      editedContentCtrl.getPaginated(org, start_value)
+    case GET(p"/edited/range/$org/${int(start_value)}") =>
+      editedContentCtrl.getPaginated(org, start_value)
     case POST(p"/edited/create") =>
       editedContentCtrl.create
 
@@ -56,8 +56,8 @@ class ContentRouter @Inject()(contentTypeCtrl: ContentTypeCtrl,
       publishedContentCtrl.getAll(org)
     case GET(p"/published/$org/$id") =>
       publishedContentCtrl.getById(org, id)
-//    case GET(p"/published/range/$org/${int(start_value)}") =>
-//      publishedContentCtrl.getPaginated(org, start_value)
+    case GET(p"/published/range/$org/${int(start_value)}") =>
+      publishedContentCtrl.getPaginated(org, start_value)
     case POST(p"/published/create") =>
       publishedContentCtrl.create
 

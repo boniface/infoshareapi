@@ -1,4 +1,4 @@
-package conf.util
+package filters
 
 import javax.inject.Inject
 

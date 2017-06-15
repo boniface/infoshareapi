@@ -1,12 +1,12 @@
 package services.users
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.users.UserContact
 import repositories.users.UserContactRepository
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-
 
 trait UserContactService extends UserContactRepository {
 
@@ -22,5 +22,5 @@ trait UserContactService extends UserContactRepository {
     database.userContactTable.findUserContacts(emailId)
   }
 }
-
+@Singleton
 object UserContactService extends UserContactService with UserContactRepository

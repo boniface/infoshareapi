@@ -1,17 +1,15 @@
 package services.util.Impl
 
+import java.time.LocalDateTime
 import java.util.UUID
 
-import conf.util.enums.{HashcodeKeys, MailEvents}
 import conf.security.AuthUtil
-import conf.util.Util
-import domain.users.User
+import conf.util.{HashcodeKeys, MailEvents, Util}
 import domain.syslog.SystemLogEvents
+import domain.users.User
 import domain.util.{EmailMessage, Mail, SmtpConfig}
-import java.time.LocalDateTime
-
-import services.users.UserService
 import services.syslog.SyslogService
+import services.users.UserService
 import services.util.{MailService, ProcessMailService}
 
 import scala.concurrent.ExecutionContext.Implicits.global

@@ -22,7 +22,7 @@ class CategoryServiceTest extends FunSuite with BeforeAndAfter{
   }
 
   test("Get Category BY_ID"){
-    val resp = Await.result(categoryService.getCategoryById(categoryEntity.id), 2.minutes)
+    val resp = Await.result(categoryService.getById(categoryEntity.id), 2.minutes)
     assert(resp.head.id == categoryEntity.id)
     assert(resp.head.name == categoryEntity.name)
     assert(resp.head.description == categoryEntity.description)
@@ -33,7 +33,7 @@ class CategoryServiceTest extends FunSuite with BeforeAndAfter{
     val update = Await.result(categoryService.save(updateEntity), 2.minutes)
     assert(update.isExhausted)
 
-    val resp = Await.result(categoryService.getCategoryById(updateEntity.id), 2.minutes)
+    val resp = Await.result(categoryService.getById(updateEntity.id), 2.minutes)
     assert(resp.head.id == updateEntity.id)
     assert(resp.head.name == updateEntity.name)
     assert(resp.head.description == updateEntity.description)
@@ -45,7 +45,7 @@ class CategoryServiceTest extends FunSuite with BeforeAndAfter{
   test("Get all Categories") {
     val result = Await.result(categoryService.save(categoryEntity.copy(id = "3")), 2.minutes)
 
-    val resp = Await.result(categoryService.getAllCategories, 2.minutes)
+    val resp = Await.result(categoryService.getAll, 2.minutes)
     assert(resp.size > 1)
     assert(result.isExhausted)
   }

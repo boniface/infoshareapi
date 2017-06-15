@@ -16,12 +16,12 @@ trait SourceService extends SourceRepository{
     database.sourceTable.save(obj)
   }
 
-  def getSourceById(map: Map[String,String]): Future[Option[Source]] = {
-    database.sourceTable.getSourceById(map)
+  def getById(map: Map[String,String]): Future[Option[Source]] = {
+    database.sourceTable.getById(map)
   }
 
-  def getAllSources(org: String): Future[Seq[Source]] = {
-    database.sourceTable.getAllSources(org)
+  def getAll(org: String): Future[Seq[Source]] = {
+    database.sourceTable.getAll(org)
   }
 
 }

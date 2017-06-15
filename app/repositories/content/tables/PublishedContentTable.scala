@@ -53,12 +53,12 @@ abstract class PublishedContentTableImpl extends PublishedContentTable with Root
       .future()
   }
 
-  def getContentById(
+  def getById(
       map: Map[String, String]): Future[Option[PublishedContent]] = {
     select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def getAllContents(org: String): Future[Seq[PublishedContent]] = {
+  def getAll(org: String): Future[Seq[PublishedContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 

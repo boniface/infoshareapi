@@ -53,11 +53,11 @@ abstract class RawContentTableImpl extends RawContentTable with RootConnector {
       .future()
   }
 
-  def getContentById(map: Map[String, String]): Future[Option[RawContent]] = {
+  def getById(map: Map[String, String]): Future[Option[RawContent]] = {
     select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def getAllContents(org: String): Future[Seq[RawContent]] = {
+  def getAll(org: String): Future[Seq[RawContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 

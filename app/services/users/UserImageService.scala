@@ -1,13 +1,12 @@
 package services.users
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.users.UserImages
 import repositories.users.UserImagesRepository
-import scala.concurrent.ExecutionContext.Implicits.global
-
 
 import scala.concurrent.Future
-
 
 trait UserImageService extends UserImagesRepository {
 
@@ -29,5 +28,5 @@ trait UserImageService extends UserImagesRepository {
   }
 
 }
-
+@Singleton
 object UserImageService extends UserImageService with UserImagesRepository

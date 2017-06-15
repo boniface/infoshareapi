@@ -29,7 +29,7 @@ class RawContentServiceTest extends FunSuite with BeforeAndAfter {
   }
 
   test("get r_content By Id"){
-    val resp = Await.result(r_contentService.getContentById(kwargs), 2.minutes)
+    val resp = Await.result(r_contentService.getById(kwargs), 2.minutes)
 
     assert(resp.head.id == r_contentEntity.id)
     assert(resp.head.org == r_contentEntity.org)
@@ -46,7 +46,7 @@ class RawContentServiceTest extends FunSuite with BeforeAndAfter {
   test("update r_content"){
     updateEntity = r_contentEntity.copy(contentType ="1")
     val update  = Await.result(r_contentService.save(updateEntity), 2.minutes)
-    val resp = Await.result(r_contentService.getContentById(kwargs), 2.minutes)
+    val resp = Await.result(r_contentService.getById(kwargs), 2.minutes)
 
     assert(update.isExhausted)
     assert(resp.head.contentType != r_contentEntity.contentType)
@@ -56,7 +56,7 @@ class RawContentServiceTest extends FunSuite with BeforeAndAfter {
 
   test("getAll org content"){
     val result  = Await.result(r_contentService.save(r_contentEntity.copy(id="2")), 2.minutes)
-    val resp = Await.result(r_contentService.getAllContents(kwargs("org")), 2.minutes)
+    val resp = Await.result(r_contentService.getAll(kwargs("org")), 2.minutes)
 
     assert(resp.size > 1)
     assert(result.isExhausted)

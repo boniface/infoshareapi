@@ -27,11 +27,11 @@ abstract class ContentTypeTableImpl extends ContentTypeTable with RootConnector 
       .future()
   }
 
-  def getContentTypeById(id: String): Future[Option[ContentType]] = {
+  def getById(id: String): Future[Option[ContentType]] = {
     select.where(_.id eqs id).one()
   }
 
-  def getAllContentTypes: Future[Seq[ContentType]] = {
+  def getAll: Future[Seq[ContentType]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
 }

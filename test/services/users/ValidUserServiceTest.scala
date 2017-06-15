@@ -2,7 +2,7 @@ package services.users
 
 import java.time.LocalDateTime
 
-import conf.util.enums.Events
+import conf.util.Events
 import domain.users.ValidUser
 import org.scalatest.{BeforeAndAfterEach, FunSuite}
 

@@ -42,11 +42,11 @@ abstract class UserAddressTableImpl extends UserAddressTable with RootConnector{
       .future()
   }
 
-  def findById(map: Map[String,String]): Future[Option[UserAddress]] = {
+  def getById(map: Map[String,String]): Future[Option[UserAddress]] = {
     select.where(_.emailId eqs map("emailId")).and(_.id eqs map("id")).one()
   }
 
-  def findAllAddress(emailId: String): Future[Seq[UserAddress]] = {
+  def getAll(emailId: String): Future[Seq[UserAddress]] = {
     select.where(_.emailId eqs emailId).fetchEnumerator() run Iteratee.collect()
   }
 }

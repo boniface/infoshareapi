@@ -13,12 +13,12 @@ trait CategoryService extends CategoryRepository {
     database.categoryTable.save(category)
   }
 
-  def getCategoryById(id: String): Future[Option[Category]] = {
-    database.categoryTable.getCategoryById(id)
+  def getById(id: String): Future[Option[Category]] = {
+    database.categoryTable.getById(id)
   }
 
-  def getAllCategories: Future[Seq[Category]] = {
-    database.categoryTable.getAllCategories
+  def getAll: Future[Seq[Category]] = {
+    database.categoryTable.getAll
   }
 
 }

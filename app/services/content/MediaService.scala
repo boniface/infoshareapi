@@ -14,11 +14,11 @@ trait MediaService extends MediaRepository {
     database.mediaTable.save(media)
   }
 
-  def getContentMediaById(map: Map[String, String]): Future[Option[Media]] = {
-    database.mediaTable.getContentMediaById(map)
+  def getById(map: Map[String, String]): Future[Option[Media]] = {
+    database.mediaTable.getById(map)
   }
-  def getAllContentMedia(contentId: String): Future[Seq[Media]] = {
-    database.mediaTable.getAllContentMedia(contentId)
+  def getAll(contentId: String): Future[Seq[Media]] = {
+    database.mediaTable.getAll(contentId)
   }
 }
 @Singleton

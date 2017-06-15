@@ -27,19 +27,39 @@ class PublishedContentCtrl extends InjectedController {
 
   def getById(org: String, id: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      val perms: Map[String, String] = Map("org" -> org, "id" -> id)
-      service.getContentById(perms) map (msg => Ok(Json.toJson(msg)))
+      val args = Map("org" -> org, "id" -> id)
+      val resp = for {
+        _ <- TokenCheck.getTokenfromParam(request)
+        results <- service.getById(args)
+      } yield results
+      resp.map(msg => Ok(Json.toJson(msg))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
+      }
   }
 
   def getPaginated(org: String, start_value: Int) = Action.async {
     implicit request: Request[AnyContent] =>
-      service.getPaginatedContents(org, start_value) map (msg =>
-        Ok(Json.toJson(msg.toSeq)))
+      val resp = for {
+        _ <- TokenCheck.getTokenfromParam(request)
+        results <- service.getPaginatedContents(org, start_value)
+      } yield results
+      resp.map(msg => Ok(Json.toJson(msg.toSeq))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
+      }
   }
 
   def getAll(org: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      service.getAllContents(org) map (msg => Ok(Json.toJson(msg)))
+      val resp = for {
+        _ <- TokenCheck.getTokenfromParam(request)
+        results <- service.getAll(org)
+      } yield results
+      resp.map(msg => Ok(Json.toJson(msg))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
+      }
   }
 
 }

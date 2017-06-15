@@ -27,14 +27,24 @@ class ContentTypeCtrl extends InjectedController {
 
   def getById(id: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      service.getContentTypeById(id) map { msg =>
-        Ok(Json.toJson(msg))
+      val resp = for {
+        _ <- TokenCheck.getTokenfromParam(request)
+        results <- service.getById(id)
+      } yield results
+      resp.map(msg => Ok(Json.toJson(msg))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
       }
   }
 
   def getAll = Action.async { implicit request: Request[AnyContent] =>
-    service.getAllContentTypes map { msg =>
-      Ok(Json.toJson(msg))
+    val resp = for {
+      _ <- TokenCheck.getTokenfromParam(request)
+      results <- service.getAll
+    } yield results
+    resp.map(msg => Ok(Json.toJson(msg))).recover {
+      case _: TokenFailExcerption => Unauthorized
+      case _: Exception => InternalServerError
     }
   }
 

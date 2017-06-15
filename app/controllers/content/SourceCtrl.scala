@@ -27,13 +27,27 @@ class SourceCtrl extends InjectedController {
 
   def getById(org: String, id: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      val perms: Map[String, String] = Map("org" -> org, "id" -> id)
-      service.getSourceById(perms) map (msg => Ok(Json.toJson(msg)))
+      val args = Map("org" -> org, "id" -> id)
+      val resp = for {
+        _ <- TokenCheck.getTokenfromParam(request)
+        results <- service.getById(args)
+      } yield results
+      resp.map(msg => Ok(Json.toJson(msg))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
+      }
   }
 
   def getAll(org: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      service.getAllSources(org) map (msg => Ok(Json.toJson(msg)))
+      val resp = for {
+        _ <- TokenCheck.getTokenfromParam(request)
+        results <- service.getAll(org)
+      } yield results
+      resp.map(msg => Ok(Json.toJson(msg))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
+      }
   }
 
 }
