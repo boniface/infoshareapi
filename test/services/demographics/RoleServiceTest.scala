@@ -45,4 +45,11 @@ class RoleServiceTest extends FunSuite with BeforeAndAfter {
     assert(resp.size > 1)
   }
 
+  test("delete role"){
+    val result = Await.result(roleService.delete(roleEntity.id), 2.minutes)
+    val resp = Await.result(roleService.getById(roleEntity.id), 2.minutes)
+    assert(result.isExhausted)
+    assert(resp.isEmpty)
+  }
+
 }

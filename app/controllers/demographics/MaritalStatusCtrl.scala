@@ -1,21 +1,22 @@
-package controllers.content
+package controllers.demographics
 
 import javax.inject.Singleton
 
 import conf.security.{TokenCheck, TokenFailExcerption}
-import domain.content.EditedContent
+import domain.demographics.MaritalStatus
 import play.api.libs.json._
 import play.api.mvc._
-import services.content.EditedContentService
+import services.demographics.MaritalStatusService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class EditedContentCtrl extends InjectedController {
-  private val service = EditedContentService
+class MaritalStatusCtrl extends InjectedController {
+  private val service = MaritalStatusService
 
-  def create = Action.async(parse.json) { request =>
-    val entity = Json.fromJson[EditedContent](request.body).get
+  def create = Action.async(parse.json) { implicit request =>
+    val entity = Json.fromJson[MaritalStatus](request.body).get
+
     val resp = for {
       _ <- TokenCheck.getToken(request)
       results <- service.save(entity)
@@ -26,12 +27,12 @@ class EditedContentCtrl extends InjectedController {
     }
   }
 
-  def getById(org: String, id: String) = Action.async {
+
+  def getById(id: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      val args = Map("org" -> org, "id" -> id)
       val resp = for {
         _ <- TokenCheck.getTokenfromParam(request)
-        results <- service.getById(args)
+        results <- service.getById(id)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
         case _: TokenFailExcerption => Unauthorized
@@ -39,28 +40,26 @@ class EditedContentCtrl extends InjectedController {
       }
   }
 
-  def getPaginated(org: String, start_value: Int) = Action.async {
+  def getAll = Action.async { implicit request: Request[AnyContent] =>
+    val resp = for {
+      _ <- TokenCheck.getTokenfromParam(request)
+      results <- service.getAll
+    } yield results
+    resp.map(msg => Ok(Json.toJson(msg))).recover {
+      case _: TokenFailExcerption => Unauthorized
+      case _: Exception => InternalServerError
+    }
+  }
+
+  def delete(id: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
         _ <- TokenCheck.getTokenfromParam(request)
-        results <- service.getPaginatedContents(org, start_value)
+        results <- service.delete(id)
       } yield results
-      resp.map(msg => Ok(Json.toJson(msg.toSeq))).recover {
+      resp.map(msg => Ok(Json.toJson(msg.isExhausted))).recover {
         case _: TokenFailExcerption => Unauthorized
         case _: Exception => InternalServerError
       }
   }
-
-  def getAll(org: String) = Action.async {
-    implicit request: Request[AnyContent] =>
-      val resp = for {
-        _ <- TokenCheck.getTokenfromParam(request)
-        results <- service.getAll(org)
-      } yield results
-      resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
-        case _: Exception => InternalServerError
-      }
-  }
-
 }

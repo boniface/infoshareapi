@@ -10,7 +10,8 @@ class DemographicsRouter @Inject()(genderCtrl: GenderCtrl,
                                    raceCtrl: RaceCtrl,
                                    roleCtrl: RoleCtrl,
                                    languageCtrl: LanguageCtrl,
-                                   langProCtrl: LanguageProficiencyCtrl)
+                                   langProCtrl: LanguageProficiencyCtrl,
+                                   maritalStatusCtrl: MaritalStatusCtrl)
     extends SimpleRouter {
   override def routes: Routes = {
 
@@ -23,24 +24,6 @@ class DemographicsRouter @Inject()(genderCtrl: GenderCtrl,
       genderCtrl.getById(id)
     case POST(p"/gender/create") =>
       genderCtrl.create
-
-    //race
-    case GET(p"/race/all") =>
-      raceCtrl.getAll
-    case POST(p"/race/delete/$id") =>
-      raceCtrl.delete(id)
-    case GET(p"/race/$id") =>
-      raceCtrl.getById(id)
-    case POST(p"/race/create") =>
-      raceCtrl.create
-
-    //role
-    case GET(p"/role/all") =>
-      roleCtrl.getAll
-    case GET(p"/role/$id") =>
-      roleCtrl.getById(id)
-    case POST(p"/role/create") =>
-      roleCtrl.create
 
     //Language
     case GET(p"/language/all") =>
@@ -61,6 +44,36 @@ class DemographicsRouter @Inject()(genderCtrl: GenderCtrl,
       langProCtrl.getById(id)
     case POST(p"/languageproficiency/create") =>
       langProCtrl.create
+
+    ///marital status
+    case GET(p"/maritalstatus/all") =>
+      maritalStatusCtrl.getAll
+    case POST(p"/maritalstatus/delete/$id") =>
+      maritalStatusCtrl.delete(id)
+    case GET(p"/maritalstatus/$id") =>
+      maritalStatusCtrl.getById(id)
+    case POST(p"/maritalstatus/create") =>
+      maritalStatusCtrl.create
+
+    //race
+    case GET(p"/race/all") =>
+      raceCtrl.getAll
+    case POST(p"/race/delete/$id") =>
+      raceCtrl.delete(id)
+    case GET(p"/race/$id") =>
+      raceCtrl.getById(id)
+    case POST(p"/race/create") =>
+      raceCtrl.create
+
+    //role
+    case GET(p"/role/all") =>
+      roleCtrl.getAll
+    case POST(p"/role/delete/$id") =>
+      roleCtrl.delete(id)
+    case GET(p"/role/$id") =>
+      roleCtrl.getById(id)
+    case POST(p"/role/create") =>
+      roleCtrl.create
 
   }
 }

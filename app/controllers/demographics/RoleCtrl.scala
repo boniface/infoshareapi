@@ -50,4 +50,16 @@ class RoleCtrl extends InjectedController {
     }
   }
 
+  def delete(id: String) = Action.async {
+    implicit request: Request[AnyContent] =>
+      val resp = for {
+        _ <- TokenCheck.getTokenfromParam(request)
+        results <- service.delete(id)
+      } yield results
+      resp.map(msg => Ok(Json.toJson(msg.isExhausted))).recover {
+        case _: TokenFailExcerption => Unauthorized
+        case _: Exception => InternalServerError
+      }
+  }
+
 }

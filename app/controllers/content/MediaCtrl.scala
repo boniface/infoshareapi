@@ -12,7 +12,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
 class MediaCtrl extends InjectedController {
-  val service = MediaService
+  private val service = MediaService
 
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[Media](request.body).get

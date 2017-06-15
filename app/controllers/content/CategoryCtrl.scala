@@ -12,7 +12,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
 class CategoryCtrl extends InjectedController {
-  val service = CategoryService
+  private val service = CategoryService
 
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[Category](request.body).get

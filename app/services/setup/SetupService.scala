@@ -52,6 +52,7 @@ object SetupService {
       setup <- LanguageDatabase.languageTable.create.ifNotExists().future()
       setup <- LanguageProficiencyDatabase.languageProficiencyTable.create.ifNotExists().future()
       setup <- RaceDatabase.raceTable.create.ifNotExists().future()
+      setup <- MaritalStatusDatabase.maritalStatusTable.create.ifNotExists().future()
       setup <- RoleDatabase.roleTable.create.ifNotExists().future()
 
       //    location

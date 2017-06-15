@@ -21,6 +21,10 @@ trait RoleService extends RoleRepository {
     database.roleTable.getRoles
   }
 
+  def delete(id: String): Future[ResultSet] = {
+    database.roleTable.deleteById(id)
+  }
+
 }
 
 @Singleton

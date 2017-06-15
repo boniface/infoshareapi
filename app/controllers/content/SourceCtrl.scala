@@ -11,7 +11,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
 class SourceCtrl extends InjectedController {
-  val service = SourceService
+  private val service = SourceService
 
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[Source](request.body).get

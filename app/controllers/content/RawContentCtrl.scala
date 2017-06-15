@@ -11,7 +11,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
 class RawContentCtrl extends InjectedController {
-  val service = RawContentService
+  private val service = RawContentService
 
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[RawContent](request.body).get

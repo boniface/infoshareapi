@@ -37,4 +37,8 @@ abstract class RoleTableImpl extends RoleTable with RootConnector {
   def getRoles: Future[Seq[Role]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
+
+  def deleteById(id: String): Future[ResultSet] = {
+    delete.where(_.id eqs id).future()
+  }
 }
