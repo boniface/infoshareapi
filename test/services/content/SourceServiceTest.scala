@@ -35,7 +35,7 @@ class SourceServiceTest extends FunSuite with BeforeAndAfter{
     val update = Await.result(sourceService.save(updateEntity), 2.minutes)
     assert(update.isExhausted)
 
-    val resp = Await.result(sourceService.getById(Map("org"->updateEntity.org,"id"-> sourceEntity.id)), 2.minutes)
+    val resp = Await.result(sourceService.getById(Map("org"->updateEntity.org,"id"-> updateEntity.id)), 2.minutes)
     assert(resp.head.org == updateEntity.org)
     assert(resp.head.org != sourceEntity.org)
   }

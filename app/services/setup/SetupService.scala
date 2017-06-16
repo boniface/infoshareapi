@@ -6,6 +6,7 @@ import repositories.content._
 import repositories.demographics._
 import repositories.location._
 import repositories.storage._
+import repositories.organisation._
 import repositories.util.{KeysDatabase, ItemStatusDatabase, MailDatabase, RolesDatabase, TokenDatabase}
 
 import scala.concurrent.Future
@@ -65,6 +66,11 @@ object SetupService {
 
       // Valid User
       setup <-ValidUserDatabase.validUserTable.create.ifNotExists().future()
+
+      // Organization
+      setup <-LocationDatabase.locationTable.create.ifNotExists().future()
+      setup <-OrganisationDatabase.organisationTable.create.ifNotExists().future()
+      setup <-OrganisationLogoDatabase.organisationLogoTable.create.ifNotExists().future()
 
     }yield setup
   }

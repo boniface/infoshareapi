@@ -5,7 +5,7 @@ import conf.connections.DataConnection
 import repositories.organisation.tables.OrganisationLogoTableImpl
 
 
-class OrganisationLogoDatabase (override val connector: KeySpaceDef) extends Database[OrganisationDatabase](connector) {
+class OrganisationLogoDatabase (override val connector: KeySpaceDef) extends Database[OrganisationLogoDatabase](connector) {
   object organisationLogoTable extends OrganisationLogoTableImpl with connector.Connector
 }
 

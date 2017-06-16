@@ -31,7 +31,7 @@ class StorageUrlServiceTest extends FunSuite with BeforeAndAfter {
   test("update storage"){
     updateEntity = storageEntity.copy(name = "profile")
     val update = Await.result(storageUrlService.save(updateEntity), 2.minutes)
-    val resp = Await.result(storageUrlService.getLinkById(storageEntity.id), 2.minutes)
+    val resp = Await.result(storageUrlService.getLinkById(updateEntity.id), 2.minutes)
     assert(update.isExhausted)
     assert(resp.head.name != storageEntity.name)
     assert(resp.head.name equals updateEntity.name)

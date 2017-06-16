@@ -50,15 +50,15 @@ abstract class LocationTableImpl extends LocationTable with RootConnector {
       .future()
   }
 
-  def findById(org: String, id: String): Future[Option[Location]] = {
-    select.where(_.org eqs org).and(_.id eqs id).one()
+  def findById(map: Map[String, String]): Future[Option[Location]] = {
+    select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def findAll(company: String): Future[Seq[Location]] = {
-    select.fetchEnumerator() run Iteratee.collect()
+  def findAll(org: String): Future[Seq[Location]] = {
+    select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 
-  def deleteById(id: String): Future[ResultSet] = {
-    delete.where(_.id eqs id).future()
+  def deleteById(map: Map[String, String]): Future[ResultSet] = {
+    delete.where(_.org eqs map("org")).and(_.id eqs map("id")).future()
   }
 }

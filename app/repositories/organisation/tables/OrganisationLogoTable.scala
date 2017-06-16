@@ -42,11 +42,11 @@ abstract class OrganisationLogoTableImpl extends OrganisationLogoTable with Root
       .future()
   }
 
-  def findDCompanyLogo(org: String, id: String): Future[Option[OrganisationLogo]] = {
-    select.where(_.org eqs org).and(_.id eqs id).one()
+  def getById(map: Map[String,String]): Future[Option[OrganisationLogo]] = {
+    select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def findCompanyLogos(org: String): Future[Seq[OrganisationLogo]] = {
+  def getAll(org: String): Future[Seq[OrganisationLogo]] = {
     select.where(_.org eqs org) fetchEnumerator () run Iteratee.collect()
   }
 }

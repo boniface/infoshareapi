@@ -31,7 +31,7 @@ class GenderServiceTest extends FunSuite with BeforeAndAfter {
   test("update gender"){
     updateEntity = genderEntity.copy(name = "FEMALE")
     val update = Await.result(genderService.save(updateEntity), 2.minutes)
-    val resp = Await.result(genderService.getById(genderEntity.id), 2.minutes)
+    val resp = Await.result(genderService.getById(updateEntity.id), 2.minutes)
 
     assert(update.isExhausted)
     assert(resp.head.name == updateEntity.name)
@@ -39,7 +39,7 @@ class GenderServiceTest extends FunSuite with BeforeAndAfter {
   }
 
   test("get all gender"){
-    val result = Await.result(genderService.save(updateEntity.copy(id = "2")), 2.minutes)
+    val result = Await.result(genderService.save(genderEntity.copy(id = "2")), 2.minutes)
     val resp = Await.result(genderService.getAll, 2.minutes)
     assert(result.isExhausted)
     assert(resp.size > 1)

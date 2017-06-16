@@ -39,22 +39,11 @@ abstract class OrganisationTableImpl extends OrganisationTable with RootConnecto
       .future()
   }
 
-  def updateCompany(company: Organisation): Future[ResultSet] = {
-    insert
-      .value(_.id, company.id)
-      .value(_.name, company.name)
-      .value(_.details, company.details)
-      .value(_.adminAttached, company.adminAttached)
-      .value(_.date, company.date)
-      .value(_.state, company.state)
-      .future()
-  }
-
-  def findById(id: String) = {
+  def getById(id: String) = {
     select.where(_.id eqs id).one()
   }
 
-  def findAll: Future[Seq[Organisation]] = {
+  def getAll: Future[Seq[Organisation]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
 

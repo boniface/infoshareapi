@@ -37,7 +37,7 @@ class MediaServiceTest extends FunSuite with BeforeAndAfter{
     val update = Await.result(service.save(updateEntity), 2.minutes)
     assert(update.isExhausted)
 
-    val resp = Await.result(service.getById(Map("contentId"->updateEntity.contentId,"id"-> entity.id)), 2.minutes)
+    val resp = Await.result(service.getById(Map("contentId"->updateEntity.contentId,"id"-> updateEntity.id)), 2.minutes)
     assert(resp.head.state == updateEntity.state)
     assert(resp.head.state != entity.state)
   }

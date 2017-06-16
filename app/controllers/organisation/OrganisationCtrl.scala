@@ -3,19 +3,19 @@ package controllers.organisation
 import javax.inject.Singleton
 
 import conf.security.{TokenCheck, TokenFailExcerption}
-import domain.organisation.Location
+import domain.organisation.Organisation
 import play.api.libs.json._
 import play.api.mvc._
-import services.organisation.LocationService
+import services.organisation.OrganisationService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class LocationCtrl extends InjectedController {
-  val service = LocationService
+class OrganisationCtrl extends InjectedController {
+  val service = OrganisationService
 
   def create = Action.async(parse.json) { request =>
-    val entity = Json.fromJson[Location](request.body).get
+    val entity = Json.fromJson[Organisation](request.body).get
     val response = for {
       _ <- TokenCheck.getToken(request)
       results <- service.save(entity)
@@ -26,12 +26,11 @@ class LocationCtrl extends InjectedController {
     }
   }
 
-  def getById(org: String, id: String) = Action.async {
+  def getById(id: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      val args = Map("org" -> org, "id" -> id)
       val resp = for {
         _ <- TokenCheck.getTokenfromParam(request)
-        results <- service.getById(args)
+        results <- service.getById(id)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
         case _: TokenFailExcerption => Unauthorized
@@ -39,11 +38,11 @@ class LocationCtrl extends InjectedController {
       }
   }
 
-  def getAll(org: String) = Action.async {
+  def getAll = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
         _ <- TokenCheck.getTokenfromParam(request)
-        results <- service.getAll(org)
+        results <- service.getAll
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
         case _: TokenFailExcerption => Unauthorized
@@ -51,16 +50,4 @@ class LocationCtrl extends InjectedController {
       }
   }
 
-  def delete(org: String, id: String) = Action.async {
-    implicit request: Request[AnyContent] =>
-      val args = Map("org" -> org, "id" -> id)
-      val resp = for {
-        _ <- TokenCheck.getTokenfromParam(request)
-        results <- service.delete(args)
-      } yield results
-      resp.map(msg => Ok(Json.toJson(msg.isExhausted))).recover {
-        case _: TokenFailExcerption => Unauthorized
-        case _: Exception => InternalServerError
-      }
-  }
 }

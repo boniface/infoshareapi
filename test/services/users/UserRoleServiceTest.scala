@@ -21,10 +21,11 @@ class UserRoleServiceTest extends FunSuite with BeforeAndAfter {
   }
 
   test{"GET  USER_ROLES BY_USER_Id "}{
-    userRoleService.save(userRoleEntity.copy(roleId = RolesID.ROLE_PUBLISHER))
+    updateEntity = userRoleEntity.copy(roleId = RolesID.ROLE_PUBLISHER)
+    userRoleService.save(updateEntity)
 
-    val result = Await.result(userRoleService.getRolesByemailId( Map("emailId"->userRoleEntity.emailId, "roleId"->RolesID.ADMIN )),2.minutes)
-    assert(result.head.roleId==RolesID.ADMIN)
+    val result = Await.result(userRoleService.getRolesByemailId( Map("emailId"->updateEntity.emailId, "roleId"->updateEntity.roleId)),2.minutes)
+    assert(result.head.roleId !=RolesID.ADMIN)
     assert(result.last.roleId==RolesID.ROLE_PUBLISHER)
   }
 
