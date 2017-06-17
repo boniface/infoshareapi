@@ -6,15 +6,13 @@ import domain.storage.StorageUrl
 
 import scala.concurrent.Future
 
+abstract class StorageUrlTable extends Table[StorageUrlTable, StorageUrl] {
 
-class StorageUrlTable extends CassandraTable[StorageUrlTable, StorageUrl] {
+  object id extends StringColumn with PartitionKey
 
-  object id extends StringColumn(this) with PartitionKey
+  object name extends StringColumn
 
-  object name extends StringColumn(this)
-
-  object url extends StringColumn(this)
-
+  object url extends StringColumn
 
 }
 
@@ -29,11 +27,11 @@ abstract class StorageUrlTableImpl extends StorageUrlTable with RootConnector {
       .future()
   }
 
-  def getAllLinks: Future[Seq[StorageUrl]] = {
-    select.fetchEnumerator() run Iteratee.collect()
-  }
-
   def getLinkById(id: String): Future[Option[StorageUrl]] = {
     select.where(_.id eqs id).one()
+  }
+
+  def getAllLinks: Future[Seq[StorageUrl]] = {
+    select.fetchEnumerator() run Iteratee.collect()
   }
 }

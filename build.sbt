@@ -16,17 +16,14 @@ maintainer := "Boniface Kabaso <boniface@kabaso.com>"
 packageSummary in Linux := "Infoshare REST API"
 packageDescription := "Infoshare For Clients REST API "
 
-
 javaOptions in Universal ++= Seq(
   // -J params will be added as jvm parameters
   "-J-Xms4g",
   "-J-Xmx4g",
   "-J-Xmn2g",
-
   // Since play uses separate pidfile we have to provide it with a proper path
   // name of the pid file must be play.pid
   s"-Dpidfile.path=/var/run/${packageName.value}/play.pid",
-
   // alternative, you can remove the PID file
   // s"-Dpidfile.path=/dev/null",
 
@@ -42,7 +39,6 @@ javaOptions in Universal ++= Seq(
   // others will be added as app parameters
   "-Dproperty=true",
   "-port=8080",
-
   // you can access any build setting/task here
   s"-version=${version.value}"
 )
@@ -53,45 +49,34 @@ libraryDependencies ++= Seq(
   "io.circe" %% "circe-parser"
 ).map(_ % circeVersion)
 
-
 libraryDependencies += filters
 libraryDependencies += "org.scalatestplus.play" % "scalatestplus-play_2.12" % "3.0.0-RC1"
 libraryDependencies += "javax.mail" % "javax.mail-api" % "1.5.6"
 libraryDependencies += "org.typelevel" %% "cats" % "0.9.0"
-
 
 libraryDependencies += "com.outworkers" % "phantom-dsl_2.12" % PhantomVersion
 libraryDependencies += "com.outworkers" % "phantom-connectors_2.12" % PhantomVersion
 libraryDependencies += "com.outworkers" % "phantom-streams_2.12" % PhantomVersion
 libraryDependencies += "com.outworkers" % "phantom-jdk8_2.12" % PhantomVersion
 
-
 libraryDependencies += "com.github.romix.akka" % "akka-kryo-serialization_2.12" % "0.5.2"
 libraryDependencies += "com.esotericsoftware" % "kryo" % "4.0.0"
 libraryDependencies += "com.github.t3hnar" % "scala-bcrypt_2.12" % "3.0"
-
 
 libraryDependencies += "org.apache.commons" % "commons-lang3" % "3.5"
 libraryDependencies += "org.apache.commons" % "commons-email" % "1.4"
 libraryDependencies += "com.esotericsoftware" % "kryo" % "4.0.0"
 libraryDependencies += "com.roundeights" % "hasher_2.12" % "1.2.0"
 
-
-
-
-
 libraryDependencies += "com.typesafe.play" % "play-iteratees_2.12" % "2.6.1"
 libraryDependencies += "com.typesafe.play" % "play-iteratees-reactive-streams_2.12" % "2.6.1"
-
-
-
 
 libraryDependencies += "com.typesafe.play" % "play-json_2.12" % PlayFrameWorkVersion
 libraryDependencies += "com.typesafe.play" % "play-akka-http-server_2.12" % PlayFrameWorkVersion
 libraryDependencies += "com.typesafe.play" % "play-guice_2.12" % PlayFrameWorkVersion
 libraryDependencies += "com.typesafe.play" % "play-ws_2.12" % PlayFrameWorkVersion
 
-
+libraryDependencies += "me.lessis" % "base64_2.11" % "0.2.0"
 
 resolvers ++= Seq(
   "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
@@ -111,5 +96,3 @@ resolvers ++= Seq(
   Resolver.sonatypeRepo("snapshots"),
   Resolver.sonatypeRepo("public")
 )
-
-

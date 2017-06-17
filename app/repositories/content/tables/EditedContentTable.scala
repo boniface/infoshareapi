@@ -1,34 +1,36 @@
 package repositories.content.tables
 
+import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.content.EditedContent
 
 import scala.concurrent.Future
 
-class EditedContentTable extends CassandraTable[EditedContentTable, EditedContent] {
+abstract class EditedContentTable extends Table[EditedContentTable, EditedContent] {
 
-  object org extends StringColumn(this) with PartitionKey
+  object org extends StringColumn with PartitionKey
 
-  object id extends StringColumn(this) with PrimaryKey
+  object id extends StringColumn with PrimaryKey
 
-  object dateCreated extends DateColumn(this)
+  object dateCreated extends Col[Date]
 
-  object creator extends StringColumn(this)
+  object creator extends StringColumn
 
-  object source extends StringColumn(this)
+  object source extends StringColumn
 
-  object category extends StringColumn(this)
+  object category extends StringColumn
 
-  object title extends StringColumn(this)
+  object title extends StringColumn
 
-  object content extends StringColumn(this)
+  object content extends StringColumn
 
-  object contentType extends StringColumn(this)
+  object contentType extends StringColumn
 
-  object status extends StringColumn(this)
+  object status extends StringColumn
 
-  object state extends StringColumn(this)
+  object state extends StringColumn
 
 }
 
@@ -51,15 +53,15 @@ abstract class EditedContentTableImpl extends EditedContentTable with RootConnec
       .future()
   }
 
-  def getContentById(map: Map[String,String]): Future[Option[EditedContent]] = {
+  def getById(map: Map[String, String]): Future[Option[EditedContent]] = {
     select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def getAllContents(org:String): Future[Seq[EditedContent]] = {
+  def getAll(org: String): Future[Seq[EditedContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 
-  def getPaginatedContents(org:String, startValue: Int): Future[Iterator[EditedContent]] = {
+  def getPaginatedContents(  org: String, startValue: Int): Future[Iterator[EditedContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.slice(startValue, 20)
   }
 }

@@ -1,6 +1,6 @@
 package services.users
 
-import java.util.Date
+import java.time.{LocalDateTime=>Date}
 
 import domain.users.UserDemographics
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -15,7 +15,7 @@ class UserDemographicsServiceTest extends FunSuite with BeforeAndAfter{
 
   before{
     userDemoEntity = UserDemographics(emailId="test@email.com",id="1",genderId = "Male",raceId = "African",
-      dateOfBirth = new Date(),maritalStatusId = "single",numberOfDependencies = 5,date = new Date(),
+      dateOfBirth = Date.now(),maritalStatusId = "single",numberOfDependencies = 5,date =Date.now(),
       state = "Active")
   }
   test("Create USER_DEMO"){
@@ -37,11 +37,11 @@ class UserDemographicsServiceTest extends FunSuite with BeforeAndAfter{
   }
 
   test("UPDATE USER_DEMOGRAPHICS"){
-    updateEntity = userDemoEntity.copy(dateOfBirth = new Date(),genderId = "Male")
+    updateEntity = userDemoEntity.copy(dateOfBirth = Date.now(),genderId = "Male")
     val update = Await.result(userDemoService.save(updateEntity), 2.minutes)
     assert(update.isExhausted)
 
-    val resp = Await.result(userDemoService.getDemoById(Map("emailId"-> userDemoEntity.emailId,"id"-> userDemoEntity.id)),2.minutes)
+    val resp = Await.result(userDemoService.getDemoById(Map("emailId"-> updateEntity.emailId,"id"-> updateEntity.id)),2.minutes)
 
     assert(resp.head.id == userDemoEntity.id)
     assert(resp.head.emailId  == userDemoEntity.emailId)

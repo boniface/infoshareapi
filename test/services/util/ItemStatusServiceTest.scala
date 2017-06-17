@@ -1,7 +1,7 @@
 package services.util
 
 import domain.util.ItemStatus
-import org.joda.time.DateTime
+import java.time.{LocalDateTime => Date}
 import org.scalatest.FunSuite
 
 import scala.concurrent.Await
@@ -13,7 +13,7 @@ import scala.concurrent.duration._
 class ItemStatusServiceTest extends FunSuite{
 
 
-  val entity = ItemStatus("1",new DateTime,"ACTIVE","USER")
+  val entity = ItemStatus("1",Date.now(),"ACTIVE","USER")
   val updatedEntity = entity.copy(status = "INACTIVE")
   val service = ItemStatusService
 
@@ -30,7 +30,7 @@ class ItemStatusServiceTest extends FunSuite{
 
   }
 
-  test("Upadte Item Status"){
+  test("Update Item Status"){
     val update = Await.result(service.save(updatedEntity),2 minutes)
     val result = Await.result(service.getStatus("1"),2 minutes)
     assert(result.head.status=="INACTIVE")

@@ -31,7 +31,7 @@ class RoleServiceTest extends FunSuite with BeforeAndAfter {
   test("update role"){
     updateEntity = roleEntity.copy(name = "your role")
     val update = Await.result(roleService.save(updateEntity), 2.minutes)
-    val resp = Await.result(roleService.getById(roleEntity.id), 2.minutes)
+    val resp = Await.result(roleService.getById(updateEntity.id), 2.minutes)
 
     assert(update.isExhausted)
     assert(resp.head.name == updateEntity.name)
@@ -39,10 +39,17 @@ class RoleServiceTest extends FunSuite with BeforeAndAfter {
   }
 
   test("get all roles"){
-    val result = Await.result(roleService.save(updateEntity.copy(id = "2")), 2.minutes)
+    val result = Await.result(roleService.save(roleEntity.copy(id = "2")), 2.minutes)
     val resp = Await.result(roleService.getAll, 2.minutes)
     assert(result.isExhausted)
     assert(resp.size > 1)
+  }
+
+  test("delete role"){
+    val result = Await.result(roleService.delete(roleEntity.id), 2.minutes)
+    val resp = Await.result(roleService.getById(roleEntity.id), 2.minutes)
+    assert(result.isExhausted)
+    assert(resp.isEmpty)
   }
 
 }

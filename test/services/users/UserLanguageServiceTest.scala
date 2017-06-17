@@ -1,6 +1,6 @@
 package services.users
 
-import java.util.Date
+import java.time.{LocalDateTime =>Date}
 
 import domain.users.{User, UserLanguage}
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -15,7 +15,7 @@ class UserLanguageServiceTest extends FunSuite with BeforeAndAfter{
   var userLangEntity, updateEntity: UserLanguage = _
 
   before{
-    userLangEntity = UserLanguage("test@test.com", "1", "1", "eng", "eng", "zulu",new Date(),"Active")
+    userLangEntity = UserLanguage("test@test.com", "1", "1", "eng", "eng", "zulu",Date.now(),"Active")
   }
 
   test("Create USER_LANG"){
@@ -37,11 +37,11 @@ class UserLanguageServiceTest extends FunSuite with BeforeAndAfter{
   }
 
   test("UPDATE USER_LANG"){
-    updateEntity = userLangEntity.copy(speaking = "Isizulu",date = new Date())
+    updateEntity = userLangEntity.copy(speaking = "Isizulu",date = Date.now())
     val update = Await.result(userLangService.save(updateEntity), 2.minutes)
     assert(update.isExhausted)
 
-    val resp = Await.result(userLangService.getUserLangById(Map("emailId"-> userLangEntity.emailId,"id"-> userLangEntity.id)),2.minutes)
+    val resp = Await.result(userLangService.getUserLangById(Map("emailId"-> updateEntity.emailId,"id"-> updateEntity.id)),2.minutes)
 
     assert(resp.head.id == userLangEntity.id)
     assert(resp.head.emailId  == userLangEntity.emailId)

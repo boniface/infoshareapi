@@ -1,11 +1,12 @@
 package services.demographics
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.demographics.LanguageProficiency
 import repositories.demographics.LanguageProficiencyRepository
 
 import scala.concurrent.Future
-
 
 trait LanguageProficiencyService extends LanguageProficiencyRepository {
 
@@ -20,10 +21,11 @@ trait LanguageProficiencyService extends LanguageProficiencyRepository {
     database.languageProficiencyTable.findAll
   }
 
-  def deleteById(id:String): Future[ResultSet] = {
+  def deleteById(id: String): Future[ResultSet] = {
     database.languageProficiencyTable.deleteById(id)
   }
 
 }
 
+@Singleton
 object LanguageProficiencyService extends LanguageProficiencyService with LanguageProficiencyRepository

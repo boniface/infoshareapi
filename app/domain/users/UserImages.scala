@@ -1,9 +1,7 @@
 package domain.users
 
-import java.util.Date
-
+import java.time.{LocalDateTime => Date}
 import play.api.libs.json.Json
-
 
 case class UserImages(org: String,
                       emailId: String,
@@ -16,5 +14,5 @@ case class UserImages(org: String,
 
 object UserImages {
   implicit val companyImagesFmt = Json.format[UserImages]
-
+  def identity: UserImages = UserImages("", "", "", "", "", "", None, Date.now())
 }

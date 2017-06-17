@@ -1,5 +1,7 @@
 package services.util
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.util.Roles
 import repositories.util.RolesRepository
@@ -24,5 +26,5 @@ trait RolesService extends RolesRepository {
   }
 
 }
-
+@Singleton
 object RolesService extends RolesService with RolesRepository

@@ -1,30 +1,30 @@
 package services.users
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.users.UserRole
 import repositories.users.UserRoleRepository
-import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.concurrent.Future
 
-
-trait UserRoleService extends UserRoleRepository{
+trait UserRoleService extends UserRoleRepository {
 
   def save(role: UserRole): Future[ResultSet] = {
     database.userRoleTable.save(role)
   }
 
-  def getUserRole(map: Map[String,String]): Future[Option[UserRole]] = {
-    database.userRoleTable.findRole(map)
+  def getById(map: Map[String, String]): Future[Option[UserRole]] = {
+    database.userRoleTable.getById(map)
   }
 
-  def getRolesByemailId(emailId: String): Future[Seq[UserRole]] = {
-    database.userRoleTable.findRolesByemailId(emailId)
+  def getAll(emailId: String): Future[Seq[UserRole]] = {
+    database.userRoleTable.getAll(emailId)
   }
 
-  def deleteRole(map: Map[String,String]): Future[ResultSet] = {
+  def delete(map: Map[String, String]): Future[ResultSet] = {
     database.userRoleTable.deleteById(map)
   }
 }
-
+@Singleton
 object UserRoleService extends UserRoleService with UserRoleRepository

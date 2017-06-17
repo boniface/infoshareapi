@@ -1,29 +1,31 @@
 package services.demographics
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.demographics.Language
 import repositories.demographics.LanguageRepository
 
 import scala.concurrent.Future
 
-
 trait LanguageService extends LanguageRepository {
 
-  def save(obj : Language): Future[ResultSet] = {
+  def save(obj: Language): Future[ResultSet] = {
     database.languageTable.save(obj)
   }
 
-  def getById(id: String):Future[Option[Language]] = {
+  def getById(id: String): Future[Option[Language]] = {
     database.languageTable.findById(id)
   }
   def getAll: Future[Seq[Language]] = {
     database.languageTable.findAll
   }
 
-  def deleteById(id:String): Future[ResultSet] = {
+  def deleteById(id: String): Future[ResultSet] = {
     database.languageTable.deleteById(id)
   }
 
 }
 
+@Singleton
 object LanguageService extends LanguageService with LanguageRepository

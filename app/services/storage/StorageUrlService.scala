@@ -1,10 +1,12 @@
 package services.storage
 
+
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.storage.StorageUrl
 import repositories.storage.StorageUrlRepository
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 trait StorageUrlService extends StorageUrlRepository{
@@ -22,4 +24,5 @@ trait StorageUrlService extends StorageUrlRepository{
   }
 }
 
+@Singleton
 object StorageUrlService extends StorageUrlService with StorageUrlRepository

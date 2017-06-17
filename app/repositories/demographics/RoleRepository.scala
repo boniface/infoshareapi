@@ -11,6 +11,5 @@ class RoleDatabase(override val connector: KeySpaceDef) extends Database[RoleDat
 object RoleDatabase extends RoleDatabase(DataConnection.connector)
 
 trait RoleRepository {
-  def  database = RoleDatabase
+  def database = RoleDatabase
 }
-

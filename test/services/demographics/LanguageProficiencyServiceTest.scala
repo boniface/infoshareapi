@@ -31,7 +31,7 @@ class LanguageProficiencyServiceTest extends FunSuite with BeforeAndAfter {
   test("update languageProficiency"){
     updateEntity = languageProEntity.copy(name = "English")
     val update = Await.result(languageProService.save(updateEntity), 2.minutes)
-    val resp = Await.result(languageProService.getById(languageProEntity.id), 2.minutes)
+    val resp = Await.result(languageProService.getById(updateEntity.id), 2.minutes)
 
     assert(update.isExhausted)
     assert(resp.head.name == updateEntity.name)
@@ -39,7 +39,7 @@ class LanguageProficiencyServiceTest extends FunSuite with BeforeAndAfter {
   }
 
   test("get all languageProficiency"){
-    val result = Await.result(languageProService.save(updateEntity.copy(id = "2")), 2.minutes)
+    val result = Await.result(languageProService.save(languageProEntity.copy(id = "2")), 2.minutes)
     val resp = Await.result(languageProService.getAll, 2.minutes)
     assert(result.isExhausted)
     assert(resp.size > 1)

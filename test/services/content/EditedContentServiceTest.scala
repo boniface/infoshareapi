@@ -1,6 +1,6 @@
 package services.content
 
-import java.util.Date
+import java.time.{LocalDateTime =>Date}
 
 import domain.content.EditedContent
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -16,7 +16,7 @@ class EditedContentServiceTest extends FunSuite with BeforeAndAfter {
   var kwargs: Map[String,String] =  _
 
   before {
-      e_contentEntity =  EditedContent(org="DUT", id ="1", dateCreated= new Date(), creator="test@me.com", source="3", category ="3",
+      e_contentEntity =  EditedContent(org="DUT", id ="1", dateCreated= Date.now(), creator="test@me.com", source="3", category ="3",
       title = "birth control", content = "we not animals", contentType = "Text/Image",
       status = "raw",  state ="active")
       kwargs = Map("org"->e_contentEntity.org, "id"->e_contentEntity.id)
@@ -29,7 +29,7 @@ class EditedContentServiceTest extends FunSuite with BeforeAndAfter {
   }
 
   test("get e_content By Id"){
-    val resp = Await.result(e_contentService.getContentById(kwargs), 2.minutes)
+    val resp = Await.result(e_contentService.getById(kwargs), 2.minutes)
 
     assert(resp.head.id == e_contentEntity.id)
     assert(resp.head.org == e_contentEntity.org)
@@ -46,7 +46,7 @@ class EditedContentServiceTest extends FunSuite with BeforeAndAfter {
   test("update e_content"){
     updateEntity = e_contentEntity.copy(contentType ="1")
     val update  = Await.result(e_contentService.save(updateEntity), 2.minutes)
-    val resp = Await.result(e_contentService.getContentById(kwargs), 2.minutes)
+    val resp = Await.result(e_contentService.getById(kwargs), 2.minutes)
 
     assert(update.isExhausted)
     assert(resp.head.contentType != e_contentEntity.contentType)
@@ -56,7 +56,7 @@ class EditedContentServiceTest extends FunSuite with BeforeAndAfter {
 
   test("getAll org content"){
     val result  = Await.result(e_contentService.save(e_contentEntity.copy(id="2")), 2.minutes)
-    val resp = Await.result(e_contentService.getAllContents(kwargs("org")), 2.minutes)
+    val resp = Await.result(e_contentService.getAll(kwargs("org")), 2.minutes)
 
     assert(resp.size > 1)
     assert(result.isExhausted)

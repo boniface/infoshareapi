@@ -1,5 +1,7 @@
 package services.util
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.util.ItemStatus
 import repositories.util.ItemStatusRepository
@@ -21,5 +23,5 @@ trait ItemStatusService extends ItemStatusRepository {
 
 }
 
-
+@Singleton
 object ItemStatusService extends ItemStatusService with ItemStatusRepository

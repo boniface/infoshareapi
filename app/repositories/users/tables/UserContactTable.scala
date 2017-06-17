@@ -1,20 +1,27 @@
 package repositories.users.tables
 
 
+import java.time.{LocalDateTime =>Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.users.UserContact
 
 import scala.concurrent.Future
 
 
-sealed class UserContactTable extends CassandraTable[UserContactTable,UserContact] {
-  object emailId         extends StringColumn(this)  with PartitionKey
-  object id             extends StringColumn(this)  with PrimaryKey
-  object addressTypeId  extends StringColumn(this)
-  object contactNumber  extends StringColumn(this)
-  object date           extends DateColumn(this)
-  object state          extends StringColumn(this)
+abstract class UserContactTable extends Table[UserContactTable,UserContact] {
+  object emailId extends StringColumn  with PartitionKey
+
+  object id extends StringColumn  with PrimaryKey
+
+  object addressTypeId  extends StringColumn
+
+  object contactNumber  extends StringColumn
+
+  object date extends Col[Date]
+
+  object state extends StringColumn
 
 }
 

@@ -6,14 +6,11 @@ import play.api.routing.Router.Routes
 import play.api.routing.SimpleRouter
 import play.api.routing.sird._
 
-/**
-  * Created by hashcode on 2017/03/04.
-  */
-class UtilRouter @Inject()
-(roleController: RoleController)
-(keysConroller: KeysConroller)
-(mailSettingsController: MailSettingsController)
-  extends SimpleRouter {
+class UtilRouter @Inject()(roleController: RoleController)(
+    keysController: KeysController)(
+    mailSettingsController: MailSettingsController,
+    itemsStatusCtrl: ItemsStatusCtrl)
+    extends SimpleRouter {
   override def routes: Routes = {
 
     //ROLES
@@ -24,22 +21,27 @@ class UtilRouter @Inject()
     case GET(p"/roles/$id") =>
       roleController.getRoleById(id)
 
+ //items status
+    case POST(p"/roles/create") =>
+      itemsStatusCtrl.create
+    case GET(p"/roles/$id") =>
+      itemsStatusCtrl.getById(id)
+
     //KEYS
     case GET(p"/keys/all") =>
-      keysConroller.getKeys
+      keysController.getKeys
     case POST(p"/keys/create") =>
-      keysConroller.create
+      keysController.create
     case GET(p"/keys/$id") =>
-      keysConroller.getKeyById(id)
+      keysController.getKeyById(id)
 
-      //MAIL
-
+    //MAIL
     case GET(p"/mail/all/$siteId") =>
       mailSettingsController.getSiteMailSettings(siteId)
     case POST(p"/mail/create") =>
       mailSettingsController.create
     case GET(p"/mail/$siteId/$id") =>
-      mailSettingsController.getMailSettingById(siteId,id)
+      mailSettingsController.getMailSettingById(siteId, id)
 
   }
 }

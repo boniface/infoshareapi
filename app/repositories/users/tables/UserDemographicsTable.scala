@@ -1,25 +1,33 @@
 package repositories.users.tables
 
-
+import java.time.{LocalDateTime =>Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.users.UserDemographics
 
 import scala.concurrent.Future
 
 
-sealed class UserDemographicsTable  extends CassandraTable[UserDemographicsTable,UserDemographics] {
-  /** setting up or defining Person Demographics table attributes */
+abstract class UserDemographicsTable  extends Table[UserDemographicsTable,UserDemographics] {
 
-  object emailId               extends StringColumn(this) with PartitionKey
-  object id                   extends StringColumn(this) with PrimaryKey
-  object genderId             extends StringColumn(this)
-  object raceId               extends StringColumn(this)
-  object dateOfBirth          extends DateColumn(this)
-  object maritalStatusId      extends StringColumn(this)
-  object numberOfDependencies extends IntColumn(this)
-  object date                 extends DateColumn(this)
-  object state                extends StringColumn(this)
+  object emailId extends StringColumn with PartitionKey
+  
+  object id extends StringColumn with PrimaryKey
+  
+  object genderId extends StringColumn
+  
+  object raceId extends StringColumn
+  
+  object dateOfBirth extends Col[Date]
+  
+  object maritalStatusId extends StringColumn
+  
+  object numberOfDependencies extends IntColumn
+  
+  object date extends Col[Date]
+  
+  object state extends StringColumn
 }
 
 abstract class UserDemographicsTableImpl extends UserDemographicsTable with RootConnector{

@@ -6,6 +6,8 @@ import repositories.content._
 import repositories.demographics._
 import repositories.location._
 import repositories.storage._
+import repositories.organisation._
+import repositories.syslog._
 import repositories.util.{KeysDatabase, ItemStatusDatabase, MailDatabase, RolesDatabase, TokenDatabase}
 
 import scala.concurrent.Future
@@ -26,7 +28,7 @@ object SetupService {
       setup <- KeysDatabase.keysTable.create.ifNotExists().future()
       setup <- MailDatabase.mailTable.create.ifNotExists().future()
       setup <- TokenDatabase.tokenTable.create.ifNotExists().future()
-//      setup <- RolesDatabase.rolesTable.create.ifNotExists().future()
+      setup <- RolesDatabase.rolesTable.create.ifNotExists().future()
 
       //     user
       setup <- UserAddressDatabase.userAddressTable.create.ifNotExists().future()
@@ -52,6 +54,7 @@ object SetupService {
       setup <- LanguageDatabase.languageTable.create.ifNotExists().future()
       setup <- LanguageProficiencyDatabase.languageProficiencyTable.create.ifNotExists().future()
       setup <- RaceDatabase.raceTable.create.ifNotExists().future()
+      setup <- MaritalStatusDatabase.maritalStatusTable.create.ifNotExists().future()
       setup <- RoleDatabase.roleTable.create.ifNotExists().future()
 
       //    location
@@ -61,9 +64,18 @@ object SetupService {
 
       //    storage
       setup <- StorageUrlDatabase.storageUrlTable.create.ifNotExists().future()
+      setup <- FileResultsDatabase.fileResultsTable.create.ifNotExists().future()
 
       // Valid User
       setup <-ValidUserDatabase.validUserTable.create.ifNotExists().future()
+
+      // system log event
+      setup <-SystemLogEventsDatabase.systemLogEventsTable.create.ifNotExists().future()
+
+      // Organization
+      setup <-LocationDatabase.locationTable.create.ifNotExists().future()
+      setup <-OrganisationDatabase.organisationTable.create.ifNotExists().future()
+      setup <-OrganisationLogoDatabase.organisationLogoTable.create.ifNotExists().future()
 
     }yield setup
   }

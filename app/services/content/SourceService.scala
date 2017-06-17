@@ -1,5 +1,7 @@
 package services.content
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.content.Source
 import repositories.content.SourceRepository
@@ -14,14 +16,14 @@ trait SourceService extends SourceRepository{
     database.sourceTable.save(obj)
   }
 
-  def getSourceById(map: Map[String,String]): Future[Option[Source]] = {
-    database.sourceTable.getSourceById(map)
+  def getById(map: Map[String,String]): Future[Option[Source]] = {
+    database.sourceTable.getById(map)
   }
 
-  def getAllSources(org: String): Future[Seq[Source]] = {
-    database.sourceTable.getAllSources(org)
+  def getAll(org: String): Future[Seq[Source]] = {
+    database.sourceTable.getAll(org)
   }
 
 }
-
+@Singleton
 object SourceService extends SourceService with SourceRepository

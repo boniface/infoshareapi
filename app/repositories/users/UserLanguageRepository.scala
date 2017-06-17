@@ -12,5 +12,5 @@ class UserLanguageDatabase(override val connector: KeySpaceDef) extends Database
 object UserLanguageDatabase extends UserLanguageDatabase(DataConnection.connector)
 
 trait UserLanguageRepository {
-  def  database = UserLanguageDatabase
+  def database = UserLanguageDatabase
 }

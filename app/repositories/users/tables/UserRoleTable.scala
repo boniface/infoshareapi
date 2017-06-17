@@ -7,12 +7,13 @@ import domain.users.UserRole
 import scala.concurrent.Future
 
 
-sealed class UserRoleTable extends CassandraTable[UserRoleTable, UserRole] {
-  /** setting up or defining Person Role table attributes */
+abstract class UserRoleTable extends Table[UserRoleTable, UserRole] {
 
-  object emailId extends StringColumn(this) with PartitionKey
-  object roleId extends StringColumn(this) with PrimaryKey
-  object state extends StringColumn(this)
+  object emailId extends StringColumn with PartitionKey
+
+  object roleId extends StringColumn with PrimaryKey
+
+  object state extends StringColumn
 
 }
 
@@ -28,17 +29,14 @@ abstract class UserRoleTableImpl extends UserRoleTable with RootConnector {
   }
 
 
-  def findRole(map: Map[String, String]): Future[Option[UserRole]] = {
-    /** gets user role base on user id given */
+  def getById(map: Map[String, String]): Future[Option[UserRole]] = {
     select.where(_.emailId eqs map("emailId")).and(_.roleId eqs map("roleId")).one
   }
 
-  def findRolesByemailId(emailId: String): Future[Seq[UserRole]] = {
-    /** get all user roles base on the user id */
+  def getAll(emailId: String): Future[Seq[UserRole]] = {
     select.where(_.emailId eqs emailId).fetchEnumerator() run Iteratee.collect()
   }
   def deleteById(map: Map[String, String]): Future[ResultSet] = {
-    /** delete user role base on the user id and role id */
     delete.where(_.emailId eqs map("emailId")).and(_.roleId eqs map("roleId")).future()
   }
 }

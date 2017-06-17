@@ -6,16 +6,18 @@ import domain.demographics.LanguageProficiency
 
 import scala.concurrent.Future
 
-class LanguageProficiencyTable extends CassandraTable[LanguageProficiencyTable,LanguageProficiency]{
-  object id extends StringColumn(this) with PartitionKey
-  object name extends StringColumn(this)
-  object state extends StringColumn(this)
+abstract class LanguageProficiencyTable extends Table[LanguageProficiencyTable, LanguageProficiency] {
+
+  object id extends StringColumn with PartitionKey
+
+  object name extends StringColumn
+
+  object state extends StringColumn
 
 }
 
 abstract class LanguageProficiencyTableImpl extends LanguageProficiencyTable with RootConnector {
   override lazy val tableName = "languageProf"
-
 
   def save(langpr: LanguageProficiency): Future[ResultSet] = {
     insert
@@ -25,14 +27,14 @@ abstract class LanguageProficiencyTableImpl extends LanguageProficiencyTable wit
       .future()
   }
 
-  def findById(id: String):Future[Option[LanguageProficiency]] = {
+  def findById(id: String): Future[Option[LanguageProficiency]] = {
     select.where(_.id eqs id).one()
   }
   def findAll: Future[Seq[LanguageProficiency]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
 
-  def deleteById(id:String): Future[ResultSet] = {
+  def deleteById(id: String): Future[ResultSet] = {
     delete.where(_.id eqs id).future()
   }
 }

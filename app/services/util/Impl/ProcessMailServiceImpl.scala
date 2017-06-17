@@ -1,15 +1,15 @@
 package services.util.Impl
 
+import java.time.LocalDateTime
 import java.util.UUID
 
 import conf.security.AuthUtil
-import conf.util.{HashcodeKeys, Util}
-import domain.users.User
+import conf.util.{HashcodeKeys, MailEvents, Util}
 import domain.syslog.SystemLogEvents
-import domain.util.{EmailMessage, Mail, MailEvents, SmtpConfig}
-import org.joda.time.DateTime
-import services.users.UserService
+import domain.users.User
+import domain.util.{EmailMessage, Mail, SmtpConfig}
 import services.syslog.SyslogService
+import services.users.UserService
 import services.util.{MailService, ProcessMailService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -41,7 +41,7 @@ class ProcessMailServiceImpl extends ProcessMailService {
             user.org,
             Util.md5Hash(UUID.randomUUID().toString),
             MailEvents.MAIL,
-            MailEvents.MAIL_SENT, MailEvents.MAIL_SENT, new DateTime())
+            MailEvents.MAIL_SENT, MailEvents.MAIL_SENT, LocalDateTime.now())
           SyslogService.save(successEvent)
           MailEvents.MAIL_SENT
         } else {
@@ -49,7 +49,7 @@ class ProcessMailServiceImpl extends ProcessMailService {
             user.org,
             Util.md5Hash(UUID.randomUUID().toString),
             MailEvents.MAIL,
-            MailEvents.MAIL_SENT_FAILED, MailEvents.MAIL_SENT_FAILED, new DateTime())
+            MailEvents.MAIL_SENT_FAILED, MailEvents.MAIL_SENT_FAILED, LocalDateTime.now())
           SyslogService.save(failEvent)
           MailEvents.MAIL_SENT_FAILED
         }
@@ -80,7 +80,7 @@ class ProcessMailServiceImpl extends ProcessMailService {
               user.org,
               Util.md5Hash(UUID.randomUUID().toString),
               MailEvents.MAIL,
-              MailEvents.MAIL_SENT, MailEvents.MAIL_SENT, new DateTime())
+              MailEvents.MAIL_SENT, MailEvents.MAIL_SENT, LocalDateTime.now())
             SyslogService.save(successEvent)
             MailEvents.MAIL_SENT
           } else {
@@ -88,7 +88,7 @@ class ProcessMailServiceImpl extends ProcessMailService {
               user.org,
               Util.md5Hash(UUID.randomUUID().toString),
               MailEvents.MAIL,
-              MailEvents.MAIL_SENT_FAILED, MailEvents.MAIL_SENT_FAILED, new DateTime())
+              MailEvents.MAIL_SENT_FAILED, MailEvents.MAIL_SENT_FAILED, LocalDateTime.now())
             SyslogService.save(failEvent)
             MailEvents.MAIL_SENT_FAILED
           }

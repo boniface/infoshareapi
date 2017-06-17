@@ -27,11 +27,16 @@ class KeyServiceTest extends FunSuite{
 
   }
 
-  test("Upadte Key"){
+  test("Update Key"){
     val update = Await.result(service.save(updatedEntity),2 minutes)
     val result = Await.result(service.getKeyById("1"),2 minutes)
     assert(result.get.status=="INACTIVE")
 
+  }
+
+  test("get all keys"){
+    val result = Await.result(service.getAllkeys,2 minutes)
+    assert(result.nonEmpty)
   }
 
 }

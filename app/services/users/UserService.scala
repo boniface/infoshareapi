@@ -1,10 +1,12 @@
 package services.users
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.users.User
 import repositories.users.UserRepository
-import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
@@ -29,5 +31,5 @@ trait UserService extends UserRepository {
     database.personTable.getUserByEmail(email)
   }
 }
-
+@Singleton
 object UserService extends UserService with UserRepository

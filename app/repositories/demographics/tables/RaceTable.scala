@@ -6,10 +6,13 @@ import domain.demographics.Race
 
 import scala.concurrent.Future
 
-class RaceTable extends CassandraTable[RaceTable,Race]{
-  object id extends StringColumn(this) with PartitionKey
-  object name extends StringColumn(this)
-  object state extends StringColumn(this)
+abstract class RaceTable extends Table[RaceTable, Race] {
+
+  object id extends StringColumn with PartitionKey
+
+  object name extends StringColumn
+
+  object state extends StringColumn
 
 }
 
@@ -24,14 +27,14 @@ abstract class RaceTableImpl extends RaceTable with RootConnector {
       .future()
   }
 
-  def findById(id: String):Future[Option[Race]] = {
+  def findById(id: String): Future[Option[Race]] = {
     select.where(_.id eqs id).one()
   }
   def findAll: Future[Seq[Race]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
 
-  def deleteById(id:String): Future[ResultSet] = {
+  def deleteById(id: String): Future[ResultSet] = {
     delete.where(_.id eqs id).future()
   }
 }

@@ -6,11 +6,7 @@ import domain.util.Keys
 
 import scala.concurrent.Future
 
-/**
-  * Created by /**
-  * Created by kuminga on 2016/08/29.
-  */
-  */
+
 abstract class KeysTable extends Table[KeysTable, Keys] {
 
   object id extends StringColumn with PartitionKey

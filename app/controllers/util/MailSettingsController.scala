@@ -1,59 +1,51 @@
 package controllers.util
 
-import conf.security.{TokenCheck, TokenFailExcerption}
+import conf.security.{TokenCheck, TokenFailException}
 import domain.util.Mail
 import play.api.libs.json.Json
-import play.api.mvc.{Action, Controller}
+import play.api.mvc._
 import services.util.MailService
+import javax.inject.Singleton
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-/**
-  * Created by hashcode on 2017/03/12.
-  */
-class MailSettingsController extends Controller {
+@Singleton
+class MailSettingsController extends InjectedController {
 
-  def create = Action.async(parse.json) {
-    request =>
-      val input = request.body
-      val entity = Json.fromJson[Mail](input).get
-      val response = for {
-        auth <- TokenCheck.getToken(request)
-        results <- MailService.save(entity)
-      } yield results
-      response.map(ans => Ok(Json.toJson(entity)))
-        .recover {
-          case tokenCheckFailed: TokenFailExcerption => Unauthorized
-          case otherException: Exception => InternalServerError
-        }
+  def create = Action.async(parse.json) { request =>
+    val input = request.body
+    val entity = Json.fromJson[Mail](input).get
+    val response = for {
+      _ <- TokenCheck.getToken(request)
+      results <- MailService.save(entity)
+    } yield results
+    response.map(_ => Ok(Json.toJson(entity))).recover {
+      case _: TokenFailException => Unauthorized
+      case _: Exception => InternalServerError
+    }
   }
 
-
-  def getMailSettingById(siteId:String, id: String) = Action.async {
-    request =>
-      val input = request.body
+  def getMailSettingById(siteId: String, id: String) = Action.async {
+    implicit request: Request[AnyContent] =>
       val response = for {
-        auth <- TokenCheck.getTokenfromParam(request)
-        results <- MailService.getMailSettingById(siteId,id)
+        _ <- TokenCheck.getTokenfromParam(request)
+        results <- MailService.getMailSettingById(siteId, id)
       } yield results
-      response.map(ans => Ok(Json.toJson(ans)))
-        .recover {
-          case tokenCheckFailed: TokenFailExcerption => Unauthorized
-          case otherException: Exception => InternalServerError
-        }
+      response.map(ans => Ok(Json.toJson(ans))).recover {
+        case _: TokenFailException => Unauthorized
+        case _: Exception => InternalServerError
+      }
   }
 
-  def getSiteMailSettings(siteId:String) = Action.async {
-    request =>
-      val input = request.body
+  def getSiteMailSettings(siteId: String) = Action.async {
+    implicit request: Request[AnyContent] =>
       val response = for {
-        auth <- TokenCheck.getTokenfromParam(request)
+        _ <- TokenCheck.getTokenfromParam(request)
         results <- MailService.getAllMailSettings(siteId)
       } yield results
-      response.map(ans => Ok(Json.toJson(ans)))
-        .recover {
-          case tokenCheckFailed: TokenFailExcerption => Unauthorized
-          case otherException: Exception => InternalServerError
-        }
+      response.map(ans => Ok(Json.toJson(ans))).recover {
+        case _: TokenFailException => Unauthorized
+        case _: Exception => InternalServerError
+      }
   }
 }

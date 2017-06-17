@@ -1,15 +1,16 @@
-# Routes
-# This file defines all application routes (Higher priority routes first)
-# ~~~~
+########################################################
+#####                   APP ROUTERS                #####
+########################################################
+->      /users              controllers.users.UsersRouter
+->      /utils              controllers.util.UtilRouter
+->      /content            controllers.content.ContentRouter
+->      /demo               controllers.demographics.DemographicsRouter
+->      /location           controllers.location.LocationRouter
+->      /org                controllers.organisation.OrganisationRouter
+->      /storage            controllers.storage.StorageRouter
+->      /events             controllers.syslog.SystemLogRouter
 
-# An example controller showing a sample home page
-GET     /                           controllers.App.index
-# An example controller showing how to use dependency injection
-#GET     /count                      controllers.CountController.count
-# An example controller showing how to write asynchronous code
-GET     /message                    controllers.AsyncController.message
 
-# Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
-
-->         /users               controllers.users.UsersRouter
+# static files resources
+GET     /                   controllers.App.index
+GET     /assets/*file       controllers.Assets.versioned(path="/public", file: Asset)

@@ -31,7 +31,7 @@ class RaceServiceTest extends FunSuite with BeforeAndAfter {
   test("update race"){
     updateEntity = raceEntity.copy(name = "White")
     val update = Await.result(raceService.save(updateEntity), 2.minutes)
-    val resp = Await.result(raceService.getById(raceEntity.id), 2.minutes)
+    val resp = Await.result(raceService.getById(updateEntity.id), 2.minutes)
 
     assert(update.isExhausted)
     assert(resp.head.name == updateEntity.name)
@@ -39,7 +39,7 @@ class RaceServiceTest extends FunSuite with BeforeAndAfter {
   }
 
   test("get all race"){
-    val result = Await.result(raceService.save(updateEntity.copy(id = "2")), 2.minutes)
+    val result = Await.result(raceService.save(raceEntity.copy(id = "2")), 2.minutes)
     val resp = Await.result(raceService.getAll, 2.minutes)
     assert(result.isExhausted)
     assert(resp.size > 1)

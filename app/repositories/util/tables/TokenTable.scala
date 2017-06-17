@@ -6,9 +6,7 @@ import domain.util.Token
 
 import scala.concurrent.Future
 
-/**
-  * Created by hashcode on 2015/06/09.
-  */
+
 abstract class TokenTable extends Table[TokenTable, Token] {
 
   object id extends StringColumn with PartitionKey

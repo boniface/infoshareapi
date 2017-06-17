@@ -25,11 +25,16 @@ class RolesServiceTest extends FunSuite{
 
   }
 
-  test("Upadte Role"){
+  test("Update Role"){
     val update = Await.result(service.save(updatedEntity),2 minutes)
     val result = Await.result(service.getRoleById("1"),2 minutes)
     assert(result.get.rolename=="ADMIN")
 
+  }
+
+  test("get Roles"){
+    val result = Await.result(service.getRoles,2 minutes)
+    assert(result.nonEmpty)
   }
 
 }
