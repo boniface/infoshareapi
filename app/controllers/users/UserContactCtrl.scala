@@ -2,7 +2,7 @@ package controllers.users
 
 import javax.inject.Singleton
 
-import conf.security.{TokenCheck, TokenFailExcerption}
+import conf.security.{TokenCheck, TokenFailException}
 import domain.users.UserContact
 import play.api.libs.json._
 import play.api.mvc._
@@ -12,7 +12,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
 class UserContactCtrl extends InjectedController {
-  val service = UserContactService
+  private val service = UserContactService
 
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[UserContact](request.body).get
@@ -21,7 +21,7 @@ class UserContactCtrl extends InjectedController {
       results <- service.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -34,7 +34,7 @@ class UserContactCtrl extends InjectedController {
         results <- service.getById(args)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
@@ -46,8 +46,9 @@ class UserContactCtrl extends InjectedController {
         results <- service.getAllUserContacts(emailId)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
+
 }

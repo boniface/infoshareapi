@@ -2,7 +2,7 @@ package controllers.users
 
 import javax.inject.Singleton
 
-import conf.security.{TokenCheck, TokenFailExcerption}
+import conf.security.{TokenCheck, TokenFailException}
 import domain.users.UserRole
 import play.api.libs.json._
 import play.api.mvc._
@@ -12,7 +12,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
 class UserRoleCtrl extends InjectedController {
-  val service = UserRoleService
+  private val service = UserRoleService
 
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[UserRole](request.body).get
@@ -21,20 +21,20 @@ class UserRoleCtrl extends InjectedController {
       results <- service.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
 
-  def getById(emailId: String, id: String) = Action.async {
+  def getById(emailId: String, roleId: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      val args = Map("emailId" -> emailId, "id" -> id)
+      val args = Map("emailId" -> emailId, "roleId" -> roleId)
       val resp = for {
         _ <- TokenCheck.getTokenfromParam(request)
-        results <- service.getRolesByemailId(args)
+        results <- service.getById(args)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
@@ -43,23 +43,23 @@ class UserRoleCtrl extends InjectedController {
     implicit request: Request[AnyContent] =>
       val resp = for {
         _ <- TokenCheck.getTokenfromParam(request)
-        results <- service.getUserRole(emailId)
+        results <- service.getAll(emailId)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
 
-  def detete(emailId: String, id: String) = Action.async {
+  def delete(emailId: String, roleId: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      val args = Map("emailId" -> emailId, "id" -> id)
+      val args = Map("emailId" -> emailId, "roleId" -> roleId)
       val resp = for {
         _ <- TokenCheck.getTokenfromParam(request)
-        results <- service.deleteRole(args)
+        results <- service.delete(args)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg.isExhausted))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }

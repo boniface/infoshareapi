@@ -27,11 +27,11 @@ abstract class StorageUrlTableImpl extends StorageUrlTable with RootConnector {
       .future()
   }
 
-  def getAllLinks: Future[Seq[StorageUrl]] = {
-    select.fetchEnumerator() run Iteratee.collect()
-  }
-
   def getLinkById(id: String): Future[Option[StorageUrl]] = {
     select.where(_.id eqs id).one()
+  }
+
+  def getAllLinks: Future[Seq[StorageUrl]] = {
+    select.fetchEnumerator() run Iteratee.collect()
   }
 }

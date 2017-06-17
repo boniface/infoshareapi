@@ -29,7 +29,7 @@ object TokenCheck {
     }
     check(tokenValue) map (tkn => {
       if (tkn) LogInStatus("VALID")
-      else throw TokenFailExcerption("Error")
+      else throw TokenFailException("Error")
     })
   }
 

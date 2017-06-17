@@ -2,7 +2,7 @@ package controllers.syslog
 
 import javax.inject.Singleton
 
-import conf.security.{TokenCheck, TokenFailExcerption}
+import conf.security.{TokenCheck, TokenFailException}
 import domain.syslog.SystemLogEvents
 import play.api.libs.json._
 import play.api.mvc._
@@ -21,31 +21,32 @@ class SystemLogEventsCtrl extends InjectedController {
       results <- service.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
 
-  def getById(siteId: String, id: String) = Action.async {
+  def getById(org: String, id: String) = Action.async {
     implicit request: Request[AnyContent] =>
+      val args = Map("org" -> org, "id" -> id)
       val resp = for {
         _ <- TokenCheck.getTokenfromParam(request)
-        results <- service.getEventById(siteId, id)
+        results <- service.getById(args)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
 
-  def getAll(siteId: String) = Action.async {
+  def getAll(org: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
         _ <- TokenCheck.getTokenfromParam(request)
-        results <- service.getSiteLogs(siteId)
+        results <- service.getAll(org)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }

@@ -30,7 +30,7 @@ class ItemStatusServiceTest extends FunSuite{
 
   }
 
-  test("Upadte Item Status"){
+  test("Update Item Status"){
     val update = Await.result(service.save(updatedEntity),2 minutes)
     val result = Await.result(service.getStatus("1"),2 minutes)
     assert(result.head.status=="INACTIVE")

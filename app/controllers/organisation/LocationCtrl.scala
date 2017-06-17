@@ -2,7 +2,7 @@ package controllers.organisation
 
 import javax.inject.Singleton
 
-import conf.security.{TokenCheck, TokenFailExcerption}
+import conf.security.{TokenCheck, TokenFailException}
 import domain.organisation.Location
 import play.api.libs.json._
 import play.api.mvc._
@@ -21,7 +21,7 @@ class LocationCtrl extends InjectedController {
       results <- service.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -34,7 +34,7 @@ class LocationCtrl extends InjectedController {
         results <- service.getById(args)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
@@ -46,7 +46,7 @@ class LocationCtrl extends InjectedController {
         results <- service.getAll(org)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
@@ -59,7 +59,7 @@ class LocationCtrl extends InjectedController {
         results <- service.delete(args)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg.isExhausted))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }

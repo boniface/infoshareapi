@@ -1,5 +1,7 @@
 package services.util
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.util.Keys
 import repositories.util.KeysRepository
@@ -24,5 +26,5 @@ trait KeysService extends KeysRepository {
   }
 }
 
-
+@Singleton
 object KeysService extends KeysService with KeysRepository

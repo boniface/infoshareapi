@@ -7,6 +7,8 @@
 ->      /demo               controllers.demographics.DemographicsRouter
 ->      /location           controllers.location.LocationRouter
 ->      /org                controllers.organisation.OrganisationRouter
+->      /storage            controllers.storage.StorageRouter
+->      /events             controllers.syslog.SystemLogRouter
 
 
 # static files resources

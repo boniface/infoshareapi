@@ -2,7 +2,7 @@ package controllers.demographics
 
 import javax.inject.Singleton
 
-import conf.security.{TokenCheck, TokenFailExcerption}
+import conf.security.{TokenCheck, TokenFailException}
 import domain.demographics.Race
 import play.api.libs.json._
 import play.api.mvc._
@@ -22,7 +22,7 @@ class RaceCtrl extends InjectedController {
       results <- service.save(entity)
     } yield results
     resp.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -34,7 +34,7 @@ class RaceCtrl extends InjectedController {
         results <- service.getById(id)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
@@ -45,7 +45,7 @@ class RaceCtrl extends InjectedController {
       results <- service.getAll
     } yield results
     resp.map(msg => Ok(Json.toJson(msg))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -57,7 +57,7 @@ class RaceCtrl extends InjectedController {
         results <- service.deleteById(id)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg.isExhausted))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }

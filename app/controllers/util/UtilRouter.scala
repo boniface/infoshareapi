@@ -8,7 +8,8 @@ import play.api.routing.sird._
 
 class UtilRouter @Inject()(roleController: RoleController)(
     keysController: KeysController)(
-    mailSettingsController: MailSettingsController)
+    mailSettingsController: MailSettingsController,
+    itemsStatusCtrl: ItemsStatusCtrl)
     extends SimpleRouter {
   override def routes: Routes = {
 
@@ -19,6 +20,12 @@ class UtilRouter @Inject()(roleController: RoleController)(
       roleController.create
     case GET(p"/roles/$id") =>
       roleController.getRoleById(id)
+
+ //items status
+    case POST(p"/roles/create") =>
+      itemsStatusCtrl.create
+    case GET(p"/roles/$id") =>
+      itemsStatusCtrl.getById(id)
 
     //KEYS
     case GET(p"/keys/all") =>

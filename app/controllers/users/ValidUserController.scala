@@ -2,7 +2,7 @@ package controllers.users
 
 import javax.inject.Singleton
 
-import conf.security.{TokenCheck, TokenFailExcerption}
+import conf.security.{TokenCheck, TokenFailException}
 import domain.users.ValidUser
 import play.api.libs.json.Json
 import play.api.mvc._
@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 @Singleton
 class ValidUserController extends InjectedController {
 
-  val validUserService: ValidUserService = ValidUserService
+  private val validUserService: ValidUserService = ValidUserService
 
   def create = Action.async(parse.json) { request =>
     val input = request.body
@@ -24,7 +24,7 @@ class ValidUserController extends InjectedController {
       results <- ValidUserService.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -48,4 +48,5 @@ class ValidUserController extends InjectedController {
       Ok(Json.toJson(msg))
     }
   }
+
 }

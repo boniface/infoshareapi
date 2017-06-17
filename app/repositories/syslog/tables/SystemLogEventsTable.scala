@@ -11,7 +11,7 @@ import scala.concurrent.Future
 
 abstract class SystemLogEventsTable extends Table[SystemLogEventsTable, SystemLogEvents] {
 
-  object siteId extends StringColumn with PartitionKey
+  object org extends StringColumn with PartitionKey
 
   object id extends StringColumn with PrimaryKey
 
@@ -31,7 +31,7 @@ abstract class SystemLogEventsTableImpl extends SystemLogEventsTable with RootCo
 
   def save(systemLogEvents: SystemLogEvents): Future[ResultSet] = {
     insert
-      .value(_.siteId, systemLogEvents.org)
+      .value(_.org, systemLogEvents.org)
       .value(_.id, systemLogEvents.id)
       .value(_.eventName, systemLogEvents.eventName)
       .value(_.eventType, systemLogEvents.eventType)
@@ -42,17 +42,12 @@ abstract class SystemLogEventsTableImpl extends SystemLogEventsTable with RootCo
 
   }
 
-  def getEventById(siteId: String, id: String): Future[Option[SystemLogEvents]] = {
-    select
-      .where(_.siteId eqs siteId)
-      .and(_.id eqs id)
-      .one()
+  def getById(map: Map[String, String]): Future[Option[SystemLogEvents]] = {
+    select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def getSiteLogs(siteId: String): Future[Seq[SystemLogEvents]] = {
-    select
-      .where(_.siteId eqs siteId)
-      .fetchEnumerator() run Iteratee.collect()
+  def getAll(org: String): Future[Seq[SystemLogEvents]] = {
+    select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 
 }

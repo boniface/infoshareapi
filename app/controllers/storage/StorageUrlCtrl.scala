@@ -2,7 +2,7 @@ package controllers.storage
 
 import javax.inject.Singleton
 
-import conf.security.{TokenCheck, TokenFailExcerption}
+import conf.security.{TokenCheck, TokenFailException}
 import domain.storage.StorageUrl
 import play.api.libs.json._
 import play.api.mvc._
@@ -21,7 +21,7 @@ class StorageUrlCtrl extends InjectedController {
       results <- service.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -33,7 +33,7 @@ class StorageUrlCtrl extends InjectedController {
         results <- service.getLinkById(id)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
@@ -44,7 +44,7 @@ class StorageUrlCtrl extends InjectedController {
       results <- service.getAllLinks
     } yield results
     resp.map(msg => Ok(Json.toJson(msg))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }

@@ -1,6 +1,6 @@
 package controllers.util
 
-import conf.security.{TokenCheck, TokenFailExcerption}
+import conf.security.{TokenCheck, TokenFailException}
 import domain.util.Keys
 import play.api.libs.json.Json
 import play.api.mvc._
@@ -19,7 +19,7 @@ class KeysController extends InjectedController {
       results <- KeysService.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -31,7 +31,7 @@ class KeysController extends InjectedController {
         results <- KeysService.getKeyById(id)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
@@ -42,7 +42,7 @@ class KeysController extends InjectedController {
       results <- KeysService.getAllkeys
     } yield results
     response.map(ans => Ok(Json.toJson(ans))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }

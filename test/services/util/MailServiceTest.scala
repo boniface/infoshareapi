@@ -32,7 +32,7 @@ class MailServiceTest extends FunSuite{
 
   }
 
-  test("Upadte Mail Setting "){
+  test("Update Mail Setting "){
     val update = Await.result(service.save(updatedEntity),2 minutes)
     val result = Await.result(service.getAllMailSettings("CPUT"),2 minutes)
     assert(result.head.state=="INACTIVE")

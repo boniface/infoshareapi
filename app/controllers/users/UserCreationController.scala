@@ -1,6 +1,6 @@
 package controllers.users
 
-import conf.security.{Crediential, TokenCheck, TokenFailExcerption}
+import conf.security.{Crediential, TokenCheck, TokenFailException}
 import domain.users.{User, UserRole}
 import play.api.libs.json.Json
 import play.api.mvc.{AnyContent, InjectedController, Request}
@@ -12,16 +12,14 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class UserCreationController extends InjectedController {
 
   def createUser(roleId: String) = Action.async(parse.json) { request =>
-    val input = request.body
-
-    val entity = Json.fromJson[User](input).get
+    val entity = Json.fromJson[User](request.body).get
     val role = UserRole(entity.email, roleId, "ACTIVE")
     val response = for {
       _ <- TokenCheck.getToken(request)
       results <- UserCreationService.apply.createUser(entity, role)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -34,7 +32,7 @@ class UserCreationController extends InjectedController {
       results <- UserCreationService.apply.updateUser(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -47,7 +45,7 @@ class UserCreationController extends InjectedController {
       results <- UserCreationService.apply.registerUser(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -60,7 +58,7 @@ class UserCreationController extends InjectedController {
       results <- UserCreationService.apply.loginUser(entity)
     } yield results
     response.map(ans => Ok(Json.toJson(ans))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -73,7 +71,7 @@ class UserCreationController extends InjectedController {
       results <- UserCreationService.apply.isUserRegistered(entity)
     } yield results
     response.map(ans => Ok(Json.toJson(ans))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -85,8 +83,9 @@ class UserCreationController extends InjectedController {
         results <- UserCreationService.apply.getUser(email)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
+
 }

@@ -2,7 +2,7 @@ package controllers.users
 
 import javax.inject.Singleton
 
-import conf.security.{TokenCheck, TokenFailExcerption}
+import conf.security.{TokenCheck, TokenFailException}
 import domain.users.UserImages
 import play.api.libs.json._
 import play.api.mvc._
@@ -12,7 +12,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
 class UserImageCtrl extends InjectedController {
-  val service = UserImageService
+  private val service = UserImageService
 
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[UserImages](request.body).get
@@ -21,7 +21,7 @@ class UserImageCtrl extends InjectedController {
       results <- service.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -34,12 +34,12 @@ class UserImageCtrl extends InjectedController {
         results <- service.getUserImageById(args)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
 
-  def getAllUserImage(org: String, emailId: String) = Action.async {
+  def getAlluserImages(org: String, emailId: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val args = Map("org" -> org, "emailId" -> emailId)
       val resp = for {
@@ -47,7 +47,7 @@ class UserImageCtrl extends InjectedController {
         results <- service.getAllUserImages(args)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
@@ -59,7 +59,7 @@ class UserImageCtrl extends InjectedController {
         results <- service.getAllUserCompanyImages(org)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }

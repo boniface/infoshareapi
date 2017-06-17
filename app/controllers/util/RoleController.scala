@@ -1,6 +1,6 @@
 package controllers.util
 
-import conf.security.{TokenCheck, TokenFailExcerption}
+import conf.security.{TokenCheck, TokenFailException}
 import domain.util.Roles
 import play.api.libs.json.Json
 import play.api.mvc.{AnyContent, InjectedController, Request}
@@ -19,7 +19,7 @@ class RoleController extends InjectedController {
       results <- RolesService.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -31,7 +31,7 @@ class RoleController extends InjectedController {
         results <- RolesService.getRoleById(id)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
@@ -42,7 +42,7 @@ class RoleController extends InjectedController {
       results <- RolesService.getRoles
     } yield results
     response.map(ans => Ok(Json.toJson(ans))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }

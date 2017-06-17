@@ -1,6 +1,6 @@
 package controllers.util
 
-import conf.security.{TokenCheck, TokenFailExcerption}
+import conf.security.{TokenCheck, TokenFailException}
 import domain.util.Mail
 import play.api.libs.json.Json
 import play.api.mvc._
@@ -20,7 +20,7 @@ class MailSettingsController extends InjectedController {
       results <- MailService.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
-      case _: TokenFailExcerption => Unauthorized
+      case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
   }
@@ -32,7 +32,7 @@ class MailSettingsController extends InjectedController {
         results <- MailService.getMailSettingById(siteId, id)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }
@@ -44,7 +44,7 @@ class MailSettingsController extends InjectedController {
         results <- MailService.getAllMailSettings(siteId)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {
-        case _: TokenFailExcerption => Unauthorized
+        case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
   }

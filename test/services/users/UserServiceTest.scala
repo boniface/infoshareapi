@@ -22,10 +22,25 @@ class UserServiceTest extends FunSuite{
     assert(result.head.state=="ACTIVE")
   }
 
-  test("Upadte USER"){
+  test("Update USER"){
     val update = Await.result(service.save(updatedEntity),2 minutes)
-    val result = Await.result(service.getUserByEmail("test@test.com"),2 minutes)
+    val result = Await.result(service.getUser(entity.org,entity.email),2 minutes)
     assert(result.head.state=="INACTIVE")
+  }
+
+  test("get user by email"){
+    val result = Await.result(service.getUserByEmail("test@test.com"),2 minutes)
+    assert(result.head.email == entity.email)
+    assert(result.head.firstName == entity.firstName)
+    assert(result.head.lastName == entity.lastName)
+  }
+
+  test("get all org users"){
+    val resp = Await.result(service.save(entity.copy(email = "test2@test.com")),2 minutes)
+    val result = Await.result(service.getUsers(entity.org),2 minutes)
+    assert(result.head.state=="INACTIVE")
+    assert(result.size > 1)
+    assert(resp.isExhausted)
   }
 
 }

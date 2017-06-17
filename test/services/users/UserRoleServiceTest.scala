@@ -12,7 +12,7 @@ class UserRoleServiceTest extends FunSuite with BeforeAndAfter {
   var userRoleEntity, updateEntity: UserRole = _
 
   before{
-    userRoleEntity = UserRole("test@test.com",RolesID.ADMIN,"ACTIVE")
+    userRoleEntity = UserRole(emailId="test@test.com",roleId = "1", state="ACTIVE")
   }
 
   test("Create USER_ROLE"){
@@ -24,29 +24,34 @@ class UserRoleServiceTest extends FunSuite with BeforeAndAfter {
     updateEntity = userRoleEntity.copy(roleId = RolesID.ROLE_PUBLISHER)
     userRoleService.save(updateEntity)
 
-    val result = Await.result(userRoleService.getRolesByemailId( Map("emailId"->updateEntity.emailId, "roleId"->updateEntity.roleId)),2.minutes)
+    val result = Await.result(userRoleService.getById( Map("emailId"->updateEntity.emailId, "roleId"->updateEntity.roleId)),2.minutes)
     assert(result.head.roleId !=RolesID.ADMIN)
     assert(result.last.roleId==RolesID.ROLE_PUBLISHER)
   }
 
-  test{"GET  USER_ROLE "}{
-    val result = Await.result(userRoleService.getRolesByemailId( Map("emailId"->userRoleEntity.emailId, "roleId"->RolesID.ADMIN )),2 minutes)
-    assert(result.head.roleId==RolesID.ADMIN)
-    assert(result.head.emailId==userRoleEntity.emailId)
-  }
 
-  test("Upadte USER_ROLE"){
-    updateEntity = userRoleEntity.copy(roleId = RolesID.ROLE_PUBLISHER)
+  test("Update USER_ROLE"){
+    updateEntity = userRoleEntity.copy(state = "INACTIVE")
     val update = Await.result(userRoleService.save(updateEntity),2.minutes)
     assert(update.isExhausted)
 
-    val result = Await.result(userRoleService.getRolesByemailId(Map("emailId"->userRoleEntity.emailId,"roleId"-> RolesID.ROLE_PUBLISHER)),2.minutes)
-    assert(result.head.roleId==RolesID.ROLE_PUBLISHER)
+    val result = Await.result(userRoleService.getById(Map("emailId"->updateEntity.emailId,"roleId"-> updateEntity.roleId)),2.minutes)
+    assert(result.head.state==updateEntity.state)
+    assert(result.head.state !=userRoleEntity.state)
+  }
+
+  test("get all USER_ROLE"){
+    updateEntity = userRoleEntity.copy(roleId = "2")
+    val update = Await.result(userRoleService.save(updateEntity),2.minutes)
+    val result = Await.result(userRoleService.getAll(updateEntity.emailId),2.minutes)
+    assert(result.size > 1)
+    assert(update.isExhausted)
+
   }
 
   test("Delete USER_ROLE") {
-    val result = Await.result(userRoleService.deleteRole(Map("emailId" -> userRoleEntity.emailId, "roleId" -> RolesID.ROLE_PUBLISHER)), 2.minutes)
-    val result2 = Await.result(userRoleService.getRolesByemailId(Map("emailId"->userRoleEntity.emailId,"roleId"-> RolesID.ROLE_PUBLISHER)),2.minutes)
+    val result = Await.result(userRoleService.delete(Map("emailId" -> userRoleEntity.emailId, "roleId" -> RolesID.ROLE_PUBLISHER)), 2.minutes)
+    val result2 = Await.result(userRoleService.getById(Map("emailId"->userRoleEntity.emailId,"roleId"-> RolesID.ROLE_PUBLISHER)),2.minutes)
     assert(result2.isEmpty)
     assert(result.isExhausted)
   }

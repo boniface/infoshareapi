@@ -10,7 +10,7 @@ import scala.concurrent.Future
 
 
 abstract class UserTable extends Table[UserTable,User]  {
-  
+
   object org extends StringColumn with PartitionKey
 
   object email extends StringColumn with PrimaryKey
@@ -35,7 +35,6 @@ abstract class UserTableImpl extends UserTable with RootConnector {
   override lazy val tableName = "users"
 
   def save(user: User): Future[ResultSet] = {
-    /**save new user account to the db where are you being used ?? */
     insert
       .value(_.org, user.org)
       .value(_.email, user.email)
@@ -50,14 +49,10 @@ abstract class UserTableImpl extends UserTable with RootConnector {
   }
 
   def getUsers(org: String): Future[Seq[User]] = {
-    /** get one user on that organization based on the email given  */
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
   def getUser(org:String, email: String): Future[Option[User]] = {
-    /** get one user on that organization based on the email given  */
-    select
-      .where(_.org eqs org)
-      .and(_.email eqs email).one()
+    select.where(_.org eqs org).and(_.email eqs email).one()
   }
 
 }
@@ -88,7 +83,6 @@ abstract class  PersonTableImpl extends PersonTable with RootConnector {
   override lazy val tableName = "persons"
 
   def save(user: User): Future[ResultSet] = {
-    /** save new user account to the db */
     insert
       .value(_.org, user.org)
       .value(_.email, user.email)
@@ -103,7 +97,6 @@ abstract class  PersonTableImpl extends PersonTable with RootConnector {
   }
 
     def getUserByEmail(email: String): Future[Seq[User]] = {
-      /** get all users within that organization */
       select.where(_.email eqs email).fetchEnumerator() run Iteratee.collect()
     }
 

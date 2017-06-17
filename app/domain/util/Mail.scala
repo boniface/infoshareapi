@@ -14,6 +14,5 @@ case class Mail(siteId: String,
 
 object Mail {
   implicit val mailFmt = Json.format[Mail]
-
   def identity: Mail = Mail("", "", "", "", "", "", "", Date.now())
 }

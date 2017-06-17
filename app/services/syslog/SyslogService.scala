@@ -14,12 +14,12 @@ trait SyslogService extends SyslogRepository {
     database.systemLogEventsTable.save(systemLogEvents)
   }
 
-  def getEventById(siteId: String, id: String): Future[Option[SystemLogEvents]] = {
-    database.systemLogEventsTable.getEventById(siteId, id)
+  def getById(map: Map[String,String]): Future[Option[SystemLogEvents]] = {
+    database.systemLogEventsTable.getById(map)
   }
 
-  def getSiteLogs(siteId: String): Future[Seq[SystemLogEvents]] = {
-    database.systemLogEventsTable.getSiteLogs(siteId)
+  def getAll(org: String): Future[Seq[SystemLogEvents]] = {
+    database.systemLogEventsTable.getAll(org)
   }
 
 }
