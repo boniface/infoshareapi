@@ -2,7 +2,7 @@ package controllers.users
 
 import javax.inject.Singleton
 
-import conf.security.{TokenCheck, TokenFailException}
+import domain.security.TokenFailException
 import domain.users.UserDemographics
 import play.api.libs.json._
 import play.api.mvc._

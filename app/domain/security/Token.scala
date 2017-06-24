@@ -1,4 +1,4 @@
-package domain.util
+package domain.security
 
 import play.api.libs.json.Json
 

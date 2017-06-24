@@ -24,4 +24,22 @@ object HashcodeKeys {
 
   def RSSFEED = "RSS"
 
+  def PUBLICKEY = "PUBLICKEY"
+
+  def ISSUER = "HASHCODE.ZM"
+
+  def SITEUSERS = "SITEUSERS"
+
+  def SITEACCESS = "Site Access"
+
+  def EMAIL = "email"
+
+  def ROLE = "role"
+
+  def ORGCODE = "orgCode"
+
+  def AGENT = "agent"
+
+  def MAILKEY = "MAILKEY"
+
 }

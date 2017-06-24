@@ -1,10 +1,14 @@
 package domain.users
 
+import java.time.LocalDateTime
+
 import play.api.libs.json.Json
 
-case class UserRole(emailId: String, roleId: String, state: String)
-
+case class UserRole(emailId: String,
+                    date:LocalDateTime,
+                    roleId: String)
 object UserRole {
-  implicit val userRoleFmt = Json.format[UserRole]
-  def identity: UserRole = UserRole("", "", "")
+  implicit val userroleFmt = Json.format[UserRole]
+
+  def zero:UserRole = UserRole("",LocalDateTime.now(),"")
 }

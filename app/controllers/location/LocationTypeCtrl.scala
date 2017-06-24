@@ -2,11 +2,12 @@ package controllers.location
 
 import javax.inject.Singleton
 
-import conf.security.{TokenCheck, TokenFailException}
 import domain.location.LocationType
+import domain.security.TokenFailException
 import play.api.libs.json._
 import play.api.mvc._
 import services.location.LocationTypeService
+import services.security.TokenCheckService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -17,7 +18,7 @@ class LocationTypeCtrl extends InjectedController {
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[LocationType](request.body).get
     val response = for {
-      _ <- TokenCheck.getToken(request)
+      _ <- TokenCheckService.apply.getToken(request)
       results <- service.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
@@ -29,7 +30,7 @@ class LocationTypeCtrl extends InjectedController {
   def getById(id: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheck.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getTokenfromParam(request)
         results <- service.getLocById(id)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
@@ -40,7 +41,7 @@ class LocationTypeCtrl extends InjectedController {
 
   def getAll = Action.async { implicit request: Request[AnyContent] =>
     val resp = for {
-      _ <- TokenCheck.getTokenfromParam(request)
+      _ <- TokenCheckService.apply.getTokenfromParam(request)
       results <- service.getAllLocactions
     } yield results
     resp.map(msg => Ok(Json.toJson(msg))).recover {

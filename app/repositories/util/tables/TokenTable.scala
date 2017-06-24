@@ -2,7 +2,7 @@ package repositories.util.tables
 
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
-import domain.util.Token
+import domain.security.Token
 
 import scala.concurrent.Future
 
@@ -22,7 +22,7 @@ abstract class TokenTableImpl extends TokenTable with RootConnector {
     insert
       .value(_.id, token.id)
       .value(_.tokenValue, token.tokenValue)
-      .ttl(12000)
+      .ttl(86400)
       .future()
   }
 
@@ -33,6 +33,10 @@ abstract class TokenTableImpl extends TokenTable with RootConnector {
 
   def getAllTokens: Future[Seq[Token]] = {
     select.fetchEnumerator() run Iteratee.collect()
+  }
+
+  def invalidateToken(id: String): Future[ResultSet] = {
+    delete.where(_.id eqs id).future()
   }
 
 }

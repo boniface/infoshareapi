@@ -2,10 +2,11 @@ package controllers.users
 
 import javax.inject.Singleton
 
-import conf.security.{TokenCheck, TokenFailException}
+import domain.security.TokenFailException
 import domain.users.ValidUser
 import play.api.libs.json.Json
 import play.api.mvc._
+import services.security.TokenCheckService
 import services.users.ValidUserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -20,7 +21,7 @@ class ValidUserController extends InjectedController {
     val entity = Json.fromJson[ValidUser](input).get
 
     val response = for {
-      _ <- TokenCheck.getToken(request)
+      _ <- TokenCheckService.apply.getToken(request)
       results <- ValidUserService.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {

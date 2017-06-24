@@ -1,5 +1,7 @@
 package repositories.users.tables
 
+import java.time.LocalDateTime
+
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
 import domain.users.UserRole
@@ -11,32 +13,31 @@ abstract class UserRoleTable extends Table[UserRoleTable, UserRole] {
 
   object emailId extends StringColumn with PartitionKey
 
-  object roleId extends StringColumn with PrimaryKey
+  object date extends Col[LocalDateTime]  with PrimaryKey with ClusteringOrder with Ascending
 
-  object state extends StringColumn
+  object roleId extends StringColumn
 
 }
 
 abstract class UserRoleTableImpl extends UserRoleTable with RootConnector {
-  override lazy val tableName = "userRole"
 
- def save(role: UserRole): Future[ResultSet] = {
-   insert
+  override lazy val tableName = "userroles"
+
+  def save(role: UserRole): Future[ResultSet] = {
+    insert
       .value(_.emailId, role.emailId)
       .value(_.roleId, role.roleId)
-      .value(_.state, role.state)
+      .value(_.date, role.date)
       .future()
   }
 
-
-  def getById(map: Map[String, String]): Future[Option[UserRole]] = {
-    select.where(_.emailId eqs map("emailId")).and(_.roleId eqs map("roleId")).one
+  def getUserRoles(emailId: String): Future[Seq[UserRole]] = {
+    select
+      .where(_.emailId eqs emailId)
+      .fetchEnumerator() run Iteratee.collect()
   }
 
-  def getAll(emailId: String): Future[Seq[UserRole]] = {
-    select.where(_.emailId eqs emailId).fetchEnumerator() run Iteratee.collect()
-  }
-  def deleteById(map: Map[String, String]): Future[ResultSet] = {
-    delete.where(_.emailId eqs map("emailId")).and(_.roleId eqs map("roleId")).future()
+  def deleteUserRoles(emailId:String):Future[ResultSet] ={
+    delete.where(_.emailId eqs emailId).future()
   }
 }

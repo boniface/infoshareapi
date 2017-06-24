@@ -2,11 +2,13 @@ package controllers.content
 
 import javax.inject.Singleton
 
-import conf.security.{TokenCheck, TokenFailException}
 import domain.content.PublishedContent
+import domain.security.TokenFailException
 import play.api.libs.json._
 import play.api.mvc._
 import services.content.PublishedContentService
+import services.security.TokenCheckService
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
@@ -16,7 +18,7 @@ class PublishedContentCtrl extends InjectedController {
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[PublishedContent](request.body).get
     val resp = for {
-      _ <- TokenCheck.getToken(request)
+      _ <- TokenCheckService.apply.getToken(request)
       results <- service.save(entity)
     } yield results
     resp.map(_ => Ok(Json.toJson(entity))).recover {
@@ -29,7 +31,7 @@ class PublishedContentCtrl extends InjectedController {
     implicit request: Request[AnyContent] =>
       val args = Map("org" -> org, "id" -> id)
       val resp = for {
-        _ <- TokenCheck.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getTokenfromParam(request)
         results <- service.getById(args)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {

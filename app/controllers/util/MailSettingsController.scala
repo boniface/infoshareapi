@@ -1,11 +1,13 @@
 package controllers.util
 
-import conf.security.{TokenCheck, TokenFailException}
+import javax.inject.Singleton
+
+import domain.security.TokenFailException
 import domain.util.Mail
 import play.api.libs.json.Json
 import play.api.mvc._
-import services.util.MailService
-import javax.inject.Singleton
+import services.mail.MailService
+import services.security.TokenCheckService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -16,7 +18,7 @@ class MailSettingsController extends InjectedController {
     val input = request.body
     val entity = Json.fromJson[Mail](input).get
     val response = for {
-      _ <- TokenCheck.getToken(request)
+      _ <- TokenCheckService.apply.getToken(request)
       results <- MailService.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
@@ -28,7 +30,7 @@ class MailSettingsController extends InjectedController {
   def getMailSettingById(siteId: String, id: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val response = for {
-        _ <- TokenCheck.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getTokenfromParam(request)
         results <- MailService.getMailSettingById(siteId, id)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {
@@ -40,7 +42,7 @@ class MailSettingsController extends InjectedController {
   def getSiteMailSettings(siteId: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val response = for {
-        _ <- TokenCheck.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getTokenfromParam(request)
         results <- MailService.getAllMailSettings(siteId)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {

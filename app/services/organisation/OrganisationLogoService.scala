@@ -1,7 +1,8 @@
 package services.organisation
 
-import com.outworkers.phantom.dsl.ResultSet
 import javax.inject.Singleton
+
+import com.outworkers.phantom.dsl.ResultSet
 import domain.organisation.OrganisationLogo
 import repositories.organisation.OrganisationLogoRepository
 

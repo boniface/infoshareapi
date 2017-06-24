@@ -2,11 +2,12 @@ package controllers.demographics
 
 import javax.inject.Singleton
 
-import conf.security.{TokenCheck, TokenFailException}
 import domain.demographics.Language
+import domain.security.TokenFailException
 import play.api.libs.json._
 import play.api.mvc._
 import services.demographics.LanguageService
+import services.security.TokenCheckService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -18,7 +19,7 @@ class LanguageCtrl extends InjectedController {
     val entity = Json.fromJson[Language](request.body).get
 
     val resp = for {
-      _ <- TokenCheck.getToken(request)
+      _ <- TokenCheckService.apply.getToken(request)
       results <- service.save(entity)
     } yield results
     resp.map(_ => Ok(Json.toJson(entity))).recover {
@@ -30,7 +31,7 @@ class LanguageCtrl extends InjectedController {
   def getById(id: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheck.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getTokenfromParam(request)
         results <- service.getById(id)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {

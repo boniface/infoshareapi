@@ -1,6 +1,6 @@
 package services.users
 
-import conf.util.RolesID
+import domain.security.RolesID
 import domain.users.UserRole
 import org.scalatest.{BeforeAndAfter, FunSuite}
 

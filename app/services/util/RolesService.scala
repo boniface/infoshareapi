@@ -3,7 +3,7 @@ package services.util
 import javax.inject.Singleton
 
 import com.outworkers.phantom.dsl.ResultSet
-import domain.util.Roles
+import domain.security.Roles
 import repositories.util.RolesRepository
 
 import scala.concurrent.Future
