@@ -43,7 +43,7 @@ class UserAddressCtrl extends InjectedController {
   def getAll(emailId: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheck.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getTokenfromParam(request)
         results <- service.getAll(emailId)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
