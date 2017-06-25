@@ -1,5 +1,6 @@
 package controllers.users
 
+import java.time.LocalDateTime
 import javax.inject.Singleton
 
 import domain.security.{Credential, TokenFailException}
@@ -16,7 +17,7 @@ class UserCreationController extends InjectedController {
 
   def createUser(roleId: String) = Action.async(parse.json) { request =>
     val entity = Json.fromJson[User](request.body).get
-    val role = UserRole(entity.email, LocalDate.now,roleId, "ACTIVE",)
+    val role = UserRole(entity.email, LocalDateTime.now,roleId)
     val response = for {
       _ <- TokenCheckService.apply.getToken(request)
       results <- UserCreationService.apply.createUser(entity, role)
