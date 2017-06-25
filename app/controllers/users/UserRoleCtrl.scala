@@ -32,7 +32,7 @@ class UserRoleCtrl extends InjectedController {
       val args = Map("emailId" -> emailId, "roleId" -> roleId)
       val resp = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
-        results <- service.getById(args)
+        results <- service.getUserRole(emailId)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
         case _: TokenFailException => Unauthorized
@@ -44,7 +44,7 @@ class UserRoleCtrl extends InjectedController {
     implicit request: Request[AnyContent] =>
       val resp = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
-        results <- service.getAll(emailId)
+        results <- service.getUserRoles(emailId)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
         case _: TokenFailException => Unauthorized
@@ -57,7 +57,7 @@ class UserRoleCtrl extends InjectedController {
       val args = Map("emailId" -> emailId, "roleId" -> roleId)
       val resp = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
-        results <- service.delete(args)
+        results <- service.deleteUserRoles(emailId)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg.isExhausted))).recover {
         case _: TokenFailException => Unauthorized

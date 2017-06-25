@@ -43,7 +43,7 @@ class PublishedContentCtrl extends InjectedController {
   def getPaginated(org: String, start_value: Int) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheck.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getTokenfromParam(request)
         results <- service.getPaginatedContents(org, start_value)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg.toSeq))).recover {
@@ -55,7 +55,7 @@ class PublishedContentCtrl extends InjectedController {
   def getAll(org: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheck.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getTokenfromParam(request)
         results <- service.getAll(org)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {

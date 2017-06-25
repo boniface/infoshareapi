@@ -6,7 +6,7 @@ import domain.security.{Credential, TokenFailException}
 import domain.users.{User, UserRole}
 import play.api.libs.json.Json
 import play.api.mvc.{AnyContent, InjectedController, Request}
-import services.security.TokenCheckService
+import services.security.{LoginService, TokenCheckService}
 import services.users.UserCreationService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -16,7 +16,7 @@ class UserCreationController extends InjectedController {
 
   def createUser(roleId: String) = Action.async(parse.json) { request =>
     val entity = Json.fromJson[User](request.body).get
-    val role = UserRole(entity.email, roleId, "ACTIVE")
+    val role = UserRole(entity.email, LocalDate.now,roleId, "ACTIVE",)
     val response = for {
       _ <- TokenCheckService.apply.getToken(request)
       results <- UserCreationService.apply.createUser(entity, role)
@@ -58,7 +58,7 @@ class UserCreationController extends InjectedController {
     val entity = Json.fromJson[Credential](input).get
     val response = for {
       _ <- TokenCheckService.apply.getToken(request)
-      results <- UserCreationService.apply.getUser(entity)
+      results <- LoginService.apply.createNewToken(entity,"Agent")
     } yield results
     response.map(ans => Ok(Json.toJson(ans))).recover {
       case _: TokenFailException => Unauthorized
@@ -70,7 +70,7 @@ class UserCreationController extends InjectedController {
     val input = request.body
     val entity = Json.fromJson[User](input).get
     val response = for {
-      _ <- TokenCheck.getToken(request)
+      _ <- TokenCheckService.apply.getToken(request)
       results <- UserCreationService.apply.isUserRegistered(entity)
     } yield results
     response.map(ans => Ok(Json.toJson(ans))).recover {
@@ -82,7 +82,7 @@ class UserCreationController extends InjectedController {
   def getUser(email: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val response = for {
-        _ <- TokenCheck.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getTokenfromParam(request)
         results <- UserCreationService.apply.getUser(email)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {
