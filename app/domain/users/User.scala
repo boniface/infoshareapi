@@ -1,20 +1,22 @@
 package domain.users
 
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 import play.api.libs.json.Json
 
 case class User(org: String,
                 email: String,
-                firstName: String,
-                lastName: String,
+                firstName:  Option[String],
+                lastName:  Option[String],
                 middleName: Option[String],
-                screenName: Option[String],
+                screenName: String,
                 password: String,
                 state: String,
-                date: Date)
+                date: LocalDateTime)
 
 object User {
+
   implicit val userFmt = Json.format[User]
-  def identity: User = User("", "", "", "", None, None, "", "", Date.now())
+
+  def identity: User = User("", "", None, None, None, "", "", "", LocalDateTime.now())
 
 }

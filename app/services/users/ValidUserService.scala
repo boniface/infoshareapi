@@ -6,6 +6,7 @@ import com.outworkers.phantom.dsl.ResultSet
 import domain.users.ValidUser
 import repositories.users.ValidUserRepository
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 /**
@@ -14,7 +15,10 @@ import scala.concurrent.Future
 trait ValidUserService extends ValidUserRepository {
 
   def save(user: ValidUser): Future[ResultSet] = {
-    database.validUserTable.save(user)
+    for {
+      _ <- database.validUserTable.save(user)
+      saveValidUser <- database.timeLineValidUserTable.save(user)
+    } yield saveValidUser
 
   }
 
@@ -28,6 +32,10 @@ trait ValidUserService extends ValidUserRepository {
 
   def getValidUsers: Future[Int] = {
     database.validUserTable.getValidUsers
+  }
+
+  def getValidUsersInLast24hours: Future[Seq[ValidUser]] = {
+    database.timeLineValidUserTable.getValidUsersInLast24hours
   }
 
 }

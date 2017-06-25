@@ -1,8 +1,9 @@
 package services.content
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.content.Category
-import javax.inject.Singleton
 import repositories.content.CategoryRepository
 
 import scala.concurrent.Future

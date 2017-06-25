@@ -1,6 +1,6 @@
 package repositories.users.tables
 
-import java.time.{LocalDateTime =>Date}
+import java.time.LocalDateTime
 
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.jdk8._
@@ -14,7 +14,7 @@ abstract class ValidUserTable extends Table[ValidUserTable, ValidUser] {
 
   object userId extends StringColumn with PartitionKey
 
-  object date extends Col[Date] with PrimaryKey
+  object date extends Col[LocalDateTime] with PrimaryKey
 
   object action extends StringColumn
 
@@ -49,3 +49,34 @@ abstract class ValidUserTableImpl extends ValidUserTable with RootConnector {
   }
 }
 
+
+abstract class TimeLineValidUserTable extends Table[TimeLineValidUserTable, ValidUser] {
+
+  object date extends Col[LocalDateTime] with PartitionKey
+
+  object userId extends StringColumn with PrimaryKey
+
+  object action extends StringColumn
+
+}
+
+abstract class TimeLineValidUserTableImpl extends TimeLineValidUserTable with RootConnector {
+
+  override lazy val tableName = "timelinevalidusers"
+
+  def save(user: ValidUser): Future[ResultSet] = {
+    insert
+      .value(_.userId, user.userId)
+      .value(_.date, user.date)
+      .value(_.action, user.action)
+      .future()
+  }
+
+  def getValidUsersInLast24hours: Future[Seq[ValidUser]] = {
+    val date = LocalDateTime.now()
+    val last24hrs = date.minusHours(24.toLong)
+    select
+      .where(_.date gt last24hrs)
+      .fetchEnumerator() run Iteratee.collect()
+  }
+}

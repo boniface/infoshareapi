@@ -1,5 +1,5 @@
 package services.util
-import domain.util.Roles
+import domain.security.Roles
 import org.scalatest.FunSuite
 
 import scala.concurrent.Await

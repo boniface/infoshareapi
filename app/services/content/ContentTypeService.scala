@@ -1,9 +1,10 @@
 package services.content
 
-import repositories.content.ContentTypeRepository
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.content.ContentType
-import javax.inject.Singleton
+import repositories.content.ContentTypeRepository
 
 import scala.concurrent.Future
 

@@ -8,8 +8,8 @@ lazy val root = (project in file("."))
 
 scalaVersion := "2.12.2"
 
-val PhantomVersion = "2.9.2"
-val PlayFrameWorkVersion = "2.6.0-RC2"
+val PhantomVersion = "2.12.1"
+val PlayFrameWorkVersion = "2.6.0"
 val circeVersion = "0.8.0"
 
 maintainer := "Boniface Kabaso <boniface@kabaso.com>"
@@ -50,7 +50,7 @@ libraryDependencies ++= Seq(
 ).map(_ % circeVersion)
 
 libraryDependencies += filters
-libraryDependencies += "org.scalatestplus.play" % "scalatestplus-play_2.12" % "3.0.0-RC1"
+libraryDependencies += "org.scalatestplus.play" % "scalatestplus-play_2.12" % "3.0.0"
 libraryDependencies += "javax.mail" % "javax.mail-api" % "1.5.6"
 libraryDependencies += "org.typelevel" %% "cats" % "0.9.0"
 
@@ -67,6 +67,8 @@ libraryDependencies += "org.apache.commons" % "commons-lang3" % "3.5"
 libraryDependencies += "org.apache.commons" % "commons-email" % "1.4"
 libraryDependencies += "com.esotericsoftware" % "kryo" % "4.0.0"
 libraryDependencies += "com.roundeights" % "hasher_2.12" % "1.2.0"
+libraryDependencies += "com.sendgrid" % "sendgrid-java" % "4.0.1"
+libraryDependencies += "org.bitbucket.b_c" % "jose4j" % "0.5.6"
 
 libraryDependencies += "com.typesafe.play" % "play-iteratees_2.12" % "2.6.1"
 libraryDependencies += "com.typesafe.play" % "play-iteratees-reactive-streams_2.12" % "2.6.1"
@@ -76,7 +78,7 @@ libraryDependencies += "com.typesafe.play" % "play-akka-http-server_2.12" % Play
 libraryDependencies += "com.typesafe.play" % "play-guice_2.12" % PlayFrameWorkVersion
 libraryDependencies += "com.typesafe.play" % "play-ws_2.12" % PlayFrameWorkVersion
 
-libraryDependencies += "me.lessis" % "base64_2.11" % "0.2.0"
+
 
 resolvers ++= Seq(
   "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
@@ -91,7 +93,6 @@ resolvers ++= Seq(
   "Java.net Maven2 Repository" at "http://download.java.net/maven/2/",
   "Twitter Repository" at "http://maven.twttr.com",
   "Websudos releases" at "https://dl.bintray.com/websudos/oss-releases/",
-  "Goose Updates " at "https://dl.bintray.com/raisercostin/maven/",
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots"),
   Resolver.sonatypeRepo("public")

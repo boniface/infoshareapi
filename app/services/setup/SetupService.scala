@@ -1,17 +1,16 @@
 package services.setup
 
-import com.outworkers.phantom.dsl.ResultSet
-import repositories.users._
+import com.outworkers.phantom.dsl.{ResultSet, context}
 import repositories.content._
 import repositories.demographics._
 import repositories.location._
-import repositories.storage._
 import repositories.organisation._
+import repositories.storage._
 import repositories.syslog._
-import repositories.util.{KeysDatabase, ItemStatusDatabase, MailDatabase, RolesDatabase, TokenDatabase}
+import repositories.users._
+import repositories.util._
 
 import scala.concurrent.Future
-import com.outworkers.phantom.dsl.context
 
 /**
   * Created by hashcode on 2017/04/21.
@@ -37,9 +36,9 @@ object SetupService {
       setup <- UserLanguageDatabase.userLanguageTable.create.ifNotExists().future()
       setup <- UserImagesDatabase.userImagesTable.create.ifNotExists().future()
       setup <- UserDatabase.userTable.create.ifNotExists().future()
-      setup <- UserDatabase.personTable.create.ifNotExists().future()
+      setup <- UserDatabase.userTimeLineTable.create.ifNotExists().future()
       setup <- UserRoleDatabase.userRoleTable.create.ifNotExists().future()
-
+      setup <- UserDatabase.siteUserTable.create.ifNotExists().future()
       //      content
       setup <- CategoryDatabase.categoryTable.create.ifNotExists().future()
       setup <- ContentTypeDatabase.contentTypeTable.create.ifNotExists().future()
@@ -68,7 +67,7 @@ object SetupService {
 
       // Valid User
       setup <-ValidUserDatabase.validUserTable.create.ifNotExists().future()
-
+      setup <-ValidUserDatabase.timeLineValidUserTable.create.ifNotExists().future()
       // system log event
       setup <-SystemLogEventsDatabase.systemLogEventsTable.create.ifNotExists().future()
 

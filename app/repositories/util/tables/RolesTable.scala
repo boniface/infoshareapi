@@ -2,7 +2,7 @@ package repositories.util.tables
 
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
-import domain.util.Roles
+import domain.security.Roles
 
 import scala.concurrent.Future
 

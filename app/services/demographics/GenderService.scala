@@ -1,7 +1,8 @@
 package services.demographics
 
-import com.outworkers.phantom.dsl.ResultSet
 import javax.inject.Singleton
+
+import com.outworkers.phantom.dsl.ResultSet
 import domain.demographics.Gender
 import repositories.demographics.GenderRepository
 

@@ -1,8 +1,6 @@
 package services.users
 
-import conf.security.Crediential
 import domain.users.{User, UserRole}
-import domain.util.Token
 import services.users.Impl.UserCreationServiceImpl
 
 import scala.concurrent.Future
@@ -21,8 +19,6 @@ trait UserCreationService {
   def isUserRegistered(user:User): Future[Boolean]
 
   def updateUser(user:User): Future[Boolean]
-
-  def loginUser(credentials: Crediential):Future[Token]
 
   def getUser(email:String):Future[Option[User]]
 }

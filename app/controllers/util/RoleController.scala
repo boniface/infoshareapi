@@ -1,11 +1,13 @@
 package controllers.util
 
-import conf.security.{TokenCheck, TokenFailException}
-import domain.util.Roles
+import javax.inject.Singleton
+
+import domain.security.{Roles, TokenFailException}
 import play.api.libs.json.Json
 import play.api.mvc.{AnyContent, InjectedController, Request}
+import services.security.TokenCheckService
 import services.util.RolesService
-import javax.inject.Singleton
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
@@ -15,7 +17,7 @@ class RoleController extends InjectedController {
     val input = request.body
     val entity = Json.fromJson[Roles](input).get
     val response = for {
-      _ <- TokenCheck.getToken(request)
+      _ <- TokenCheckService.apply.getToken(request)
       results <- RolesService.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
@@ -27,7 +29,7 @@ class RoleController extends InjectedController {
   def getRoleById(id: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val response = for {
-        _ <- TokenCheck.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getTokenfromParam(request)
         results <- RolesService.getRoleById(id)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {
@@ -38,7 +40,7 @@ class RoleController extends InjectedController {
 
   def getRoles = Action.async { implicit request: Request[AnyContent] =>
     val response = for {
-      _ <- TokenCheck.getTokenfromParam(request)
+      _ <- TokenCheckService.apply.getTokenfromParam(request)
       results <- RolesService.getRoles
     } yield results
     response.map(ans => Ok(Json.toJson(ans))).recover {

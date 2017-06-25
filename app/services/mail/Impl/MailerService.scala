@@ -1,4 +1,4 @@
-package services.util.Impl
+package services.mail.Impl
 
 import domain.util.EmailMessage
 import org.apache.commons.mail.{DefaultAuthenticator, HtmlEmail}
