@@ -28,11 +28,11 @@ class UserController extends InjectedController {
     }
   }
 
-  def getUser(org: String, email: String) = Action.async {
+  def getUserByEmail(siteId: String, email: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
-        results <- service.getSiteUser(email)
+        results <- service.getSiteUser(email,siteId)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
         case _: TokenFailException => Unauthorized
@@ -40,11 +40,11 @@ class UserController extends InjectedController {
       }
   }
 
-  def getUserByEmail(email: String) = Action.async {
+  def getUserAccounts(email: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
-        results <- service.getSiteUser(email)
+        results <- service.getUserAccounts(email)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
         case _: TokenFailException => Unauthorized
@@ -52,11 +52,11 @@ class UserController extends InjectedController {
       }
   }
 
-  def getOrgUsers(org: String) = Action.async {
+  def getSiteUsers(siteUsers: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
-        results <- service.getSiteUsers(org)
+        results <- service.getSiteUsers(siteUsers)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
         case _: TokenFailException => Unauthorized

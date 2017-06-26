@@ -38,11 +38,11 @@ class UsersRouter @Inject()(userCreationRouter: UserCreationController,
     case POST(p"/user/create") =>
       userController.create
     case GET(p"/user/org/$org") =>
-      userController.getOrgUsers(org)
+      userController.getSiteUsers(org)
     case GET(p"/user/$org/$email") =>
-      userController.getUser(org, email)
+      userController.getUserByEmail(org, email)
     case GET(p"/user/$email") =>
-      userController.getUserByEmail(email)
+      userController.getUserAccounts(email)
 
     //user creation
     case POST(p"/usercreation/create/$roleId") =>

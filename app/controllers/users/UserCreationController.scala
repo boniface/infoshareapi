@@ -17,7 +17,7 @@ class UserCreationController extends InjectedController {
 
   def createUser(roleId: String) = Action.async(parse.json) { request =>
     val entity = Json.fromJson[User](request.body).get
-    val role = UserRole(entity.email, LocalDateTime.now,roleId)
+    val role = UserRole(entity.email, LocalDateTime.now, roleId)
     val response = for {
       _ <- TokenCheckService.apply.getToken(request)
       results <- UserCreationService.apply.createUser(entity, role)
@@ -57,9 +57,11 @@ class UserCreationController extends InjectedController {
   def login = Action.async(parse.json) { request =>
     val input = request.body
     val entity = Json.fromJson[Credential](input).get
+    val agent = request.headers.toSimpleMap.getOrElse("User-Agent", "")
+    val siteId = request.headers.get("SiteID").getOrElse("")
     val response = for {
       _ <- TokenCheckService.apply.getToken(request)
-      results <- LoginService.apply.createNewToken(entity,"Agent")
+      results <- LoginService.apply.createNewToken(entity, agent, siteId)
     } yield results
     response.map(ans => Ok(Json.toJson(ans))).recover {
       case _: TokenFailException => Unauthorized
@@ -82,9 +84,10 @@ class UserCreationController extends InjectedController {
 
   def getUser(email: String) = Action.async {
     implicit request: Request[AnyContent] =>
+     val siteId = request.headers.get("SiteID").getOrElse("")
       val response = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
-        results <- UserCreationService.apply.getUser(email)
+        results <- UserCreationService.apply.getUser(email,siteId)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {
         case _: TokenFailException => Unauthorized
