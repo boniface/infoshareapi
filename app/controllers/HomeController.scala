@@ -4,6 +4,7 @@ import javax.inject._
 
 import play.api.mvc._
 import services.users.UserService
+import scala.concurrent.ExecutionContext.Implicits.global
 
 
 /**
@@ -35,7 +36,6 @@ class HomeController @Inject()
   }
 
   def save = Action {
-    val zone = Zone("ZM","Zambia","Active","url")
 
     Ok("Created ")
   }

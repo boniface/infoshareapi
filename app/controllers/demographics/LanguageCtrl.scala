@@ -42,7 +42,7 @@ class LanguageCtrl extends InjectedController {
 
   def getAll = Action.async { implicit request: Request[AnyContent] =>
     val resp = for {
-      _ <- TokenCheck.getTokenfromParam(request)
+      _ <- TokenCheckService.apply.getTokenfromParam(request)
       results <- service.getAll
     } yield results
     resp.map(msg => Ok(Json.toJson(msg))).recover {
@@ -54,7 +54,7 @@ class LanguageCtrl extends InjectedController {
   def delete(id: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheck.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getTokenfromParam(request)
         results <- service.deleteById(id)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg.isExhausted))).recover {

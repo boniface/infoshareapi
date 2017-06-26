@@ -20,7 +20,7 @@ class UserController extends InjectedController {
     val entity = Json.fromJson[User](request.body).get
     val resp = for {
       _ <- TokenCheckService.apply.getToken(request)
-      results <- service.save(entity)
+      results <- service.saveOrUpdate(entity)
     } yield results
     resp.map(_ => Ok(Json.toJson(entity))).recover {
       case _: TokenFailException => Unauthorized
@@ -32,7 +32,7 @@ class UserController extends InjectedController {
     implicit request: Request[AnyContent] =>
       val resp = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
-        results <- service.getUser(org, email)
+        results <- service.getSiteUser(email)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
         case _: TokenFailException => Unauthorized
@@ -44,7 +44,7 @@ class UserController extends InjectedController {
     implicit request: Request[AnyContent] =>
       val resp = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
-        results <- service.getUserByEmail(email)
+        results <- service.getSiteUser(email)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
         case _: TokenFailException => Unauthorized
@@ -56,7 +56,7 @@ class UserController extends InjectedController {
     implicit request: Request[AnyContent] =>
       val resp = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
-        results <- service.getUsers(org)
+        results <- service.getSiteUsers(org)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
         case _: TokenFailException => Unauthorized
