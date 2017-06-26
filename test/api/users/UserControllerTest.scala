@@ -43,7 +43,7 @@ class UserControllerTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
   }
 
   test("get "+title){
-    val request = route(app, FakeRequest(GET, baseUrl + entity.org +"/" +entity.email)
+    val request = route(app, FakeRequest(GET, baseUrl + entity.siteId +"/" +entity.email)
       .withHeaders(AUTHORIZATION -> "Token")
     ).get
     assert(status(request) equals OK)
@@ -59,7 +59,7 @@ class UserControllerTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
   }
 
   test("get all organisation "+title+"'s"){
-    val request = route(app, FakeRequest(GET, baseUrl+"org/"+entity.org)
+    val request = route(app, FakeRequest(GET, baseUrl+"org/"+entity.siteId)
       .withHeaders(AUTHORIZATION -> "Token")
     ).get
     assert(status(request) equals OK)

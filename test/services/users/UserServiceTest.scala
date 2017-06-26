@@ -24,7 +24,7 @@ class UserServiceTest extends FunSuite{
 
   test("Update USER"){
     val update = Await.result(service.save(updatedEntity),2 minutes)
-    val result = Await.result(service.getUser(entity.org,entity.email),2 minutes)
+    val result = Await.result(service.getUser(entity.siteId,entity.email),2 minutes)
     assert(result.head.state=="INACTIVE")
   }
 
@@ -37,7 +37,7 @@ class UserServiceTest extends FunSuite{
 
   test("get all org users"){
     val resp = Await.result(service.save(entity.copy(email = "test2@test.com")),2 minutes)
-    val result = Await.result(service.getUsers(entity.org),2 minutes)
+    val result = Await.result(service.getUsers(entity.siteId),2 minutes)
     assert(result.head.state=="INACTIVE")
     assert(result.size > 1)
     assert(resp.isExhausted)

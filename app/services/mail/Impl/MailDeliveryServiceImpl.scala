@@ -38,7 +38,7 @@ class MailDeliveryServiceImpl extends MailDeliveryService{
       sendMail(message, subject, user) map (result => {
         if (result == MailEvents.MAIL_SENT) {
           val successEvent = SystemLogEvents(
-            user.org,
+            user.siteId,
             Util.md5Hash(UUID.randomUUID().toString),
             MailEvents.MAIL,
             MailEvents.MAIL_SENT, MailEvents.MAIL_SENT, LocalDateTime.now())
@@ -46,7 +46,7 @@ class MailDeliveryServiceImpl extends MailDeliveryService{
           MailEvents.MAIL_SENT
         } else {
           val failEvent = SystemLogEvents(
-            user.org,
+            user.siteId,
             Util.md5Hash(UUID.randomUUID().toString),
             MailEvents.MAIL,
             MailEvents.MAIL_SENT_FAILED, MailEvents.MAIL_SENT_FAILED, LocalDateTime.now())
@@ -78,7 +78,7 @@ class MailDeliveryServiceImpl extends MailDeliveryService{
       sendMail(message, subject, user) map (result => {
         if (result == MailEvents.MAIL_SENT) {
           val successEvent = SystemLogEvents(
-            user.org,
+            user.siteId,
             Util.md5Hash(UUID.randomUUID().toString),
             MailEvents.MAIL,
             MailEvents.MAIL_SENT, MailEvents.MAIL_SENT, LocalDateTime.now())
@@ -86,7 +86,7 @@ class MailDeliveryServiceImpl extends MailDeliveryService{
           MailEvents.MAIL_SENT
         } else {
           val failEvent = SystemLogEvents(
-            user.org,
+            user.siteId,
             Util.md5Hash(UUID.randomUUID().toString),
             MailEvents.MAIL,
             MailEvents.MAIL_SENT_FAILED, MailEvents.MAIL_SENT_FAILED, LocalDateTime.now())

@@ -14,20 +14,20 @@ import scala.concurrent.Future
   */
 class LoginServiceImpl extends LoginService{
 
-  override def getUser(email: String): Future[Option[User]] = {
-    UserService.getSiteUser(email)
+  override def getUser(email: String,siteId:String): Future[Option[User]] = {
+    UserService.getSiteUser(email,siteId)
   }
 
 
-  override def createNewToken(credential: Credential, agent:String): Future[UserGeneratedToken] = {
+  override def createNewToken(credential: Credential, agent:String,siteId:String): Future[UserGeneratedToken] = {
     val createdToken = for{
-      user <-  UserService.getSiteUser(credential.email)
+      user <-  UserService.getSiteUser(credential.email,siteId)
       } yield {
       val userProfile = UserService.extractUser(user)
       if (AuthenticationService.apply.checkPassword(credential.password,userProfile.password)){
         ManageTokenService.apply.createNewToken(userProfile,agent)
       }else{
-        Future{ UserGeneratedToken("NONE","INVALID","TOKEN NOT ISSUED",userProfile.org) }
+        Future{ UserGeneratedToken("NONE","INVALID","TOKEN NOT ISSUED",userProfile.siteId) }
       }
     }
     createdToken.flatten

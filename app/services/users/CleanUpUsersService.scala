@@ -6,7 +6,7 @@ import services.users.Impl.CleanUpUsersServiceImpl
   * Created by hashcode on 6/24/17.
   */
 trait CleanUpUsersService {
-  def cleanUpInactiveUsers
+  def cleanUpInactiveUsers(siteId:String)
 
 }
 

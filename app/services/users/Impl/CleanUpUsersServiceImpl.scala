@@ -8,7 +8,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
   */
 class CleanUpUsersServiceImpl extends CleanUpUsersService {
 
-  def cleanUpInactiveUsers = {
+  def cleanUpInactiveUsers(siteId:String) = {
 
     val accounts = for {
       recentUsers <- UserService.getUsersAccountsOlderThanOneDay
@@ -17,7 +17,7 @@ class CleanUpUsersServiceImpl extends CleanUpUsersService {
       val recentAccounts = recentUsers map (user => user.email)
       val validAccounts = recentValidUser map (user => user.userId)
       val accounts = recentAccounts.toSet.diff(validAccounts.toSet)
-      for (email <- accounts) yield UserService.deleteUser(email)
+      for (email <- accounts) yield UserService.deleteUser(email,siteId)
     }
 
   }
