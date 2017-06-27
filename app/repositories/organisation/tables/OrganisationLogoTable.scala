@@ -1,32 +1,34 @@
 package repositories.organisation.tables
 
+import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.organisation.OrganisationLogo
 
 import scala.concurrent.Future
 
 
-class OrganisationLogoTable extends CassandraTable[OrganisationLogoTable, OrganisationLogo] {
+abstract class OrganisationLogoTable extends Table[OrganisationLogoTable, OrganisationLogo] {
 
-  object org extends StringColumn(this) with PartitionKey
+  object org extends StringColumn with PartitionKey
 
-  object id extends StringColumn(this) with PrimaryKey
+  object id extends StringColumn with PrimaryKey
 
-  object url extends StringColumn(this)
+  object url extends StringColumn
 
-  object description extends StringColumn(this)
+  object description extends StringColumn
 
-  object size extends OptionalStringColumn(this)
+  object size extends OptionalStringColumn
 
-  object mime extends StringColumn(this)
+  object mime extends StringColumn
 
-  object date extends DateColumn(this)
+  object date extends Col[Date]
 
 }
 
 abstract class OrganisationLogoTableImpl extends OrganisationLogoTable with RootConnector {
-  override lazy val tableName = "orgLogos"
+  override lazy val tableName = "orgLogo"
 
   def save(dept: OrganisationLogo) = {
     insert
@@ -40,11 +42,11 @@ abstract class OrganisationLogoTableImpl extends OrganisationLogoTable with Root
       .future()
   }
 
-  def findDCompanyLogo(org: String, id: String): Future[Option[OrganisationLogo]] = {
-    select.where(_.org eqs org).and(_.id eqs id).one()
+  def getById(map: Map[String,String]): Future[Option[OrganisationLogo]] = {
+    select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def findCompanyLogos(org: String): Future[Seq[OrganisationLogo]] = {
-    select.where(_.org eqs org) fetchEnumerator() run Iteratee.collect()
+  def getAll(org: String): Future[Seq[OrganisationLogo]] = {
+    select.where(_.org eqs org) fetchEnumerator () run Iteratee.collect()
   }
 }

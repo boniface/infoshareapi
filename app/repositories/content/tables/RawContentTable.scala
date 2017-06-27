@@ -1,43 +1,43 @@
 package repositories.content.tables
 
-
+import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
-import domain.content.EditedContent
+import domain.content.RawContent
 
 import scala.concurrent.Future
 
+abstract class RawContentTable extends Table[RawContentTable, RawContent] {
 
-class RawContentTable extends CassandraTable[RawContentTable, EditedContent] {
+  object org extends StringColumn with PartitionKey
 
-  object org extends StringColumn(this) with PartitionKey
+  object id extends StringColumn with PrimaryKey
 
-  object id extends StringColumn(this) with PrimaryKey
+  object dateCreated extends Col[Date]
 
-  object dateCreated extends DateColumn(this)
+  object creator extends StringColumn
 
-  object creator extends StringColumn(this)
+  object source extends StringColumn
 
-  object source extends StringColumn(this)
+  object category extends StringColumn
 
-  object category extends StringColumn(this)
+  object title extends StringColumn
 
-  object title extends StringColumn(this)
+  object content extends StringColumn
 
-  object content extends StringColumn(this)
+  object contentType extends StringColumn
 
-  object contentType extends StringColumn(this)
+  object status extends StringColumn
 
-  object status extends StringColumn(this)
-
-  object state extends StringColumn(this)
+  object state extends StringColumn
 
 }
 
 abstract class RawContentTableImpl extends RawContentTable with RootConnector {
-  override lazy val tableName = "rawContent"
+  override lazy val tableName = "rawCont"
 
-  def save(content: EditedContent): Future[ResultSet] = {
+  def save(content: RawContent): Future[ResultSet] = {
     insert
       .value(_.org, content.org)
       .value(_.id, content.id)
@@ -53,15 +53,15 @@ abstract class RawContentTableImpl extends RawContentTable with RootConnector {
       .future()
   }
 
-  def getContentById(org:String, id: String): Future[Option[EditedContent]] = {
-    select.where(_.org eqs org).and(_.id eqs id).one()
+  def getById(map: Map[String, String]): Future[Option[RawContent]] = {
+    select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def getAllContents(org:String): Future[Seq[EditedContent]] = {
+  def getAll(org: String): Future[Seq[RawContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 
-  def getContents(org:String,startValue: Int): Future[Iterator[EditedContent]] = {
+  def getPaginatedContents(org: String, startValue: Int): Future[Iterator[RawContent]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.slice(startValue, 20)
   }
 }

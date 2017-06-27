@@ -6,16 +6,15 @@ import domain.content.Source
 
 import scala.concurrent.Future
 
+abstract class SourceTable extends Table[SourceTable, Source] {
 
-class SourceTable extends CassandraTable[SourceTable, Source] {
+  object org extends StringColumn with PartitionKey
 
-  object org extends StringColumn(this) with PartitionKey
+  object id extends StringColumn with PrimaryKey
 
-  object id extends StringColumn(this) with PrimaryKey
+  object name extends StringColumn
 
-  object name extends StringColumn(this)
-
-  object description extends StringColumn(this)
+  object description extends StringColumn
 
 }
 
@@ -31,11 +30,11 @@ abstract class SourceTableImpl extends SourceTable with RootConnector {
       .future()
   }
 
-  def getSourceById(org:String,id: String): Future[Option[Source]] = {
-    select.where(_.org eqs org).and(_.id eqs id).one()
+  def getById(map: Map[String, String]): Future[Option[Source]] = {
+    select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def getAllSources(org:String): Future[Seq[Source]] = {
+  def getAll(org: String): Future[Seq[Source]] = {
     select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 }

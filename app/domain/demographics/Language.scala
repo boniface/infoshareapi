@@ -2,9 +2,9 @@ package domain.demographics
 
 import play.api.libs.json.Json
 
+case class Language(id: String, name: String, state: String)
 
-case class Language(id:String, name:String, state:String)
-
-object Language{
+object Language {
   implicit val langFmt = Json.format[Language]
+  def identity: Language = Language("", "", "")
 }

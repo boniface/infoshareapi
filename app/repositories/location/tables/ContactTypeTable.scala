@@ -6,14 +6,17 @@ import domain.location.ContactType
 
 import scala.concurrent.Future
 
-sealed class ContactTypeTable extends CassandraTable[ContactTypeTable,ContactType]{
-  object id extends StringColumn(this) with PartitionKey
-  object name extends StringColumn(this)
-  object state extends StringColumn(this)
+abstract class ContactTypeTable extends Table[ContactTypeTable, ContactType] {
+
+  object id extends StringColumn with PartitionKey
+
+  object name extends StringColumn
+
+  object state extends StringColumn
 }
 
 abstract class ContactTypeTableImpl extends ContactTypeTable with RootConnector {
-  override lazy val tableName = "contentTypes"
+  override lazy val tableName = "contTypes"
 
   def save(contypes: ContactType): Future[ResultSet] = {
     insert
@@ -23,14 +26,14 @@ abstract class ContactTypeTableImpl extends ContactTypeTable with RootConnector 
       .future()
   }
 
-  def findById(id: String):Future[Option[ContactType]] = {
+  def findById(id: String): Future[Option[ContactType]] = {
     select.where(_.id eqs id).one()
   }
   def findAll: Future[Seq[ContactType]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
 
-  def deleteById(id:String): Future[ResultSet] = {
+  def deleteById(id: String): Future[ResultSet] = {
     delete.where(_.id eqs id).future()
   }
 }

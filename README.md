@@ -11,14 +11,4 @@ How InfoShare is Envisioned
 ![untitled](https://cloud.githubusercontent.com/assets/20682492/17886211/07a227a8-6921-11e6-9646-d4feb7987bc6.jpg)
 
 
-### TODO 
- * ``doc string must be added to make the code understandable when new devs come in``
- * ``customize the play project structure when done with everthing``
- * ``DO TEST CAVARAGE``
  * ``change enums``
- 
- ## Questions !
-    
-  * ##### Person package
-    * what is accountNonExpired, credentialsNonExpired and accountNonLocked person domain, when do we used them ? 
-    * how is person table deff from user table since they are using the same model which is person ?

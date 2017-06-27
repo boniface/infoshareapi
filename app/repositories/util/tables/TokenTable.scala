@@ -2,29 +2,27 @@ package repositories.util.tables
 
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
-import domain.util.Token
+import domain.security.Token
 
 import scala.concurrent.Future
 
-/**
-  * Created by hashcode on 2015/06/09.
-  */
-class TokenTable extends CassandraTable[TokenTable, Token] {
 
-  object id extends StringColumn(this) with PartitionKey
+abstract class TokenTable extends Table[TokenTable, Token] {
 
-  object tokenValue extends StringColumn(this)
+  object id extends StringColumn with PartitionKey
+
+  object tokenValue extends StringColumn
 
 }
 
-abstract class  TokenTableImpl extends TokenTable with RootConnector {
+abstract class TokenTableImpl extends TokenTable with RootConnector {
   override lazy val tableName = "tokens"
 
   def save(token: Token): Future[ResultSet] = {
     insert
       .value(_.id, token.id)
       .value(_.tokenValue, token.tokenValue)
-      .ttl(12000)
+      .ttl(86400)
       .future()
   }
 
@@ -35,6 +33,10 @@ abstract class  TokenTableImpl extends TokenTable with RootConnector {
 
   def getAllTokens: Future[Seq[Token]] = {
     select.fetchEnumerator() run Iteratee.collect()
+  }
+
+  def invalidateToken(id: String): Future[ResultSet] = {
+    delete.where(_.id eqs id).future()
   }
 
 }

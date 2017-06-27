@@ -2,8 +2,9 @@ package domain.location
 
 import play.api.libs.json.Json
 
-case class LocationType(id:String, name:String,code:String,state:String)
+case class LocationType(id: String, name: String, code: String, state: String)
 
-object LocationType{
+object LocationType {
   implicit val locatFmt = Json.format[LocationType]
+  def identity: LocationType = LocationType("", "", "", "")
 }

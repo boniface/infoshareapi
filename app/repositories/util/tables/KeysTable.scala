@@ -6,18 +6,14 @@ import domain.util.Keys
 
 import scala.concurrent.Future
 
-/**
-  * Created by /**
-  * Created by kuminga on 2016/08/29.
-  */
-  */
-sealed class KeysTable extends CassandraTable[KeysTable, Keys] {
 
-  object id extends StringColumn(this) with PartitionKey
+abstract class KeysTable extends Table[KeysTable, Keys] {
 
-  object value extends StringColumn(this)
+  object id extends StringColumn with PartitionKey
 
-  object status extends StringColumn(this)
+  object value extends StringColumn
+
+  object status extends StringColumn
 
 
 }

@@ -1,28 +1,27 @@
 package repositories.syslog.tables
 
+import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.syslog.SystemLogEvents
 
 import scala.concurrent.Future
 
 
-/**
-  * Created by Quest on 2016/10/25.
-  */
-class SystemLogEventsTable extends CassandraTable[SystemLogEventsTable, SystemLogEvents] {
+abstract class SystemLogEventsTable extends Table[SystemLogEventsTable, SystemLogEvents] {
 
-  object siteId extends StringColumn(this) with PartitionKey
+  object org extends StringColumn with PartitionKey
 
-  object id extends StringColumn(this) with PrimaryKey
+  object id extends StringColumn with PrimaryKey
 
-  object eventName extends StringColumn(this)
+  object eventName extends StringColumn
 
-  object eventType extends StringColumn(this)
+  object eventType extends StringColumn
 
-  object message extends StringColumn(this)
+  object message extends StringColumn
 
-  object date extends DateTimeColumn(this)
+  object date extends Col[Date]
 
 }
 
@@ -32,7 +31,7 @@ abstract class SystemLogEventsTableImpl extends SystemLogEventsTable with RootCo
 
   def save(systemLogEvents: SystemLogEvents): Future[ResultSet] = {
     insert
-      .value(_.siteId, systemLogEvents.siteId)
+      .value(_.org, systemLogEvents.siteId)
       .value(_.id, systemLogEvents.id)
       .value(_.eventName, systemLogEvents.eventName)
       .value(_.eventType, systemLogEvents.eventType)
@@ -43,17 +42,12 @@ abstract class SystemLogEventsTableImpl extends SystemLogEventsTable with RootCo
 
   }
 
-  def getEventById(siteId: String, id: String): Future[Option[SystemLogEvents]] = {
-    select
-      .where(_.siteId eqs siteId)
-      .and(_.id eqs id)
-      .one()
+  def getById(map: Map[String, String]): Future[Option[SystemLogEvents]] = {
+    select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
   }
 
-  def getSiteLogs(siteId: String): Future[Seq[SystemLogEvents]] = {
-    select
-      .where(_.siteId eqs siteId)
-      .fetchEnumerator() run Iteratee.collect()
+  def getAll(org: String): Future[Seq[SystemLogEvents]] = {
+    select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
   }
 
 }

@@ -1,27 +1,28 @@
 package repositories.content.tables
 
-
+import java.time.{LocalDateTime => Date}
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
 import domain.content.Media
 
 import scala.concurrent.Future
 
-class MediaTable extends CassandraTable[MediaTable, Media] {
+abstract class MediaTable extends Table[MediaTable, Media] {
 
-  object contentId extends StringColumn(this) with PartitionKey
+  object contentId extends StringColumn with PartitionKey
 
-  object id extends StringColumn(this) with PrimaryKey
+  object id extends StringColumn with PrimaryKey
 
-  object description extends StringColumn(this)
+  object description extends StringColumn
 
-  object url extends StringColumn(this)
+  object url extends StringColumn
 
-  object mime extends StringColumn(this)
-  object date extends DateColumn(this)
+  object mime extends StringColumn
 
-  object state extends StringColumn(this)
+  object date extends Col[Date]
 
+  object state extends StringColumn
 
 }
 
@@ -40,12 +41,12 @@ abstract class MediaTableImpl extends MediaTable with RootConnector {
       .future()
   }
 
-  def getContentMediaById(contentId:String, id: String):Future[Option[Media]] = {
-    select.where(_.contentId eqs contentId).and(_.id eqs id).one()
+  def getById(map: Map[String, String]): Future[Option[Media]] = {
+    select
+      .where(_.contentId eqs map("contentId")).and(_.id eqs map("id")).one()
   }
-  def getAllContentMedia(contentId:String):Future[Seq[Media]] = {
-    select.where(_.contentId eqs contentId)fetchEnumerator() run Iteratee.collect()
+  def getAll(contentId: String): Future[Seq[Media]] = {
+    select.where(_.contentId eqs contentId) fetchEnumerator () run Iteratee.collect()
   }
 
 }
-
