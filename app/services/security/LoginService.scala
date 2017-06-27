@@ -2,7 +2,7 @@ package services.security
 
 import com.datastax.driver.core.ResultSet
 import domain.security.{Credential, UserGeneratedToken}
-import domain.users.User
+import domain.users.{Login, User}
 import services.security.Impl.LoginServiceImpl
 
 import scala.concurrent.Future
@@ -12,9 +12,12 @@ import scala.concurrent.Future
   */
 trait LoginService {
 
-  def getUser(email: String,siteId:String): Future[Option[User]]
+  def getLogins(email: String): Future[Seq[Login]]
 
-  def createNewToken(credential: Credential, agent:String,siteId:String): Future[UserGeneratedToken]
+
+  def getUser(email: String, siteId: String): Future[Option[User]]
+
+  def createNewToken(credential: Credential, agent: String): Future[UserGeneratedToken]
 
   def revokeToken(token: String): Future[ResultSet]
 
@@ -27,6 +30,6 @@ trait LoginService {
   def isTokenValid(token: String, password: String): Future[Boolean]
 }
 
-object LoginService{
+object LoginService {
   def apply: LoginService = new LoginServiceImpl()
 }
