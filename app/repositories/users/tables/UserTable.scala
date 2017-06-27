@@ -14,7 +14,7 @@ abstract class UserTable extends Table[UserTable, User] {
 
   object email extends StringColumn with PartitionKey
 
-  object siteId extends StringColumn
+  object siteId extends StringColumn with PrimaryKey
 
   object state extends StringColumn
 
@@ -36,7 +36,7 @@ abstract class UserTableImpl extends UserTable with RootConnector {
 
   def save(user: User): Future[ResultSet] = {
     insert
-      .value(_.siteId, user.org)
+      .value(_.siteId, user.siteId)
       .value(_.email, user.email)
       .value(_.state, user.state)
       .value(_.screenName, user.screenName)
@@ -47,8 +47,12 @@ abstract class UserTableImpl extends UserTable with RootConnector {
       .future()
   }
 
-  def getUser(email: String): Future[Option[User]] = {
-    select.where(_.email eqs email).one()
+  def getUser(email: String, siteId:String): Future[Option[User]] = {
+    select.where(_.email eqs email).and(_.siteId eqs siteId).one()
+  }
+
+  def getUserAccounts(email: String):Future[Seq[User]] = {
+    select.where(_.email eqs email).fetchEnumerator() run Iteratee.collect()
   }
 
   def getUsers: Future[Seq[User]] = {
@@ -86,7 +90,7 @@ abstract class UserSiteTableImpl extends UserSiteTable with RootConnector {
 
   def save(user: User): Future[ResultSet] = {
     insert
-      .value(_.siteId, user.org)
+      .value(_.siteId, user.siteId)
       .value(_.email, user.email)
       .value(_.state, user.state)
       .value(_.screenName, user.screenName)
@@ -134,7 +138,7 @@ abstract class UserTimeLineTableImpl extends UserTimeLineTable with RootConnecto
 
   def save(user: User): Future[ResultSet] = {
     insert
-      .value(_.siteId, user.org)
+      .value(_.siteId, user.siteId)
       .value(_.email, user.email)
       .value(_.state, user.state)
       .value(_.screenName, user.screenName)

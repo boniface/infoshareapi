@@ -21,16 +21,20 @@ trait UserService extends UserRepository {
     } yield saveEntity
   }
 
-  def getSiteUser(email: String): Future[Option[User]] = {
-    database.userTable.getUser(email)
+  def getSiteUser(email: String, siteId:String): Future[Option[User]] = {
+    database.userTable.getUser(email,siteId)
   }
 
-  def hasUserConfirmedAddress(email: String): Future[Boolean] = {
-    getSiteUser(email) map (user => user.get.state == UserState.CONFIRMED)
+  def getUserAccounts(email: String):Future[Seq[User]] = {
+    database.userTable.getUserAccounts(email)
   }
 
-  def userNotAvailable(email: String): Future[Boolean] = {
-    val user = database.userTable.getUser(email)
+  def hasUserConfirmedAddress(email: String,siteId:String): Future[Boolean] = {
+    getSiteUser(email,siteId) map (user => user.get.state == UserState.CONFIRMED)
+  }
+
+  def userNotAvailable(email: String,siteId:String): Future[Boolean] = {
+    val user = database.userTable.getUser(email,siteId)
     user map (account => extractUser(account).email.equals(""))
   }
 
@@ -47,12 +51,12 @@ trait UserService extends UserRepository {
     database.siteUserTable.getSiteUsers(siteId) map (users => users filter (user => user.state == UserState.UNCONFIRMED))
   }
 
-  def deleteUser(email: String): Future[ResultSet] = {
+  def deleteUser(email: String,siteId:String): Future[ResultSet] = {
     for {
-      user <- database.userTable.getUser(email)
+      user <- database.userTable.getUser(email,siteId)
       deleteFromUsers <- database.userTable.deleteUser(extractUser(user).email)
-      deleteUserFromSite <- database.siteUserTable.deleteUser(extractUser(user).org, extractUser(user).email)
-      deleteUserFromTimeLine <- database.userTimeLineTable.deleteUser(extractUser(user).date, extractUser(user).org, extractUser(user).email)
+      deleteUserFromSite <- database.siteUserTable.deleteUser(extractUser(user).siteId, extractUser(user).email)
+      deleteUserFromTimeLine <- database.userTimeLineTable.deleteUser(extractUser(user).date, extractUser(user).siteId, extractUser(user).email)
       deleteUserRole <- UserRoleService.deleteUserRoles(extractUser(user).email)
     } yield deleteUserRole
   }

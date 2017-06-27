@@ -19,13 +19,13 @@ class ManageTokenServiceImpl extends ManageTokenService {
     for {
       role <- UserRoleService.getUserRole(user.email)
       claims <- Future {
-        TokenGenerationService.apply.createClaims(user.email, user.org, role.roleId, agent)
+        TokenGenerationService.apply.createClaims(user.email, user.siteId, role.roleId, agent)
       }
       token <- TokenGenerationService.apply.getToken(claims)
     } yield {
       val createdToken = Token(token,token)
       TokenService.save(createdToken)
-      UserGeneratedToken(token, Events.TOKENCREATED, Events.TOKENSUCCESSMESSAGE, user.org)
+      UserGeneratedToken(token, Events.TOKENCREATED, Events.TOKENSUCCESSMESSAGE, user.siteId)
     }
   }
 

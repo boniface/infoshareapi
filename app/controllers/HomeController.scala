@@ -31,7 +31,7 @@ class HomeController @Inject()
 
 //    SetupService.setup()
 //    UserService.userNotAvailable("admin@africahash.com")
-    UserService.userNotAvailable("admin@africahash.com") map ( result=> Ok("Dow we have something "+result))
+    UserService.userNotAvailable("admin@africahash.com","SiteID") map ( result=> Ok("Dow we have something "+result))
 
   }
 

@@ -34,14 +34,14 @@ class UserCreationServiceImpl extends UserCreationService {
       LocalDateTime.now())
 
     val failLog = SystemLogEvents(
-      user.org,
+      user.siteId,
       Util.md5Hash(UUID.randomUUID().toString),
       UserEvents.CREATIONFAILED,
       UserEvents.ACCOUNT_EXIST,
       " Duplicate Account," + user.email + " Account Already Exist",
       LocalDateTime.now())
 
-    val check = UserService.userNotAvailable(user.email)
+    val check = UserService.userNotAvailable(user.email,user.siteId)
 
     val results = check map (isAvailable => {
       if (isAvailable) {
@@ -67,7 +67,7 @@ class UserCreationServiceImpl extends UserCreationService {
   override def registerUser(user: User): Future[Boolean] = ???
 
   override def isUserRegistered(user: User): Future[Boolean] = {
-    UserService.getSiteUser(user.email) map {
+    UserService.getSiteUser(user.email,user.siteId) map {
       case Some(_) => true
       case None => false
     }
@@ -79,7 +79,7 @@ class UserCreationServiceImpl extends UserCreationService {
     }
   }
 
-  override def getUser(email: String): Future[Option[User]] = {
-    UserService.getSiteUser(email)
+  override def getUser(email: String,siteId:String): Future[Option[User]] = {
+    UserService.getSiteUser(email,siteId )
   }
 }

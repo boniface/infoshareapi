@@ -12,9 +12,9 @@ import scala.concurrent.Future
   */
 trait LoginService {
 
-  def getUser(email: String): Future[Option[User]]
+  def getUser(email: String,siteId:String): Future[Option[User]]
 
-  def createNewToken(credential: Credential, agent:String): Future[UserGeneratedToken]
+  def createNewToken(credential: Credential, agent:String,siteId:String): Future[UserGeneratedToken]
 
   def revokeToken(token: String): Future[ResultSet]
 

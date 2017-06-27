@@ -20,7 +20,7 @@ trait UserCreationService {
 
   def updateUser(user:User): Future[Boolean]
 
-  def getUser(email:String):Future[Option[User]]
+  def getUser(email: String,siteId:String):Future[Option[User]]
 }
 
 object UserCreationService{
