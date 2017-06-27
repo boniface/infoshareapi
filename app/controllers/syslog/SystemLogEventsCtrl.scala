@@ -1,6 +1,6 @@
 package controllers.syslog
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.TokenFailException
 import domain.syslog.SystemLogEvents
@@ -12,7 +12,7 @@ import services.syslog.SyslogService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class SystemLogEventsCtrl extends InjectedController {
+class SystemLogEventsCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   val service = SyslogService
 
   def create = Action.async(parse.json) { request =>

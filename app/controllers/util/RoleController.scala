@@ -1,6 +1,6 @@
 package controllers.util
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.{Roles, TokenFailException}
 import play.api.libs.json.Json
@@ -11,7 +11,7 @@ import services.util.RolesService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class RoleController extends InjectedController {
+class RoleController @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
 
   def create = Action.async(parse.json) { request =>
     val input = request.body

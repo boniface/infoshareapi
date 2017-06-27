@@ -1,7 +1,7 @@
 package controllers.users
 
 import java.time.LocalDateTime
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.{Credential, TokenFailException}
 import domain.users.{User, UserRole}
@@ -13,7 +13,7 @@ import services.users.UserCreationService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class UserCreationController extends InjectedController {
+class UserCreationController @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
 
   def createUser(roleId: String) = Action.async(parse.json) { request =>
     val entity = Json.fromJson[User](request.body).get

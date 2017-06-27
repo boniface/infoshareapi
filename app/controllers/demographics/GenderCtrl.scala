@@ -1,6 +1,6 @@
 package controllers.demographics
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.demographics.Gender
 import domain.security.TokenFailException
@@ -12,7 +12,7 @@ import services.security.TokenCheckService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class GenderCtrl extends InjectedController {
+class GenderCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   private val service = GenderService
 
   def create = Action.async(parse.json) { implicit request =>

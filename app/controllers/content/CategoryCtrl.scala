@@ -1,6 +1,6 @@
 package controllers.content
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.content.Category
 import domain.security.TokenFailException
@@ -12,7 +12,9 @@ import services.security.TokenCheckService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class CategoryCtrl extends InjectedController {
+class CategoryCtrl @Inject()
+(cc: ControllerComponents) extends AbstractController(cc)  {
+
   private val service = CategoryService
 
   def create = Action.async(parse.json) { request =>
