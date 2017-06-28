@@ -62,7 +62,7 @@ class UserCreationController extends InjectedController {
     val siteId = request.headers.get("SiteID").getOrElse("")
     val response: Future[UserGeneratedToken] = for {
       _ <- TokenCheckService.apply.getToken(request)
-      results: UserGeneratedToken <- LoginService.apply.createNewToken(entity, agent, siteId)
+      results: UserGeneratedToken <- LoginService.apply.createNewToken(entity, agent)
     } yield results
     response.map(ans => Ok(Json.toJson(ans))).recover {
       case _: TokenFailException => Unauthorized
