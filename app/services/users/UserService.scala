@@ -54,7 +54,7 @@ trait UserService extends UserRepository {
   def deleteUser(email: String,siteId:String): Future[ResultSet] = {
     for {
       user <- database.userTable.getUser(email,siteId)
-      deleteFromUsers <- database.userTable.deleteUser(extractUser(user).email)
+      deleteFromUsers <- database.userTable.deleteUser(extractUser(user).email,siteId)
       deleteUserFromSite <- database.siteUserTable.deleteUser(extractUser(user).siteId, extractUser(user).email)
       deleteUserFromTimeLine <- database.userTimeLineTable.deleteUser(extractUser(user).date, extractUser(user).siteId, extractUser(user).email)
       deleteUserRole <- UserRoleService.deleteUserRoles(extractUser(user).email)
