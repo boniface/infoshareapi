@@ -1,6 +1,6 @@
 package controllers.demographics
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.demographics.Language
 import domain.security.TokenFailException
@@ -12,7 +12,7 @@ import services.security.TokenCheckService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class LanguageCtrl extends InjectedController {
+class LanguageCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   private val service = LanguageService
 
   def create = Action.async(parse.json) { implicit request =>

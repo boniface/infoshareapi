@@ -9,6 +9,5 @@ case class UserRole(emailId: String,
                     roleId: String)
 object UserRole {
   implicit val userroleFmt = Json.format[UserRole]
-
   def zero:UserRole = UserRole("",LocalDateTime.now(),"")
 }

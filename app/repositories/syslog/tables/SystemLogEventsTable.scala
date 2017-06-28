@@ -1,6 +1,6 @@
 package repositories.syslog.tables
 
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
@@ -11,7 +11,7 @@ import scala.concurrent.Future
 
 abstract class SystemLogEventsTable extends Table[SystemLogEventsTable, SystemLogEvents] {
 
-  object org extends StringColumn with PartitionKey
+  object siteId extends StringColumn with PartitionKey
 
   object id extends StringColumn with PrimaryKey
 
@@ -21,7 +21,7 @@ abstract class SystemLogEventsTable extends Table[SystemLogEventsTable, SystemLo
 
   object message extends StringColumn
 
-  object date extends Col[Date]
+  object date extends Col[LocalDateTime]
 
 }
 
@@ -31,7 +31,7 @@ abstract class SystemLogEventsTableImpl extends SystemLogEventsTable with RootCo
 
   def save(systemLogEvents: SystemLogEvents): Future[ResultSet] = {
     insert
-      .value(_.org, systemLogEvents.siteId)
+      .value(_.siteId, systemLogEvents.siteId)
       .value(_.id, systemLogEvents.id)
       .value(_.eventName, systemLogEvents.eventName)
       .value(_.eventType, systemLogEvents.eventType)
@@ -43,11 +43,11 @@ abstract class SystemLogEventsTableImpl extends SystemLogEventsTable with RootCo
   }
 
   def getById(map: Map[String, String]): Future[Option[SystemLogEvents]] = {
-    select.where(_.org eqs map("org")).and(_.id eqs map("id")).one()
+    select.where(_.siteId eqs map("siteId")).and(_.id eqs map("id")).one()
   }
 
-  def getAll(org: String): Future[Seq[SystemLogEvents]] = {
-    select.where(_.org eqs org).fetchEnumerator() run Iteratee.collect()
+  def getAll(siteId: String): Future[Seq[SystemLogEvents]] = {
+    select.where(_.siteId eqs siteId).fetchEnumerator() run Iteratee.collect()
   }
 
 }

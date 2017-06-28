@@ -1,6 +1,6 @@
 package controllers.location
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.location.AddressType
 import domain.security.TokenFailException
@@ -12,7 +12,7 @@ import services.security.TokenCheckService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class AddressTypeCtrl extends InjectedController {
+class AddressTypeCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   val service = AddressTypeService
 
   def create = Action.async(parse.json) { request =>

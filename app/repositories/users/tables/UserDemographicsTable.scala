@@ -1,6 +1,6 @@
 package repositories.users.tables
 
-import java.time.{LocalDateTime =>Date}
+import java.time.LocalDateTime
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
@@ -19,13 +19,13 @@ abstract class UserDemographicsTable  extends Table[UserDemographicsTable,UserDe
   
   object raceId extends StringColumn
   
-  object dateOfBirth extends Col[Date]
+  object dateOfBirth extends Col[LocalDateTime]
   
   object maritalStatusId extends StringColumn
   
   object numberOfDependencies extends IntColumn
   
-  object date extends Col[Date]
+  object date extends Col[LocalDateTime]
   
   object state extends StringColumn
 }

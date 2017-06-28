@@ -9,6 +9,4 @@ object UserState {
   def SITEADMIN="SITEADMIN"
   def ADMIN="ADMIN"
   def MODERATOR="MODERATOR"
-
-
 }

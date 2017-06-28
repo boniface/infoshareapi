@@ -1,6 +1,6 @@
 package controllers.util
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.TokenFailException
 import domain.util.ItemStatus
@@ -12,7 +12,7 @@ import services.util.ItemStatusService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class ItemsStatusCtrl extends InjectedController {
+class ItemsStatusCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   val service = ItemStatusService
 
   def create = Action.async(parse.json) { request =>

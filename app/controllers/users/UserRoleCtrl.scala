@@ -1,6 +1,6 @@
 package controllers.users
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.TokenFailException
 import domain.users.UserRole
@@ -12,7 +12,7 @@ import services.users.UserRoleService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class UserRoleCtrl extends InjectedController {
+class UserRoleCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   private val service = UserRoleService
 
   def create = Action.async(parse.json) { request =>
