@@ -83,16 +83,16 @@ class UsersRouter @Inject()(userCreationRouter: UserCreationController,
       userLanguageCtrl.getAll(emailId)
     case GET(p"/language/$emailId/$id") =>
       userLanguageCtrl.getById(emailId, id)
- 
+
     // user role
     case POST(p"/role/create") =>
       userRoleCtrl.create
-    case GET(p"/role/all/$emailId") =>
-      userRoleCtrl.getAll(emailId)
-    case GET(p"/role/$emailId/$roleId") =>
-      userRoleCtrl.getById(emailId, roleId)
-    case GET(p"/role/delete/$emailId/$roleId") =>
-      userRoleCtrl.delete(emailId, roleId)
+    case GET(p"/role/all/$siteId/$emailId") =>
+      userRoleCtrl.getAll(siteId,emailId)
+    case GET(p"/role/$siteId/$emailId") =>
+      userRoleCtrl.getById(emailId, emailId)
+    case GET(p"/role/delete/$siteId/$emailId") =>
+      userRoleCtrl.delete(emailId, emailId)
 
     // Valid Users
     case POST(p"/valid/create") =>
