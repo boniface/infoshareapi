@@ -15,7 +15,7 @@ class RoleCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest 
   val title = "Role"
 
   before{
-    entity = Role(id = "1", name = RolesID.ANONYMOUS, description = "role", state = "Active")
+    entity = Role(id = "1", name = RolesID.READER, description = "role", state = "Active")
   }
 
   test("Create "+title){

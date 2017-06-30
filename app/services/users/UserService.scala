@@ -57,7 +57,7 @@ trait UserService extends UserRepository {
       deleteFromUsers <- database.userTable.deleteUser(extractUser(user).email,siteId)
       deleteUserFromSite <- database.siteUserTable.deleteUser(extractUser(user).siteId, extractUser(user).email)
       deleteUserFromTimeLine <- database.userTimeLineTable.deleteUser(extractUser(user).date, extractUser(user).siteId, extractUser(user).email)
-      deleteUserRole <- UserRoleService.deleteUserRoles(extractUser(user).email)
+      deleteUserRole <- UserRoleService.deleteUserRoles(extractUser(user))
     } yield deleteUserRole
   }
 

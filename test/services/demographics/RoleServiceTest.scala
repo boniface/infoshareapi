@@ -1,6 +1,6 @@
 package services.demographics
 
-import domain.demographics.Role
+import domain.security.Roles
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
 import scala.concurrent.Await
@@ -10,10 +10,10 @@ import scala.concurrent.duration._
 class RoleServiceTest extends FunSuite with BeforeAndAfter {
 
   val roleService = RoleService
-  var roleEntity, updateEntity: Role = _
+  var roleEntity, updateEntity: Roles = _
 
   before{
-    roleEntity = Role(id = "1", name = "my role", description = "role", state = "Active")
+    roleEntity = Roles(id = "1", rolename = "my role")
   }
 
   test("create role"){
@@ -24,18 +24,18 @@ class RoleServiceTest extends FunSuite with BeforeAndAfter {
   test("get role by id"){
     val resp = Await.result(roleService.getById(roleEntity.id), 2.minutes)
     assert(resp.head.id == roleEntity.id)
-    assert(resp.head.name == roleEntity.name)
-    assert(resp.head.state == roleEntity.state)
+    assert(resp.head.rolename == roleEntity.rolename)
+
   }
 
   test("update role"){
-    updateEntity = roleEntity.copy(name = "your role")
+    updateEntity = roleEntity.copy(rolename = "your role")
     val update = Await.result(roleService.save(updateEntity), 2.minutes)
     val resp = Await.result(roleService.getById(updateEntity.id), 2.minutes)
 
     assert(update.isExhausted)
-    assert(resp.head.name == updateEntity.name)
-    assert(resp.head.name != roleEntity.name)
+    assert(resp.head.rolename == updateEntity.rolename)
+    assert(resp.head.rolename != roleEntity.rolename)
   }
 
   test("get all roles"){
