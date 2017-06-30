@@ -1,6 +1,6 @@
 package domain.organisation
 
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 import play.api.libs.json.Json
 
 case class Location(org: String,
@@ -12,9 +12,9 @@ case class Location(org: String,
                     longitude: String,
                     parentId: String,
                     state: String,
-                    date: Date)
+                    date: LocalDateTime)
 
 object Location {
   implicit val location = Json.format[Location]
-  def identity: Location = Location("", "", "", "", "", "", "", "", "", Date.now())
+  def identity: Location = Location("", "", "", "", "", "", "", "", "", LocalDateTime.now())
 }

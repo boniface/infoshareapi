@@ -1,11 +1,11 @@
 package domain.content
 
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 import play.api.libs.json.Json
 
 case class EditedContent(org: String,
                          id: String,
-                         dateCreated: Date,
+                         dateCreated: LocalDateTime,
                          creator: String,
                          source: String,
                          category: String,
@@ -17,5 +17,5 @@ case class EditedContent(org: String,
 
 object EditedContent {
   implicit val editedContentFmt = Json.format[EditedContent]
-  def identity: EditedContent = EditedContent("", "", Date.now(), "", "", "", "", "", "", "", "")
+  def identity: EditedContent = EditedContent("", "", LocalDateTime.now(), "", "", "", "", "", "", "", "")
 }

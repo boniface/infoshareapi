@@ -31,7 +31,7 @@ class TokenGenerationServiceImpl extends TokenGenerationService{
     val claims = new JwtClaims
     claims.setIssuer(HashcodeKeys.ISSUER)
     claims.setAudience(HashcodeKeys.SITEUSERS)
-    claims.setExpirationTimeMinutesInTheFuture(10)
+    claims.setExpirationTimeMinutesInTheFuture(1440)
     claims.setGeneratedJwtId()
     claims.setIssuedAtToNow()
     claims.setNotBeforeMinutesInThePast(2)

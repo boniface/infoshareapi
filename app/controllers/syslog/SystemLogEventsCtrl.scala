@@ -29,7 +29,7 @@ class SystemLogEventsCtrl @Inject()(cc: ControllerComponents) extends AbstractCo
 
   def getById(org: String, id: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      val args = Map("org" -> org, "id" -> id)
+      val args = Map("siteId" -> org, "id" -> id)
       val resp = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
         results <- service.getById(args)
@@ -40,11 +40,11 @@ class SystemLogEventsCtrl @Inject()(cc: ControllerComponents) extends AbstractCo
       }
   }
 
-  def getAll(org: String) = Action.async {
+  def getAll(siteId: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
-        results <- service.getAll(org)
+        results <- service.getAll(siteId)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
         case _: TokenFailException => Unauthorized

@@ -23,7 +23,9 @@ import scala.concurrent.Future
 class UserCreationServiceImpl extends UserCreationService {
 
   override def createUser(user: User, role: UserRole): Future[Boolean] = {
-    val message = UserCreationMessageService.apply.accountCreatedMessage(user)
+
+    println(" Do we have a Value here !!!!", user.email, role.roleId)
+    val message: (String, User) = UserCreationMessageService.apply.accountCreatedMessage(user)
     val subject = "New Account Created for " + user.email
     val successLog = SystemLogEvents(
       user.email,
@@ -41,7 +43,7 @@ class UserCreationServiceImpl extends UserCreationService {
       " Duplicate Account," + user.email + " Account Already Exist",
       LocalDateTime.now())
 
-    val check = UserService.userNotAvailable(user.email,user.siteId)
+    val check: Future[Boolean] = UserService.userNotAvailable(user.email,user.siteId)
 
     val results = check map (isAvailable => {
       if (isAvailable) {

@@ -59,8 +59,8 @@ abstract class UserTableImpl extends UserTable with RootConnector {
     select.fetchEnumerator() run Iteratee.collect()
   }
 
-  def deleteUser(email: String): Future[ResultSet] = {
-    delete.where(_.email eqs email).future()
+  def deleteUser(email: String, siteId:String): Future[ResultSet] = {
+    delete.where(_.email eqs email).and(_.siteId eqs siteId).future()
   }
 }
 
@@ -103,6 +103,10 @@ abstract class UserSiteTableImpl extends UserSiteTable with RootConnector {
 
   def getSiteUsers(siteId: String): Future[Seq[User]] = {
     select.where(_.siteId eqs siteId).fetchEnumerator() run Iteratee.collect()
+  }
+
+  def getSiteUser(siteId: String, email: String): Future[Option[User]] = {
+    select.where(_.siteId eqs siteId).and(_.email eqs email).one
   }
 
   def deleteUser(siteId: String, email: String): Future[ResultSet] = {

@@ -16,9 +16,9 @@ class SyslogServiceTest extends FunSuite with BeforeAndAfter {
   var kwargs: Map[String,String] =  _
 
   before{
-    entity = SystemLogEvents(org = "BO", id = "1", eventName = "test",eventType = "test",
+    entity = SystemLogEvents(siteId = "BO", id = "1", eventName = "test",eventType = "test",
                                     message = "my test",date = Date.now())
-    kwargs = Map("org"->entity.org, "id"->entity.id)
+    kwargs = Map("siteId"->entity.siteId, "id"->entity.id)
   }
 
   test("create SystemLogEvents") {
@@ -51,7 +51,7 @@ class SyslogServiceTest extends FunSuite with BeforeAndAfter {
 
   test("get all SystemLogEvents") {
     val result = Await.result(service.save(entity.copy(id = "2")), 2.minutes)
-    val resp = Await.result(service.getAll(kwargs("org")), 2.minutes)
+    val resp = Await.result(service.getAll(kwargs("siteId")), 2.minutes)
     assert(result.isExhausted)
     assert(resp.size > 1)
   }

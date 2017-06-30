@@ -4,7 +4,7 @@ import javax.inject.{Inject, Singleton}
 
 import domain.security.{Roles, TokenFailException}
 import play.api.libs.json.Json
-import play.api.mvc.{AnyContent, InjectedController, Request}
+import play.api.mvc._
 import services.security.TokenCheckService
 import services.util.RolesService
 

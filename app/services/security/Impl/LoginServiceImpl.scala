@@ -2,7 +2,7 @@ package services.security.Impl
 
 import com.datastax.driver.core.ResultSet
 import domain.security.{Credential, UserGeneratedToken}
-import domain.users.User
+import domain.users.{Login, User}
 import services.security.{AuthenticationService, LoginService, ManageTokenService}
 import services.users.UserService
 
@@ -19,9 +19,9 @@ class LoginServiceImpl extends LoginService{
   }
 
 
-  override def createNewToken(credential: Credential, agent:String,siteId:String): Future[UserGeneratedToken] = {
+  override def createNewToken(credential: Credential, agent:String): Future[UserGeneratedToken] = {
     val createdToken = for{
-      user <-  UserService.getSiteUser(credential.email,siteId)
+      user <-  UserService.getSiteUser(credential.email,credential.siteId)
       } yield {
       val userProfile = UserService.extractUser(user)
       if (AuthenticationService.apply.checkPassword(credential.password,userProfile.password)){
@@ -53,4 +53,8 @@ class LoginServiceImpl extends LoginService{
     ManageTokenService.apply.isTokenValid(token,agent)
   }
 
+  override def getLogins(email: String): Future[Seq[Login]] = {
+    val accounts = UserService.getUserAccounts(email)
+    accounts map ( accs => accs map ( acc => Login(email,Set()+acc.siteId )))
+  }
 }

@@ -12,9 +12,7 @@ import services.security.TokenCheckService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class CategoryCtrl @Inject()
-(cc: ControllerComponents) extends AbstractController(cc)  {
-
+class CategoryCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   private val service = CategoryService
 
   def create = Action.async(parse.json) { request =>
