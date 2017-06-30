@@ -7,7 +7,9 @@ import domain.security.UserState
 import domain.users.User
 import repositories.users.UserRepository
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import com.outworkers.phantom.dsl.context
+
+
 import scala.concurrent.Future
 
 

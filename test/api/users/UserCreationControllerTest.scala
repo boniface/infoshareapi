@@ -17,9 +17,9 @@ class UserCreationControllerTest extends PlaySpec with GuiceOneAppPerTest {
 
     "Create Zone " in {
       val user = User("CPUT",
-        "boniface@kabaso.com",
-        Some("Boniface"),
-        Some("Kabaso"),
+        "YOU EMAIL ",
+        Some("NAME"),
+        Some("NAME"),
         None,
         "Geek",
         "test123",
