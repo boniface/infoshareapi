@@ -1,6 +1,6 @@
 package services.demographics
 
-import domain.security.Roles
+import domain.security.{Roles, RolesID}
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
 import scala.concurrent.Await
@@ -13,7 +13,7 @@ class RoleServiceTest extends FunSuite with BeforeAndAfter {
   var roleEntity, updateEntity: Roles = _
 
   before{
-    roleEntity = Roles(id = "1", rolename = "my role")
+    roleEntity = Roles(id = "1", rolename = RolesID.READER)
   }
 
   test("create role"){
@@ -29,7 +29,7 @@ class RoleServiceTest extends FunSuite with BeforeAndAfter {
   }
 
   test("update role"){
-    updateEntity = roleEntity.copy(rolename = "your role")
+    updateEntity = roleEntity.copy(rolename = RolesID.ADMIN)
     val update = Await.result(roleService.save(updateEntity), 2.minutes)
     val resp = Await.result(roleService.getById(updateEntity.id), 2.minutes)
 
