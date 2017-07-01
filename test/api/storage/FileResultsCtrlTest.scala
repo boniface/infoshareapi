@@ -29,7 +29,7 @@ class FileResultsCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
 
   test("update "+title){
     updateEntity = entity.copy(url = "http://www.cput.ac.za/logo.jpg", mime = ".jpg")
-    val request = route(app, FakeRequest(POST, baseUrl+"create")
+    val request = route(app, FakeRequest(POST, baseUrl + "create")
       .withJsonBody(Json.toJson(updateEntity))
       .withHeaders(AUTHORIZATION -> "Token")
     ).get

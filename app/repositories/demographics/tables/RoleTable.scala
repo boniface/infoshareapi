@@ -15,7 +15,7 @@ abstract class RoleTable extends Table[RoleTable, Roles] {
 }
 
 abstract class RoleTableImpl extends RoleTable with RootConnector {
-  override lazy val tableName = "roles"
+  override lazy val tableName = "demo_roles"
 
   def save(role: Roles): Future[ResultSet] = {
     insert

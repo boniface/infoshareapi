@@ -18,7 +18,6 @@ import repositories.util._
 import services.demographics.RoleService
 import services.security.TokenGenerationService
 import services.users.UserService
-import services.util.KeysService
 
 import scala.concurrent.Future
 
@@ -118,6 +117,65 @@ object SetupService {
       setup <- OrganisationLogoDatabase.organisationLogoTable.create.ifNotExists().future()
 
     } yield setup
+  }
+
+  def cleanup: Future[Seq[ResultSet]] = {
+    implicit val session = UserDatabase.session
+    implicit val keyspace = UserDatabase.space
+
+    for {
+      truncate <- ItemStatusDatabase.dropAsync()
+      truncate <- KeysDatabase.dropAsync()
+      truncate <- MailDatabase.dropAsync()
+      truncate <- TokenDatabase.dropAsync()
+      truncate <- RolesDatabase.dropAsync()
+
+
+      //     user
+      truncate <- UserAddressDatabase.dropAsync()
+      truncate <- UserContactDatabase.dropAsync()
+      truncate <- UserDemographicsDatabase.dropAsync()
+      truncate <- UserLanguageDatabase.dropAsync()
+      truncate <- UserImagesDatabase.dropAsync()
+      truncate <- UserRoleDatabase.dropAsync()
+      truncate <- UserDatabase.dropAsync()
+      //      content
+      truncate <- CategoryDatabase.dropAsync()
+      truncate <- ContentTypeDatabase.dropAsync()
+      truncate <- EditedContentDatabase.dropAsync()
+      truncate <- MediaDatabase.dropAsync()
+      truncate <- PublishedContentDatabase.dropAsync()
+      truncate <- RawContentDatabase.dropAsync()
+      truncate <- SourceDatabase.dropAsync()
+
+      //    demographics
+      truncate <- GenderDatabase.dropAsync()
+      truncate <- LanguageDatabase.dropAsync()
+      truncate <- LanguageProficiencyDatabase.dropAsync()
+      truncate <- RaceDatabase.dropAsync()
+      truncate <- MaritalStatusDatabase.dropAsync()
+      truncate <- RoleDatabase.dropAsync()
+
+      //    location
+      truncate <- AddressTypeDatabase.dropAsync()
+      truncate <- ContactTypeDatabase.dropAsync()
+      truncate <- LocationTypeDatabase.dropAsync()
+
+      //    storage
+      truncate <- StorageUrlDatabase.dropAsync()
+      truncate <- FileResultsDatabase.dropAsync()
+
+      // Valid User
+      truncate <- ValidUserDatabase.dropAsync()
+      // system log event
+      truncate <- SystemLogEventsDatabase.dropAsync()
+
+      // Organization
+      truncate <- LocationDatabase.dropAsync()
+      truncate <- OrganisationDatabase.dropAsync()
+      truncate <- OrganisationLogoDatabase.dropAsync()
+
+    } yield truncate
   }
 
 }
