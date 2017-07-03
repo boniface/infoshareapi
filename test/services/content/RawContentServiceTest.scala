@@ -1,6 +1,6 @@
 package services.content
 
-import java.time.{LocalDateTime =>Date}
+import java.time.LocalDateTime
 
 import domain.content.RawContent
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -16,7 +16,7 @@ class RawContentServiceTest extends FunSuite with BeforeAndAfter {
   var kwargs: Map[String,String] =  _
 
   before {
-      r_contentEntity =  RawContent(org="DUT", id ="1", dateCreated= Date.now(), creator="test@me.com", source="2", category ="2",
+      r_contentEntity =  RawContent(org="DUT", id ="1", dateCreated= LocalDateTime.now(), creator="test@me.com", source="2", category ="2",
       title = "birth control", content = "we not animals", contentType = "Text/Image",
       status = "raw",  state ="active")
       kwargs = Map("org"->r_contentEntity.org, "id"->r_contentEntity.id)

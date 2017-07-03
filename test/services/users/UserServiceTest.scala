@@ -1,14 +1,14 @@
 package services.users
 
 import domain.users.User
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 import org.scalatest.FunSuite
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
 class UserServiceTest extends FunSuite{
-//  val entity = User("CPUT","test@test.com","First Name","Last Name",None,Some("CODER"),"test123","ACTIVE",Date.now() )
+//  val entity = User("CPUT","test@test.com","First Name","Last Name",None,Some("CODER"),"test123","ACTIVE",LocalDateTime.now() )
 //  val updatedEntity = entity.copy(state = "INACTIVE")
 //  val service = UserService
 //

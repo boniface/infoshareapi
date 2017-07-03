@@ -1,6 +1,6 @@
 package services.content
 
-import java.time.{LocalDateTime =>Date}
+import java.time.LocalDateTime
 
 import domain.content.PublishedContent
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -15,7 +15,7 @@ class PublishedContentServiceTest extends FunSuite with BeforeAndAfter {
   var p_contentEntity, updateEntity: PublishedContent = _
   var kwargs: Map[String,String] =  _
   before {
-    p_contentEntity =  PublishedContent(org="DUT", id ="1", dateCreated= Date.now(),
+    p_contentEntity =  PublishedContent(org="DUT", id ="1", dateCreated= LocalDateTime.now(),
       creator="test@me.com", source="1", category ="1",
       title = "birth control", content = "we not animals", contentType = "Text/Image",
       status = "plublished",  state ="active")

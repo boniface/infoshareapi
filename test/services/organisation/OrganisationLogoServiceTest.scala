@@ -1,6 +1,6 @@
 package services.organisation
 
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 
 import domain.organisation.OrganisationLogo
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -17,7 +17,7 @@ class OrganisationLogoServiceTest extends FunSuite with BeforeAndAfter {
 
   before{
     entity = OrganisationLogo(org = "cput",id="3",url="http://www.google.com/e.jpg",size = Some("512MB"),
-      description = "cput logo",mime = ".jpg",Date.now())
+      description = "cput logo",mime = ".jpg",LocalDateTime.now())
     kwargs = Map("org"->entity.org,"id"->entity.id)
 
   }

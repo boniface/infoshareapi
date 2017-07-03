@@ -1,6 +1,6 @@
 package api.organisation
 
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 
 import domain.organisation.Organisation
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -8,6 +8,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import util.UtilTest
 
 class OrganisationCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
 
@@ -16,13 +17,13 @@ class OrganisationCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneApp
   val title = "organisation"
 
   before{
-    entity = Organisation(id = "1",name = "cput",details = Map(),adminAttached = "admin",date = Date.now(),state = "ACTIVE")
+    entity = Organisation(id = "1",name = "cput",details = Map(),adminAttached = "admin",date = LocalDateTime.now(),state = "ACTIVE")
   }
 
   test("Create "+title){
     val request = route(app, FakeRequest(POST, baseUrl + "create")
       .withJsonBody(Json.toJson(entity))
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
 
     assert(status(request) equals OK)
@@ -33,7 +34,7 @@ class OrganisationCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneApp
     updateEntity = entity.copy(name="dut")
     val request = route(app, FakeRequest(POST, baseUrl+"create")
       .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) != Json.toJson(entity).toString())
@@ -42,7 +43,7 @@ class OrganisationCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneApp
 
   test("get "+title+" by id"){
     val request = route(app, FakeRequest(GET, baseUrl+entity.id)
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
@@ -50,7 +51,7 @@ class OrganisationCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneApp
 
   test("get all "+title){
     val request = route(app, FakeRequest(GET, baseUrl+"all")
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
   }

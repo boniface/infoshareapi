@@ -6,6 +6,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import util.UtilTest
 
 class CategoryCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
 
@@ -18,7 +19,7 @@ class CategoryCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerT
   test("Create category"){
     val request = route(app, FakeRequest(POST, baseUrl + "category/create")
       .withJsonBody(Json.toJson(entity))
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
 
     assert(status(request) equals OK)
@@ -29,7 +30,7 @@ class CategoryCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerT
     updateEntity = entity.copy(name="CANCER PREVENTION")
     val request = route(app, FakeRequest(POST, baseUrl+"category/create")
       .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) != Json.toJson(entity).toString())
@@ -38,7 +39,7 @@ class CategoryCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerT
 
   test("get category by id"){
     val request = route(app, FakeRequest(GET, baseUrl+"category/"+entity.id)
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
@@ -46,7 +47,7 @@ class CategoryCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerT
 
   test("get all category"){
     val request = route(app, FakeRequest(GET, baseUrl+"categories")
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
   }

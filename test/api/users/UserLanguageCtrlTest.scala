@@ -1,6 +1,6 @@
 package api.users
 
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 
 import domain.users.UserLanguage
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -8,6 +8,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import util.UtilTest
 
 class UserLanguageCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
 
@@ -17,13 +18,13 @@ class UserLanguageCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneApp
 
   before{
     entity = UserLanguage(emailId="test@test.com",id= "1",languageId= "1",reading= "eng",
-      writing="eng", speaking="zulu",date=Date.now(),state="Active")
+      writing="eng", speaking="zulu",date=LocalDateTime.now(),state="Active")
   }
 
   test("Create "+title){
     val request = route(app, FakeRequest(POST, baseUrl + "create")
       .withJsonBody(Json.toJson(entity))
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
 
     assert(status(request) equals OK)
@@ -34,7 +35,7 @@ class UserLanguageCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneApp
     updateEntity = entity.copy(writing="zulu",reading = "zulu")
     val request = route(app, FakeRequest(POST, baseUrl+"create")
       .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) != Json.toJson(entity).toString())
@@ -43,7 +44,7 @@ class UserLanguageCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneApp
 
   test("get "+title+" by id"){
     val request = route(app, FakeRequest(GET, baseUrl + entity.emailId + "/" + entity.id)
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
@@ -51,7 +52,7 @@ class UserLanguageCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneApp
 
   test("get all "+title){
     val request = route(app, FakeRequest(GET, baseUrl+"all/"+entity.emailId)
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
   }

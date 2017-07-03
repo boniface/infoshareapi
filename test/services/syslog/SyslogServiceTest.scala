@@ -1,7 +1,7 @@
 package services.syslog
 
 import domain.syslog.SystemLogEvents
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
@@ -17,7 +17,7 @@ class SyslogServiceTest extends FunSuite with BeforeAndAfter {
 
   before{
     entity = SystemLogEvents(siteId = "BO", id = "1", eventName = "test",eventType = "test",
-                                    message = "my test",date = Date.now())
+                                    message = "my test",date = LocalDateTime.now())
     kwargs = Map("siteId"->entity.siteId, "id"->entity.id)
   }
 

@@ -130,7 +130,6 @@ object SetupService {
       truncate <- TokenDatabase.dropAsync()
       truncate <- RolesDatabase.dropAsync()
 
-
       //     user
       truncate <- UserAddressDatabase.dropAsync()
       truncate <- UserContactDatabase.dropAsync()
@@ -139,6 +138,7 @@ object SetupService {
       truncate <- UserImagesDatabase.dropAsync()
       truncate <- UserRoleDatabase.dropAsync()
       truncate <- UserDatabase.dropAsync()
+
       //      content
       truncate <- CategoryDatabase.dropAsync()
       truncate <- ContentTypeDatabase.dropAsync()

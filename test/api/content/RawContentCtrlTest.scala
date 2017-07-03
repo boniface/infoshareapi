@@ -1,6 +1,6 @@
 package api.content
 
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 
 import domain.content.RawContent
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -8,6 +8,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import util.UtilTest
 
 class RawContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
 
@@ -15,7 +16,7 @@ class RawContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
   var baseUrl = "/content/raw/"
 
   before {
-    entity =  RawContent(org="DUT", id ="1", dateCreated= Date.now(), creator="test@me.com", source="3", category ="3",
+    entity =  RawContent(org="DUT", id ="1", dateCreated= LocalDateTime.now(), creator="test@me.com", source="3", category ="3",
       title = "birth control", content = "we not animals", contentType = "Text/Image",
       status = "raw",  state ="active")
 
@@ -24,7 +25,7 @@ class RawContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
   test("Create raw content"){
     val request = route(app, FakeRequest(POST, baseUrl + "create")
       .withJsonBody(Json.toJson(entity))
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
 
     assert(status(request) equals OK)
@@ -35,7 +36,7 @@ class RawContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
     updateEntity =  entity.copy(contentType="images")
     val request = route(app, FakeRequest(POST, baseUrl+"create")
       .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) != Json.toJson( entity).toString())
@@ -44,7 +45,7 @@ class RawContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
 
   test("get raw content by id"){
     val request = route(app, FakeRequest(GET, baseUrl+ entity.org+ "/" +entity.id)
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
@@ -52,7 +53,7 @@ class RawContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
 
   test("get paginated raw content"){
     val request = route(app, FakeRequest(GET, baseUrl+"range/"+entity.org +"/"+2)
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     println(contentAsString(request))
@@ -60,7 +61,7 @@ class RawContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
 
   test("get all raw content"){
     val request = route(app, FakeRequest(GET, baseUrl+"all/"+entity.org)
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     println(contentAsString(request))

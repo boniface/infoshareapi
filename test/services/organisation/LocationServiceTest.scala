@@ -2,7 +2,7 @@ package services.organisation
 
 import domain.organisation.Location
 import org.scalatest.{BeforeAndAfter, FunSuite}
-import java.time.{LocalDateTime =>Date}
+import java.time.LocalDateTime
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
@@ -15,7 +15,7 @@ class LocationServiceTest extends FunSuite with BeforeAndAfter {
 
   before{
     entity = Location(id = "1",org = "cput",name = "cape town", locationTypeId="53",code="7580",
-      latitude="68",longitude="454",parentId="1",state="Active",date=Date.now())
+      latitude="68",longitude="454",parentId="1",state="Active",date=LocalDateTime.now())
     kwargs = Map("org"->entity.org,"id"->entity.id)
   }
 

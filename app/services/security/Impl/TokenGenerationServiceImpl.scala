@@ -43,7 +43,7 @@ class TokenGenerationServiceImpl extends TokenGenerationService{
     claims
   }
 
-  private def getPublicKey(publickKey: Option[Keys]) = publickKey match {
+  private def getPublicKey(publicKey: Option[Keys]) = publicKey match {
     case Some(key)=> getKey(key.value)
     case None => EcJwkGenerator.generateJwk(EllipticCurves.P256)
   }
@@ -51,9 +51,9 @@ class TokenGenerationServiceImpl extends TokenGenerationService{
 
   override def getToken(claims: JwtClaims): Future[String] = {
     for {
-      publickKey <- KeysService.getKeyById(HashcodeKeys.PUBLICKEY)
+      publicKey <- KeysService.getKeyById(HashcodeKeys.PUBLICKEY)
     } yield {
-      val senderJwk = getPublicKey(publickKey)
+      val senderJwk = getPublicKey(publicKey)
       val jws = new JsonWebSignature
       jws.setPayload(claims.toJson)
       jws.setKey(senderJwk.getPrivateKey)
@@ -65,9 +65,9 @@ class TokenGenerationServiceImpl extends TokenGenerationService{
 
   override def getTokenClaims(token: String): Future[JwtClaims] = {
     for {
-      publickKey <- KeysService.getKeyById(HashcodeKeys.PUBLICKEY)
+      publicKey <- KeysService.getKeyById(HashcodeKeys.PUBLICKEY)
     } yield {
-      val senderJwk = getPublicKey(publickKey)
+      val senderJwk = getPublicKey(publicKey.orElse(Keys.identity))
       val jwsAlgConstraints = new AlgorithmConstraints(ConstraintType.WHITELIST, AlgorithmIdentifiers.ECDSA_USING_P256_CURVE_AND_SHA256)
       val jwtConsumer = new JwtConsumerBuilder()
         .setRequireExpirationTime()

@@ -1,6 +1,6 @@
 package services.organisation
 
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 
 import domain.organisation.Organisation
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -15,7 +15,7 @@ class OrganisationServiceTest extends FunSuite with BeforeAndAfter {
   var entity, updateEntity: Organisation = _
 
   before{
-    entity = Organisation(id = "1",name = "cput",details = Map(),adminAttached = "admin",date = Date.now(),state = "ACTIVE")
+    entity = Organisation(id = "1",name = "cput",details = Map(),adminAttached = "admin",date = LocalDateTime.now(),state = "ACTIVE")
   }
 
   test("create Organisation"){

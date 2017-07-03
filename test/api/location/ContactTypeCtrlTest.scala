@@ -6,6 +6,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import util.UtilTest
 
 class ContactTypeCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
 
@@ -20,7 +21,7 @@ class ContactTypeCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
   test("Create "+title){
     val request = route(app, FakeRequest(POST, baseUrl + "create")
       .withJsonBody(Json.toJson(entity))
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
 
     assert(status(request) equals OK)
@@ -31,7 +32,7 @@ class ContactTypeCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
     updateEntity = entity.copy(name="Tell phone")
     val request = route(app, FakeRequest(POST, baseUrl+"create")
       .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) != Json.toJson(entity).toString())
@@ -40,7 +41,7 @@ class ContactTypeCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
 
   test("get "+title+" by id"){
     val request = route(app, FakeRequest(GET, baseUrl+entity.id)
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
@@ -48,7 +49,7 @@ class ContactTypeCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
 
   test("get all "+title){
     val request = route(app, FakeRequest(GET, baseUrl+"all")
-      .withHeaders(AUTHORIZATION -> "Token")
+      .withHeaders(UtilTest.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
   }

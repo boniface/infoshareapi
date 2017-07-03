@@ -1,6 +1,6 @@
 package services.users
 
-import java.time.{LocalDateTime =>Date}
+import java.time.LocalDateTime
 
 import domain.users.UserImages
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -17,7 +17,7 @@ class UserImageServiceTest extends FunSuite with BeforeAndAfter{
 
   before{
     userImgEntity = UserImages(org = "CPUT", emailId = "test@email.com", id="2", description = "my pic",
-                  url="http://www.cput.ac.za/logo.png", mime = ".png", size = None ,date = Date.now())
+                  url="http://www.cput.ac.za/logo.png", mime = ".png", size = None ,date = LocalDateTime.now())
     kwargs = Map("org"->userImgEntity.org,"emailId"->userImgEntity.emailId,"id"->userImgEntity.id)
 
   }

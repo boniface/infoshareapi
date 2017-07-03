@@ -1,7 +1,7 @@
 package services.content
 
 import domain.content.Media
-import java.time.{LocalDateTime =>Date}
+import java.time.LocalDateTime
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
 import scala.concurrent.Await
@@ -15,7 +15,7 @@ class MediaServiceTest extends FunSuite with BeforeAndAfter{
 
   before{
     entity = Media(contentId = "1", id = "1", description = "birth control",url = "https:me.com/jpg",
-      mime = ".jpg",date = Date.now(),state = "Active")
+      mime = ".jpg",date = LocalDateTime.now(),state = "Active")
   }
 
   test("Create media"){
