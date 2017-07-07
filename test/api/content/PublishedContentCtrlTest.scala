@@ -8,7 +8,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import util.UtilTest
+import util.TestUtils
 
 class PublishedContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
 
@@ -25,7 +25,7 @@ class PublishedContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOn
   test("Create published content"){
     val request = route(app, FakeRequest(POST, baseUrl + "create")
       .withJsonBody(Json.toJson(entity))
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
 
     assert(status(request) equals OK)
@@ -36,7 +36,7 @@ class PublishedContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOn
     updateEntity =  entity.copy(contentType="images")
     val request = route(app, FakeRequest(POST, baseUrl+"create")
       .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) != Json.toJson( entity).toString())
@@ -45,7 +45,7 @@ class PublishedContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOn
 
   test("get published content by id"){
     val request = route(app, FakeRequest(GET, baseUrl+ entity.org+ "/" +entity.id)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
@@ -54,7 +54,7 @@ class PublishedContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOn
 
   test("get paginated published content"){
     val request = route(app, FakeRequest(GET, baseUrl+"range/"+entity.org+"/"+2)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     println(contentAsString(request))
@@ -62,7 +62,7 @@ class PublishedContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOn
 
   test("get all published content"){
     val request = route(app, FakeRequest(GET, baseUrl+"all/"+entity.org)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     println(contentAsString(request))

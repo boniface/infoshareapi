@@ -7,7 +7,7 @@ import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import java.time.LocalDateTime
 import play.api.test.Helpers._
-import util.UtilTest
+import util.TestUtils
 
 class EditedContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
 
@@ -24,7 +24,7 @@ class EditedContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAp
   test("Create edited content"){
     val request = route(app, FakeRequest(POST, baseUrl + "create")
       .withJsonBody(Json.toJson(entity))
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
 
     assert(status(request) equals OK)
@@ -35,7 +35,7 @@ class EditedContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAp
     updateEntity =  entity.copy(contentType="images")
     val request = route(app, FakeRequest(POST, baseUrl+"create")
       .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) != Json.toJson( entity).toString())
@@ -44,7 +44,7 @@ class EditedContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAp
 
   test("get edited content by id"){
     val request = route(app, FakeRequest(GET, baseUrl+ entity.org+ "/" +entity.id)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
@@ -52,7 +52,7 @@ class EditedContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAp
 
   test("get paginated edited content"){
     val request = route(app, FakeRequest(GET, baseUrl+"range/"+entity.org+"/"+2)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     println(contentAsString(request))
@@ -60,7 +60,7 @@ class EditedContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAp
 
   test("get all edited content"){
     val request = route(app, FakeRequest(GET, baseUrl+"all/"+entity.org)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     println(contentAsString(request))

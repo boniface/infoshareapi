@@ -9,7 +9,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import util.UtilTest
+import util.TestUtils
 
 class UserCreationControllerTest extends PlaySpec with GuiceOneAppPerTest {
 
@@ -28,7 +28,7 @@ class UserCreationControllerTest extends PlaySpec with GuiceOneAppPerTest {
         LocalDateTime.now())
       val request = route(app, FakeRequest(POST, "/users/usercreation/" + "create/" + RolesID.READER)
         .withJsonBody(Json.toJson(user))
-        .withHeaders(UtilTest.getHeaders:_*)
+        .withHeaders(TestUtils.getHeaders:_*)
       ).get
       status(request) mustBe OK
       contentType(request) mustBe Some("application/json")

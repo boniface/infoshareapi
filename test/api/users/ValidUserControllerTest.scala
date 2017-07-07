@@ -9,7 +9,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import util.UtilTest
+import util.TestUtils
 
 /**
   * Created by hashcode on 2017/06/11.
@@ -23,7 +23,7 @@ class ValidUserControllerTest extends PlaySpec with GuiceOneAppPerTest {
       val validUser = ValidUser(userId,LocalDateTime.now,Events.VALIDATED)
       val request = route(app, FakeRequest(POST, "/users/valid/create")
         .withJsonBody(Json.toJson(validUser))
-        .withHeaders(UtilTest.getHeaders:_*)
+        .withHeaders(TestUtils.getHeaders:_*)
       ).get
       status(request) mustBe OK
       contentType(request) mustBe Some("application/json")
@@ -34,7 +34,7 @@ class ValidUserControllerTest extends PlaySpec with GuiceOneAppPerTest {
 
     "Test if  User is Valid " in {
       val request = route(app, FakeRequest(GET, "/users/valid/user/"+userId)
-        .withHeaders(UtilTest.getHeaders:_*)
+        .withHeaders(TestUtils.getHeaders:_*)
       ).get
       status(request) mustBe OK
       contentType(request) mustBe Some("application/json")
@@ -44,7 +44,7 @@ class ValidUserControllerTest extends PlaySpec with GuiceOneAppPerTest {
 
     "Get Valid User Events  " in {
       val request = route(app, FakeRequest(GET, "/users/valid/events/"+userId)
-        .withHeaders(UtilTest.getHeaders:_*)
+        .withHeaders(TestUtils.getHeaders:_*)
       ).get
       status(request) mustBe OK
       contentType(request) mustBe Some("application/json")
@@ -54,7 +54,7 @@ class ValidUserControllerTest extends PlaySpec with GuiceOneAppPerTest {
 
     "Get Number of Valid Users " in {
       val request = route(app, FakeRequest(GET, "/users/valid/users")
-        .withHeaders(UtilTest.getHeaders:_*)
+        .withHeaders(TestUtils.getHeaders:_*)
       ).get
       status(request) mustBe OK
       contentType(request) mustBe Some("application/json")

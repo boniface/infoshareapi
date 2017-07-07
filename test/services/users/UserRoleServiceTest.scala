@@ -1,5 +1,7 @@
 package services.users
 
+import java.time.LocalDateTime
+
 import domain.security.RolesID
 import domain.users.UserRole
 import org.scalatest.{BeforeAndAfter, FunSuite}
@@ -12,7 +14,8 @@ class UserRoleServiceTest extends FunSuite with BeforeAndAfter {
   var userRoleEntity, updateEntity: UserRole = _
 
   before{
-//    userRoleEntity = UserRole(emailId="test@test.com",roleId = "1", state="ACTIVE")
+    userRoleEntity = UserRole(siteId= "cput", emailId="test@test.com",date= LocalDateTime.now(), roleId = "1")
+
   }
 
   test("Create USER_ROLE"){

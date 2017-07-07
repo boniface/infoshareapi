@@ -6,7 +6,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import util.UtilTest
+import util.TestUtils
 
 class ContentTypeCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
 
@@ -19,7 +19,7 @@ class ContentTypeCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
   test("Create content type"){
     val request = route(app, FakeRequest(POST, baseUrl + "contenttype/create")
       .withJsonBody(Json.toJson( entity))
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
 
     assert(status(request) equals OK)
@@ -30,7 +30,7 @@ class ContentTypeCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
     updateEntity =  entity.copy(name="images")
     val request = route(app, FakeRequest(POST, baseUrl+"contenttype/create")
       .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) != Json.toJson( entity).toString())
@@ -39,7 +39,7 @@ class ContentTypeCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
 
   test("get content type by id"){
     val request = route(app, FakeRequest(GET, baseUrl+"contenttype/"+ entity.id)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
@@ -47,7 +47,7 @@ class ContentTypeCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
 
   test("get all content type"){
     val request = route(app, FakeRequest(GET, baseUrl+"contenttypes")
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     println(contentAsString(request))

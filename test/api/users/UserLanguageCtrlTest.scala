@@ -8,7 +8,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import util.UtilTest
+import util.TestUtils
 
 class UserLanguageCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
 
@@ -24,7 +24,7 @@ class UserLanguageCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneApp
   test("Create "+title){
     val request = route(app, FakeRequest(POST, baseUrl + "create")
       .withJsonBody(Json.toJson(entity))
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
 
     assert(status(request) equals OK)
@@ -35,7 +35,7 @@ class UserLanguageCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneApp
     updateEntity = entity.copy(writing="zulu",reading = "zulu")
     val request = route(app, FakeRequest(POST, baseUrl+"create")
       .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) != Json.toJson(entity).toString())
@@ -44,7 +44,7 @@ class UserLanguageCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneApp
 
   test("get "+title+" by id"){
     val request = route(app, FakeRequest(GET, baseUrl + entity.emailId + "/" + entity.id)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
@@ -52,7 +52,7 @@ class UserLanguageCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneApp
 
   test("get all "+title){
     val request = route(app, FakeRequest(GET, baseUrl+"all/"+entity.emailId)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
   }

@@ -67,7 +67,7 @@ class TokenGenerationServiceImpl extends TokenGenerationService{
     for {
       publicKey <- KeysService.getKeyById(HashcodeKeys.PUBLICKEY)
     } yield {
-      val senderJwk = getPublicKey(publicKey.orElse(Keys.identity))
+      val senderJwk = getPublicKey(publicKey)
       val jwsAlgConstraints = new AlgorithmConstraints(ConstraintType.WHITELIST, AlgorithmIdentifiers.ECDSA_USING_P256_CURVE_AND_SHA256)
       val jwtConsumer = new JwtConsumerBuilder()
         .setRequireExpirationTime()

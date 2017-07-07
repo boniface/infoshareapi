@@ -6,7 +6,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import util.UtilTest
+import util.TestUtils
 
 class FileResultsCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
 
@@ -21,7 +21,7 @@ class FileResultsCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
   test("Create "+title){
     val request = route(app, FakeRequest(POST, baseUrl + "create")
       .withJsonBody(Json.toJson(entity))
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
 
     assert(status(request) equals OK)
@@ -32,7 +32,7 @@ class FileResultsCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
     updateEntity = entity.copy(url = "http://www.cput.ac.za/logo.jpg", mime = ".jpg")
     val request = route(app, FakeRequest(POST, baseUrl + "create")
       .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) != Json.toJson(entity).toString())
@@ -41,7 +41,7 @@ class FileResultsCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
 
   test("get "+title+" by id"){
     val request = route(app, FakeRequest(GET, baseUrl+entity.id)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
@@ -49,7 +49,7 @@ class FileResultsCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
 
   test("get all "+title){
     val request = route(app, FakeRequest(GET, baseUrl+"all")
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
   }

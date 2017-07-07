@@ -4,6 +4,8 @@ import javax.inject.{Inject, Singleton}
 
 import domain.content.Category
 import domain.security.TokenFailException
+import org.jose4j.jwt.consumer.InvalidJwtException
+import org.jose4j.lang.JoseException
 import play.api.libs.json._
 import play.api.mvc._
 import services.content.CategoryService

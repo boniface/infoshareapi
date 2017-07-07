@@ -8,7 +8,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import util.UtilTest
+import util.TestUtils
 
 class UserImagesCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
 
@@ -24,7 +24,7 @@ class UserImagesCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
   test("Create "+title){
     val request = route(app, FakeRequest(POST, baseUrl + "create")
       .withJsonBody(Json.toJson(entity))
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
 
     assert(status(request) equals OK)
@@ -35,16 +35,16 @@ class UserImagesCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
     updateEntity = entity.copy(size= Some("7530"), description= "cput logo")
     val request = route(app, FakeRequest(POST, baseUrl+"create")
       .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) != Json.toJson(entity).toString())
     assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
   }
 
-  test("get "+title+" by id"){ //user/$org/$emailId
+  test("get "+title+" by id"){
     val request = route(app, FakeRequest(GET, baseUrl + entity.org + "/" + entity.emailId + "/" + entity.id)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
@@ -52,7 +52,7 @@ class UserImagesCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
 
   test("get all "+title){
     val request = route(app, FakeRequest(GET, baseUrl + "user/" + entity.org + "/" + entity.emailId)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(!contentAsJson(request).result.isEmpty)
@@ -60,7 +60,7 @@ class UserImagesCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
 
   test("get all org images"){
     val request = route(app, FakeRequest(GET, baseUrl + "org/" + entity.org)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(!contentAsJson(request).result.isEmpty)

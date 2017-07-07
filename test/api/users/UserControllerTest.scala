@@ -8,7 +8,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import util.UtilTest
+import util.TestUtils
 
 class UserControllerTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
 
@@ -16,16 +16,15 @@ class UserControllerTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
   var baseUrl = "/users/user/"
   val title = "user"
 
-//  before {
-//    entity = User("CPUT","test@test.com","First Name","Last Name",None,
-//      Some("CODER"),"test123","ACTIVE",LocalDateTime.now() )
-//
-//  }
+  before {
+    entity = User(siteId="CPUT",email="test@test.com",firstName=Some("First Name"),lastName=Some("Last Name"),
+      middleName= None, screenName="CODER",password="test123",state="ACTIVE",date=LocalDateTime.now() )
+  }
 
   test("Create "+title){
     val request = route(app, FakeRequest(POST, baseUrl + "create")
       .withJsonBody(Json.toJson(entity))
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
 
     assert(status(request) equals OK)
@@ -35,7 +34,7 @@ class UserControllerTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
 
   test("get "+title){
     val request = route(app, FakeRequest(GET, baseUrl + entity.siteId +"/" +entity.email)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
@@ -43,7 +42,7 @@ class UserControllerTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
 
   test("get "+title+ " by email"){
     val request = route(app, FakeRequest(GET, baseUrl + entity.email)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
     assert(!contentAsJson(request).result.isEmpty)
@@ -51,7 +50,7 @@ class UserControllerTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
 
   test("get all organisation "+title+"'s"){
     val request = route(app, FakeRequest(GET, baseUrl+"org/"+entity.siteId)
-      .withHeaders(UtilTest.getHeaders:_*)
+      .withHeaders(TestUtils.getHeaders:_*)
     ).get
     assert(status(request) equals OK)
   }
