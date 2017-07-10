@@ -1,10 +1,10 @@
-package controllers.users
+package controllers.login
 
 import domain.security.{Credential, TokenFailException, UserGeneratedToken}
 import domain.users.Login
 import play.api.libs.json.Json
 import play.api.mvc.{AnyContent, InjectedController, Request}
-import services.security.LoginService
+import services.security.{LoginService, TokenCheckService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -13,19 +13,6 @@ import scala.concurrent.Future
   * Created by hashcode on 6/27/17.
   */
 class LoginController extends InjectedController{
-
-
-  def login(email: String) = Action.async {
-    implicit request: Request[AnyContent] =>
-
-      val response: Future[Seq[Login]] = for {
-        results<- LoginService.apply.getLogins(email)
-      } yield results
-      response.map(ans => Ok(Json.toJson(ans))).recover {
-        case _: TokenFailException => Unauthorized
-        case _: Exception => InternalServerError
-      }
-  }
 
   def authenticate = Action.async(parse.json) { request =>
     val input = request.body
@@ -38,6 +25,18 @@ class LoginController extends InjectedController{
       case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
+  }
+
+  def login(email: String) = Action.async {
+    implicit request: Request[AnyContent] =>
+      val response: Future[Seq[Login]] = for {
+//        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        results<- LoginService.apply.getLogins(email)
+      } yield results
+      response.map(ans => Ok(Json.toJson(ans))).recover {
+        case _: TokenFailException => Unauthorized
+        case _: Exception => InternalServerError
+      }
   }
 
 }

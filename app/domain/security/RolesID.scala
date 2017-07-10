@@ -4,15 +4,17 @@ import javax.inject.Singleton
 
 @Singleton
 object RolesID {
-  def ANONYMOUS: String = "ANONYMOUS"
+  def READER: String = "READER"
 
-  def ROLE_ADMIN: String = "ROLE_ADMIN"
+  def MODERATOR: String = "MODERATOR"
 
-  def ROLE_EDITOR: String = "ROLE_EDITOR"
+  def CONTENT_CREATOR: String = "CONTENT_CREATOR"
 
-  def ROLE_PUBLISHER: String = "ROLE_PUBLISHER"
+  def EDITOR: String = "EDITOR"
 
-  def ORG_ADMIN: String = "Business Technical Administrator"
+  def PUBLISHER: String = "PUBLISHER"
 
-  def ADMIN: String = "System Administrator"
+  def SITE_ADMIN: String = "SITE_ADMINISTRATOR"
+
+  def ADMIN: String = "SYSTEM_ADMINISTRATOR"
 }

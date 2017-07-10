@@ -21,9 +21,9 @@ class UserRoleCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerT
     case GET(p"/role/delete/$emailId/$id") =>
       userRoleCtrl.delete(emailId, id)
  */
-  before{
-    entity =  UserRole(emailId="test@test.com",roleId = "1", state="ACTIVE")
-  }
+//  before{
+//    entity =  UserRole(emailId="test@test.com",roleId = "1", state="ACTIVE")
+//  }
 
   test("Create "+title){
     val request = route(app, FakeRequest(POST, baseUrl + "create")
@@ -35,16 +35,16 @@ class UserRoleCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerT
     assert(contentAsString(request) equals Json.toJson(entity).toString() )
   }
 
-  test("update "+title){
-    updateEntity = entity.copy(state = "INACTIVE")
-    val request = route(app, FakeRequest(POST, baseUrl + "create")
-      .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(AUTHORIZATION -> "Token")
-    ).get
-    assert(status(request) equals OK)
-    assert(contentAsString(request) != Json.toJson(entity).toString())
-    assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
-  }
+//  test("update "+title){
+//    updateEntity = entity.copy(state = "INACTIVE")
+//    val request = route(app, FakeRequest(POST, baseUrl + "create")
+//      .withJsonBody(Json.toJson(updateEntity))
+//      .withHeaders(AUTHORIZATION -> "Token")
+//    ).get
+//    assert(status(request) equals OK)
+//    assert(contentAsString(request) != Json.toJson(entity).toString())
+//    assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
+//  }
 
   test("get "+title+" by id"){
     val request = route(app, FakeRequest(GET, baseUrl + entity.emailId + "/" + entity.roleId)

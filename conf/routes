@@ -1,19 +1,20 @@
 ########################################################
 #####                   APP ROUTERS                #####
 ########################################################
-->      /users              controllers.users.UsersRouter
-->      /utils              controllers.util.UtilRouter
-->      /content            controllers.content.ContentRouter
-->      /demo               controllers.demographics.DemographicsRouter
-->      /location           controllers.location.LocationRouter
-->      /org                controllers.organisation.OrganisationRouter
-->      /storage            controllers.storage.StorageRouter
-->      /events             controllers.syslog.SystemLogRouter
+->         /users               controllers.users.UsersRouter
+->         /utils               controllers.util.UtilRouter
+->         /content             controllers.content.ContentRouter
+->         /demo                controllers.demographics.DemographicsRouter
+->         /location            controllers.location.LocationRouter
+->         /org                 controllers.organisation.OrganisationRouter
+->         /storage             controllers.storage.StorageRouter
+->         /events              controllers.syslog.SystemLogRouter
+->         /login               controllers.login.LoginRouter
 
 
 # static files resources
-GET     /                   controllers.App.index
-GET     /assets/*file       controllers.Assets.versioned(path="/public", file: Asset)
+GET        /                    controllers.App.index
+GET        /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)
 
 # An example controller showing a sample home page
 GET        /                    controllers.HomeController.index

@@ -1,7 +1,7 @@
 package services.users
 
 import com.outworkers.phantom.dsl.ResultSet
-import domain.users.UserRole
+import domain.users.{User, UserRole}
 import repositories.users.UserRoleRepository
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -14,17 +14,17 @@ trait UserRoleService extends UserRoleRepository {
 
   }
 
-  def getUserRoles(emailId: String): Future[Seq[UserRole]] = {
-    database.userRoleTable.getUserRoles(emailId)
+  def getUserRoles(user:User): Future[Seq[UserRole]] = {
+    database.userRoleTable.getUserRoles(user.siteId,user.email)
 
   }
 
-  def getUserRole(emailId: String): Future[UserRole] = {
-    database.userRoleTable.getUserRoles(emailId).map(role => role.head)
+  def getUserRole(user:User): Future[UserRole] = {
+    database.userRoleTable.getUserRoles(user.siteId,user.email).map(role => role.head)
   }
 
-  def deleteUserRoles(emailId:String):Future[ResultSet] ={
-    database.userRoleTable.deleteUserRoles(emailId)
+  def deleteUserRoles(user:User):Future[ResultSet] ={
+    database.userRoleTable.deleteUserRoles(user.siteId,user.email)
   }
 
 }

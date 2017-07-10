@@ -17,7 +17,7 @@ class ManageTokenServiceImpl extends ManageTokenService {
 
   override def createNewToken(user: User, agent: String): Future[UserGeneratedToken] = {
     for {
-      role <- UserRoleService.getUserRole(user.email)
+      role <- UserRoleService.getUserRole(user)
       claims <- Future {
         TokenGenerationService.apply.createClaims(user.email, user.siteId, role.roleId, agent)
       }

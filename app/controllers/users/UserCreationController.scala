@@ -18,7 +18,7 @@ class UserCreationController extends InjectedController {
 
   def createUser(roleId: String) = Action.async(parse.json) { request =>
     val entity = Json.fromJson[User](request.body).get
-    val role = UserRole(entity.email, LocalDateTime.now, roleId)
+    val role = UserRole(entity.siteId,entity.email, LocalDateTime.now, roleId)
     val response: Future[Boolean] = for {
       _ <- TokenCheckService.apply.getToken(request)
       results: Boolean <- UserCreationService.apply.createUser(entity, role)
@@ -62,7 +62,7 @@ class UserCreationController extends InjectedController {
     val siteId = request.headers.get("SiteID").getOrElse("")
     val response: Future[UserGeneratedToken] = for {
       _ <- TokenCheckService.apply.getToken(request)
-      results: UserGeneratedToken <- LoginService.apply.createNewToken(entity, agent, siteId)
+      results: UserGeneratedToken <- LoginService.apply.createNewToken(entity, agent)
     } yield results
     response.map(ans => Ok(Json.toJson(ans))).recover {
       case _: TokenFailException => Unauthorized

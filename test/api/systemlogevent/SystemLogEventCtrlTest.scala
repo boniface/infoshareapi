@@ -15,7 +15,7 @@ class SystemLogEventCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneA
   val title = "System Log Events"
 
   before {
-    entity = SystemLogEvents(org = "BO", id = "1", eventName = "test", eventType = "test",
+    entity = SystemLogEvents(siteId = "BO", id = "1", eventName = "test", eventType = "test",
       message = "my test", date = Date.now())
   }
 
@@ -42,7 +42,7 @@ class SystemLogEventCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneA
   }
 
   test("get "+title+" by id"){
-    val request = route(app, FakeRequest(GET, baseUrl+entity.org+"/"+entity.id)
+    val request = route(app, FakeRequest(GET, baseUrl+entity.siteId+"/"+entity.id)
       .withHeaders(AUTHORIZATION -> "Token")
     ).get
     assert(status(request) equals OK)
@@ -50,7 +50,7 @@ class SystemLogEventCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneA
   }
 
   test("get all "+title){
-    val request = route(app, FakeRequest(GET, baseUrl+"all/"+entity.org)
+    val request = route(app, FakeRequest(GET, baseUrl+"all/"+entity.siteId)
       .withHeaders(AUTHORIZATION -> "Token")
     ).get
     assert(status(request) equals OK)

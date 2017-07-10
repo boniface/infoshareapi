@@ -7,7 +7,9 @@ import domain.security.UserState
 import domain.users.User
 import repositories.users.UserRepository
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import com.outworkers.phantom.dsl.context
+
+
 import scala.concurrent.Future
 
 
@@ -57,7 +59,7 @@ trait UserService extends UserRepository {
       deleteFromUsers <- database.userTable.deleteUser(extractUser(user).email,siteId)
       deleteUserFromSite <- database.siteUserTable.deleteUser(extractUser(user).siteId, extractUser(user).email)
       deleteUserFromTimeLine <- database.userTimeLineTable.deleteUser(extractUser(user).date, extractUser(user).siteId, extractUser(user).email)
-      deleteUserRole <- UserRoleService.deleteUserRoles(extractUser(user).email)
+      deleteUserRole <- UserRoleService.deleteUserRoles(extractUser(user))
     } yield deleteUserRole
   }
 
