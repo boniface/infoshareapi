@@ -54,6 +54,7 @@ class LoginServiceImpl extends LoginService{
   }
 
   override def getLogins(email: String): Future[Seq[Login]] = {
+    println(" Has this been called with this email ", email)
     val accounts = UserService.getUserAccounts(email)
     accounts map ( accs => accs map ( acc => Login(email,Set()+acc.siteId )))
   }

@@ -23,8 +23,6 @@ import scala.concurrent.Future
 class UserCreationServiceImpl extends UserCreationService {
 
   override def createUser(user: User, role: UserRole): Future[Boolean] = {
-
-    println(" Do we have a Value here !!!!", user.email, role.roleId)
     val message: (String, User) = UserCreationMessageService.apply.accountCreatedMessage(user)
     val subject = "New Account Created for " + user.email
     val successLog = SystemLogEvents(
