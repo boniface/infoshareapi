@@ -16,7 +16,7 @@ class UserServiceTest extends FunSuite{
     "Geek",
     "test123",
     "ACTIVE",
-    Date.now())
+    LocalDateTime.now())
   val updatedEntity = entity.copy(state = "INACTIVE")
   val service = UserService
 

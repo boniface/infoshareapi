@@ -9,7 +9,7 @@ lazy val root = (project in file("."))
 scalaVersion := "2.12.2"
 
 val PhantomVersion = "2.12.1"
-val PlayFrameWorkVersion = "2.6.0"
+val PlayFrameWorkVersion = "2.6.1"
 val circeVersion = "0.8.0"
 
 maintainer := "Boniface Kabaso <boniface@kabaso.com>"
