@@ -1,5 +1,7 @@
 package services.users
 
+import javax.inject.Singleton
+
 import com.outworkers.phantom.dsl.ResultSet
 import domain.users.{User, UserRole}
 import repositories.users.UserRoleRepository
@@ -29,4 +31,5 @@ trait UserRoleService extends UserRoleRepository {
 
 }
 
+@Singleton
 object UserRoleService extends UserRoleService with UserRoleRepository

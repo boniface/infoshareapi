@@ -9,7 +9,7 @@ import play.api.routing.sird._
 /**
   * Created by hashcode on 2017/06/29.
   */
-class LoginRouter @Inject() (loginController:LoginController) extends SimpleRouter{
+class LoginRouter @Inject() (loginController:LoginController) extends SimpleRouter {
 
   override def routes: Routes = {
     //Login
@@ -17,7 +17,5 @@ class LoginRouter @Inject() (loginController:LoginController) extends SimpleRout
       loginController.authenticate
     case GET(p"/accounts/$email") =>
       loginController.login(email)
-
-
   }
 }

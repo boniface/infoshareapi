@@ -6,9 +6,7 @@ import services.mail.{SendGridService, SendMailService}
 
 import scala.concurrent.Future
 
-/**
-  * Created by hashcode on 6/24/17.
-  */
+
 class SendMailServiceImpl extends SendMailService{
   override def send(user: User, subject:String, message: String): Future[Int] = {
     val from = new Email("do_not_reply@hashcode.zm")

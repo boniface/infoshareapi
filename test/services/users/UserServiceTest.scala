@@ -1,42 +1,36 @@
 package services.users
 
 import domain.users.User
+
 import java.time.LocalDateTime
+import conf.util.HashcodeKeys
 import org.scalatest.FunSuite
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-class UserServiceTest extends FunSuite{
-  val entity = User("CPUT",
-    "test@test.com",
-    Some("NAME"),
-    Some("NAME"),
-    None,
-    "Geek",
-    "test123",
-    "ACTIVE",
-    LocalDateTime.now())
-  val updatedEntity = entity.copy(state = "INACTIVE")
+class UserServiceTest extends FunSuite {
+  val email = "2leradebe@gmail.com"
+  val entity = User("CPUT", email, Some("thulebona"), Some("hadebe"), Some("None"), "passwd", HashcodeKeys.ACTIVE, " ", LocalDateTime.now)
   val service = UserService
 
   test("Create USER"){
-    val result = Await.result(service.saveOrUpdate(entity),2 minutes)
+    val result = Await.result(service.saveOrUpdate(entity),2.minutes)
     assert(result.isExhausted)
+    println(result)
   }
 
-  test{"Get Site User "}{
-    val result = Await.result(service.database.userTimeLineTable.getUsersAccountsOlderThanOneDay,2 minutes)
+  test("Get Site User "){
+    val result = Await.result(service.getSiteUsers(entity.siteId),2.minutes)
+    assert(result.head.siteId equals entity.siteId)
     println("The value of Site User is ",result)
-//    assert(result.getOrElse(User.identity).state=="ACTIVE")
   }
 
-  test{"Get Site Users "}{
-    val result = Await.result(service.getSiteUsers("CPUT"),2 minutes)
-//    assert(result.head.state=="ACTIVE")
+  test("Get User "){
+    val result = Await.result(service.getSiteUser(entity.email, entity.siteId),2.minutes)
+    assert(result.isDefined)
+    println(result)
   }
-
-
 
 }
 

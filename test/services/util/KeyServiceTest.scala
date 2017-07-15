@@ -21,7 +21,7 @@ class KeyServiceTest extends FunSuite{
 
   }
 
-  test{"Read Key value "}{
+  test("Read Key value "){
     val result = Await.result(service.getKeyById("1"),2 minutes)
     assert(result.get.status=="ACTIVE")
 

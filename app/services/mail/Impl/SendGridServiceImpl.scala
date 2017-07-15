@@ -8,9 +8,7 @@ import services.util.KeysService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-/**
-  * Created by hashcode on 6/24/17.
-  */
+
 class SendGridServiceImpl extends SendGridService{
   override def sendMail(from: Email, subject: String, to: Email, content: Content): Future[Int] = {
     val  mail = new Mail(from,subject,to,content)
@@ -24,7 +22,6 @@ class SendGridServiceImpl extends SendGridService{
       request.setBody(mail.build)
       val  response = sg.api(request)
       response.getStatusCode()
-
     }
   }
 

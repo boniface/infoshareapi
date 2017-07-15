@@ -1,14 +1,12 @@
 package services.users
 
 import java.time.LocalDateTime
+import javax.inject.Singleton
 
-import com.outworkers.phantom.dsl.ResultSet
+import com.outworkers.phantom.dsl._
 import domain.security.UserState
 import domain.users.User
 import repositories.users.UserRepository
-
-import com.outworkers.phantom.dsl.context
-
 
 import scala.concurrent.Future
 
@@ -72,7 +70,6 @@ trait UserService extends UserRepository {
 
   }
 
-
   def extractUser(user: Option[User]): User = {
     user match {
       case Some(userValue) => userValue
@@ -81,4 +78,5 @@ trait UserService extends UserRepository {
   }
 }
 
+@Singleton
 object UserService extends UserService with UserRepository

@@ -19,7 +19,7 @@ class RolesServiceTest extends FunSuite{
     assert(result.isExhausted)
   }
 
-  test{"Read  Role Value "}{
+  test("Read  Role Value "){
     val result = Await.result(service.getRoleById("1"),2 minutes)
     assert(result.get.rolename=="USER")
 
