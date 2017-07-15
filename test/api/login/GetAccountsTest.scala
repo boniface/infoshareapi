@@ -12,7 +12,7 @@ class GetAccountsTest extends PlaySpec with GuiceOneAppPerTest{
   "LoginController" should {
 
     "Give you Accounts when and Email is Supplied" in {
-      val email = "2leradebe@gmail.com"
+      val email = "boniface@gmail.com"
 
       val request = route(app, FakeRequest(GET, "/login/accounts/"+email)
         .withHeaders(AUTHORIZATION -> "Token")

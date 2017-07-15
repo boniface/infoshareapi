@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import com.outworkers.phantom.dsl.{ResultSet, context}
 import conf.util.HashcodeKeys
 import domain.security.{Roles, RolesID}
-import domain.users.User
+import domain.users.{User, UserRole}
 import domain.util.Keys
 import repositories.content._
 import repositories.demographics._
@@ -16,8 +16,8 @@ import repositories.syslog._
 import repositories.users._
 import repositories.util._
 import services.demographics.RoleService
-import services.security.TokenGenerationService
-import services.users.UserService
+import services.security.{AuthenticationService, TokenGenerationService}
+import services.users.{UserRoleService, UserService}
 
 import scala.concurrent.Future
 
@@ -48,11 +48,12 @@ object SetupService {
       Roles(RolesID.PUBLISHER, RolesID.PUBLISHER)
     )
     roles.foreach(role => RoleService.save(role))
-
-    val admin = User("CPUT", "test@test.com", None, None, None, "passwd", HashcodeKeys.ACTIVE, " ", LocalDateTime.now)
-
+    val passwd = AuthenticationService.apply.getHashedPassword("passwd")
+    val admin = User("CPUT","test@test.com",None, None, None,"test" ,password= passwd, HashcodeKeys.ACTIVE, LocalDateTime.now)
+    val userRole = UserRole(admin.siteId,admin.email,LocalDateTime.now(),RolesID.ADMIN)
     for {
-     save <- UserService.saveOrUpdate(admin)
+      save <- UserService.saveOrUpdate(admin)
+      save <- UserRoleService.save(userRole)
     } yield save.isExhausted
 
   }

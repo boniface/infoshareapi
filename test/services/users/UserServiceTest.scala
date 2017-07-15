@@ -11,7 +11,7 @@ import scala.concurrent.duration._
 
 class UserServiceTest extends FunSuite {
   val email = "2leradebe@gmail.com"
-  val entity = User("CPUT", email, Some("thulebona"), Some("hadebe"), Some("None"), "passwd", HashcodeKeys.ACTIVE, " ", LocalDateTime.now)
+  val entity = User("CPUT", email, Some("thulebona"), Some("hadebe"), Some("None"),"", "passwd", HashcodeKeys.ACTIVE, LocalDateTime.now)
   val service = UserService
 
   test("Create USER"){

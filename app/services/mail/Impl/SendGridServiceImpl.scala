@@ -21,7 +21,7 @@ class SendGridServiceImpl extends SendGridService{
       request.setEndpoint("mail/send")
       request.setBody(mail.build)
       val  response = sg.api(request)
-      response.getStatusCode()
+      response.getStatusCode
     }
   }
 
