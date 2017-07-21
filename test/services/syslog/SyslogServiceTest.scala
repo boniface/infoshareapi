@@ -1,8 +1,7 @@
 package services.syslog
 
+import util.factories
 import domain.syslog.SystemLogEvents
-import java.time.LocalDateTime
-
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
 import scala.concurrent.Await
@@ -16,8 +15,7 @@ class SyslogServiceTest extends FunSuite with BeforeAndAfter {
   var kwargs: Map[String,String] =  _
 
   before{
-    entity = SystemLogEvents(siteId = "BO", id = "1", eventName = "test",eventType = "test",
-                                    message = "my test",date = LocalDateTime.now())
+    entity = factories.getSystemLog
     kwargs = Map("siteId"->entity.siteId, "id"->entity.id)
   }
 
@@ -28,31 +26,24 @@ class SyslogServiceTest extends FunSuite with BeforeAndAfter {
 
   test("get SystemLogEvents by id") {
     val resp = Await.result(service.getById(kwargs), 2.minutes)
-    assert(resp.head.id == entity.id)
-    assert(resp.head.eventName == entity.eventName)
-    assert(resp.head.eventType == entity.eventType)
-    assert(resp.head.message == entity.message)
+    assert(resp.get equals entity)
   }
 
   test("update SystemLogEvents") {
-    updateEntity = entity.copy(message = "you have null point exception", eventName = "null", eventType = "save user")
+    updateEntity = entity.copy(message = "login error", eventName = "invalid token", eventType = "save user")
     val update = Await.result(service.save(updateEntity), 2.minutes)
     val resp = Await.result(service.getById(kwargs), 2.minutes)
 
     assert(update.isExhausted)
-    assert(resp.head.eventName == updateEntity.eventName)
-    assert(resp.head.eventType == updateEntity.eventType)
-    assert(resp.head.message == updateEntity.message)
-
-    assert(resp.head.eventName != entity.eventName)
-    assert(resp.head.eventType != entity.eventType)
-    assert(resp.head.message != entity.message)
+    assert(resp.get != entity)
+    assert(resp.get equals updateEntity)
   }
 
   test("get all SystemLogEvents") {
     val result = Await.result(service.save(entity.copy(id = "2")), 2.minutes)
     val resp = Await.result(service.getAll(kwargs("siteId")), 2.minutes)
+
+    assert(resp.nonEmpty)
     assert(result.isExhausted)
-    assert(resp.size > 1)
   }
 }

@@ -2,7 +2,7 @@ package domain.users
 
 import java.time.LocalDateTime
 
-import domain.security.RolesID
+import conf.util.RolesID
 import play.api.libs.json.{Json, OFormat}
 
 case class UserRole(siteId: String,

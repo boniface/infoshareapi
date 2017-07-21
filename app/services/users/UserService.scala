@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 import javax.inject.Singleton
 
 import com.outworkers.phantom.dsl._
-import domain.security.UserState
+import conf.util.UserState
 import domain.users.User
 import repositories.users.UserRepository
 

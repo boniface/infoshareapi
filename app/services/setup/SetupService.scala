@@ -3,8 +3,8 @@ package services.setup
 import java.time.LocalDateTime
 
 import com.outworkers.phantom.dsl.{ResultSet, context}
-import conf.util.HashcodeKeys
-import domain.security.{Roles, RolesID}
+import conf.util.{HashcodeKeys, RolesID}
+import domain.security.Roles
 import domain.users.{User, UserRole}
 import domain.util.Keys
 import repositories.content._
@@ -15,9 +15,9 @@ import repositories.storage._
 import repositories.syslog._
 import repositories.users._
 import repositories.util._
-import services.demographics.RoleService
 import services.security.{AuthenticationService, TokenGenerationService}
 import services.users.{UserRoleService, UserService}
+import services.util.RolesService
 
 import scala.concurrent.Future
 
@@ -47,7 +47,7 @@ object SetupService {
       Roles(RolesID.SITE_ADMIN, RolesID.SITE_ADMIN),
       Roles(RolesID.PUBLISHER, RolesID.PUBLISHER)
     )
-    roles.foreach(role => RoleService.save(role))
+    roles.foreach(role => RolesService.save(role))
     val passwd = AuthenticationService.apply.getHashedPassword("passwd")
     val admin = User("CPUT","test@test.com",None, None, None,"test" ,password= passwd, HashcodeKeys.ACTIVE, LocalDateTime.now)
     val userRole = UserRole(admin.siteId,admin.email,LocalDateTime.now(),RolesID.ADMIN)
@@ -78,8 +78,9 @@ object SetupService {
       setup <- UserImagesDatabase.userImagesTable.create.ifNotExists().future()
       setup <- UserDatabase.userTable.create.ifNotExists().future()
       setup <- UserDatabase.userTimeLineTable.create.ifNotExists().future()
-      setup <- UserRoleDatabase.userRoleTable.create.ifNotExists().future()
       setup <- UserDatabase.siteUserTable.create.ifNotExists().future()
+      setup <- UserRoleDatabase.userRoleTable.create.ifNotExists().future()
+
       //      content
       setup <- CategoryDatabase.categoryTable.create.ifNotExists().future()
       setup <- ContentTypeDatabase.contentTypeTable.create.ifNotExists().future()
@@ -95,7 +96,7 @@ object SetupService {
       setup <- LanguageProficiencyDatabase.languageProficiencyTable.create.ifNotExists().future()
       setup <- RaceDatabase.raceTable.create.ifNotExists().future()
       setup <- MaritalStatusDatabase.maritalStatusTable.create.ifNotExists().future()
-      setup <- RoleDatabase.roleTable.create.ifNotExists().future()
+      setup <- RolesDatabase.rolesTable.create.ifNotExists().future()
 
       //    location
       setup <- AddressTypeDatabase.addressTypeTable.create.ifNotExists().future()
@@ -155,7 +156,7 @@ object SetupService {
       truncate <- LanguageProficiencyDatabase.dropAsync()
       truncate <- RaceDatabase.dropAsync()
       truncate <- MaritalStatusDatabase.dropAsync()
-      truncate <- RoleDatabase.dropAsync()
+      truncate <- RolesDatabase.dropAsync()
 
       //    location
       truncate <- AddressTypeDatabase.dropAsync()

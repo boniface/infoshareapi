@@ -2,7 +2,8 @@ package services.organisation
 
 import domain.organisation.Location
 import org.scalatest.{BeforeAndAfter, FunSuite}
-import java.time.LocalDateTime
+import util.factories
+
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
@@ -14,8 +15,7 @@ class LocationServiceTest extends FunSuite with BeforeAndAfter {
   var kwargs: Map[String,String] = _
 
   before{
-    entity = Location(id = "1",org = "cput",name = "cape town", locationTypeId="53",code="7580",
-      latitude="68",longitude="454",parentId="1",state="Active",date=LocalDateTime.now())
+    entity = factories.getLocation
     kwargs = Map("org"->entity.org,"id"->entity.id)
   }
 
@@ -26,9 +26,7 @@ class LocationServiceTest extends FunSuite with BeforeAndAfter {
 
   test("get location by id"){
     val resp = Await.result(service.getById(kwargs), 2.minutes)
-    assert(resp.head.id == entity.id)
-    assert(resp.head.name == entity.name)
-    assert(resp.head.state == entity.state)
+    assert(resp.get equals entity)
   }
 
   test("update location"){
@@ -37,22 +35,24 @@ class LocationServiceTest extends FunSuite with BeforeAndAfter {
     val resp = Await.result(service.getById(kwargs), 2.minutes)
 
     assert(update.isExhausted)
-    assert(resp.head.name == updateEntity.name)
-    assert(resp.head.name != entity.name)
+    assert(resp.get != entity)
+    assert(resp.get equals updateEntity)
   }
 
   test("get all location"){
     val result = Await.result(service.save(entity.copy(id = "2")), 2.minutes)
     val resp = Await.result(service.getAll(kwargs("org")), 2.minutes)
+
+    assert(resp.nonEmpty)
     assert(result.isExhausted)
-    assert(resp.size > 1)
   }
 
   test("delete location"){
     val result = Await.result(service.delete(kwargs), 2.minutes)
     val resp = Await.result(service.getById(kwargs), 2.minutes)
-    assert(result.isExhausted)
+
     assert(resp.isEmpty)
+    assert(result.isExhausted)
   }
 
 }

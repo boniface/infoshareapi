@@ -6,14 +6,14 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import util.TestUtils
+import util.{TestUtils, factories}
 
 class CategoryCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
 
   var entity, updateEntity : Category = _
   var baseUrl = "/content/"
   before{
-    entity = Category(id="1",name="HIV PREVENTION", description="how to prevent HIV")
+    entity = factories.getCategory
   }
 
   test("Create category"){

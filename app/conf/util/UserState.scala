@@ -1,8 +1,9 @@
-package domain.security
+package conf.util
 
-/**
-  * Created by hashcode on 2017/02/23.
-  */
+import javax.inject.Singleton
+
+
+@Singleton
 object UserState {
   def CONFIRMED="CONFIRMED"
   def UNCONFIRMED="UNCONFIRMED"

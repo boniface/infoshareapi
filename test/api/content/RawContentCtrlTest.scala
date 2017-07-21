@@ -17,7 +17,7 @@ class RawContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
 
   before {
     entity =  RawContent(org="DUT", id ="1", dateCreated= LocalDateTime.now(), creator="test@me.com", source="3", category ="3",
-      title = "birth control", content = "we not animals", contentType = "Text/Image",
+      title = "birth control", content = "we not animals", contentTypeId = "Text/Image",
       status = "raw",  state ="active")
 
   }
@@ -33,7 +33,7 @@ class RawContentCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPe
   }
 
   test("update raw content"){
-    updateEntity =  entity.copy(contentType="images")
+    updateEntity =  entity.copy(contentTypeId="images")
     val request = route(app, FakeRequest(POST, baseUrl+"create")
       .withJsonBody(Json.toJson(updateEntity))
       .withHeaders(TestUtils.getHeaders:_*)

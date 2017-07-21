@@ -1,18 +1,16 @@
 package services.users
 
 import domain.users.User
-
-import java.time.LocalDateTime
-import conf.util.HashcodeKeys
 import org.scalatest.FunSuite
+import util.factories
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
 class UserServiceTest extends FunSuite {
-  val email = "2leradebe@gmail.com"
-  val entity = User("CPUT", email, Some("thulebona"), Some("hadebe"), Some("None"),"", "passwd", HashcodeKeys.ACTIVE, LocalDateTime.now)
+
   val service = UserService
+  val entity: User = factories.getUser
 
   test("Create USER"){
     val result = Await.result(service.saveOrUpdate(entity),2.minutes)

@@ -2,7 +2,10 @@ package services.util
 
 import domain.util.ItemStatus
 import java.time.LocalDateTime
+
+import conf.util.HashcodeKeys
 import org.scalatest.FunSuite
+import util.factories
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -13,15 +16,13 @@ import scala.concurrent.duration._
 class ItemStatusServiceTest extends FunSuite{
 
 
-  val entity = ItemStatus("1",LocalDateTime.now(),"ACTIVE","USER")
-  val updatedEntity = entity.copy(status = "INACTIVE")
+  val entity: ItemStatus = factories.getItemStatus
+  val updatedEntity: ItemStatus = entity.copy(status = HashcodeKeys.INACTIVE)
   val service = ItemStatusService
 
   test("Create Item Status"){
     val result = Await.result(service.save(entity),2 minutes)
     assert(result.isExhausted)
-
-
   }
 
   test("Read  Item Value "){
@@ -33,7 +34,7 @@ class ItemStatusServiceTest extends FunSuite{
   test("Update Item Status"){
     val update = Await.result(service.save(updatedEntity),2 minutes)
     val result = Await.result(service.getStatus("1"),2 minutes)
-    assert(result.head.status=="INACTIVE")
+    assert(result.head.status== HashcodeKeys.INACTIVE)
   }
 
 }

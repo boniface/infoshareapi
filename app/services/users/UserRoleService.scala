@@ -13,19 +13,17 @@ trait UserRoleService extends UserRoleRepository {
 
   def save(role: UserRole): Future[ResultSet] = {
     database.userRoleTable.save(role)
-
   }
 
   def getUserRoles(user:User): Future[Seq[UserRole]] = {
     database.userRoleTable.getUserRoles(user.siteId,user.email)
-
   }
 
   def getUserRole(user:User): Future[UserRole] = {
     database.userRoleTable.getUserRoles(user.siteId,user.email).map(role => role.head)
   }
 
-  def deleteUserRoles(user:User):Future[ResultSet] ={
+  def deleteUserRoles(user:User): Future[ResultSet] ={
     database.userRoleTable.deleteUserRoles(user.siteId,user.email)
   }
 

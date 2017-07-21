@@ -2,34 +2,38 @@ package repositories.demographics.tables
 
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.streams._
-import domain.security.Roles
+import domain.demographics.Role
 
 import scala.concurrent.Future
 
-abstract class RoleTable extends Table[RoleTable, Roles] {
+abstract class RoleTable extends Table[RoleTable, Role] {
 
   object id extends StringColumn with PartitionKey
 
-  object rolename extends StringColumn
+  object name extends StringColumn
 
+  object description extends StringColumn
+
+  object state extends StringColumn
 }
 
 abstract class RoleTableImpl extends RoleTable with RootConnector {
-  override lazy val tableName = "demo_roles"
+  override lazy val tableName = "demo_role"
 
-  def save(role: Roles): Future[ResultSet] = {
+  def save(role: Role): Future[ResultSet] = {
     insert
       .value(_.id, role.id)
-      .value(_.rolename, role.rolename)
-
+      .value(_.name, role.name)
+      .value(_.description, role.description)
+      .value(_.state, role.state)
       .future()
   }
 
-  def getRoleById(id: String): Future[Option[Roles]] = {
+  def getRoleById(id: String): Future[Option[Role]] = {
     select.where(_.id eqs id).one()
   }
 
-  def getRoles: Future[Seq[Roles]] = {
+  def getRoles: Future[Seq[Role]] = {
     select.fetchEnumerator() run Iteratee.collect()
   }
 

@@ -4,6 +4,7 @@ import java.time.LocalDateTime
 
 import domain.organisation.OrganisationLogo
 import org.scalatest.{BeforeAndAfter, FunSuite}
+import util.factories
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -16,10 +17,8 @@ class OrganisationLogoServiceTest extends FunSuite with BeforeAndAfter {
   var kwargs: Map[String,String] = _
 
   before{
-    entity = OrganisationLogo(org = "cput",id="3",url="http://www.google.com/e.jpg",size = Some("512MB"),
-      description = "cput logo",mime = ".jpg",LocalDateTime.now())
+    entity = factories.getOrganisationLogo
     kwargs = Map("org"->entity.org,"id"->entity.id)
-
   }
 
   test("create OrganisationLogo"){
@@ -29,9 +28,7 @@ class OrganisationLogoServiceTest extends FunSuite with BeforeAndAfter {
 
   test("get OrganisationLogo by id"){
     val resp = Await.result(service.getById(kwargs), 2.minutes)
-    assert(resp.head.id == entity.id)
-    assert(resp.head.org == entity.org)
-    assert(resp.head.size == entity.size)
+    assert(resp.get equals entity)
   }
 
   test("update OrganisationLogo"){
@@ -40,17 +37,16 @@ class OrganisationLogoServiceTest extends FunSuite with BeforeAndAfter {
     val resp = Await.result(service.getById(kwargs), 2.minutes)
 
     assert(update.isExhausted)
-    assert(resp.head.mime == updateEntity.mime)
-    assert(resp.head.url == updateEntity.url)
-    assert(resp.head.mime != entity.mime)
-    assert(resp.head.url != entity.url)
+    assert(resp.get != entity)
+    assert(resp.get equals updateEntity)
   }
 
   test("get all OrganisationLogo"){
     val result = Await.result(service.save(entity.copy(id = "4")), 2.minutes)
     val resp = Await.result(service.getAll(kwargs("org")), 2.minutes)
+
+    assert(resp.nonEmpty)
     assert(result.isExhausted)
-    assert(resp.size > 1)
   }
 
 

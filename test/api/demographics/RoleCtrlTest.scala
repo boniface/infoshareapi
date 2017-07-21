@@ -1,7 +1,7 @@
 package api.demographics
 
+import conf.util.RolesID
 import domain.demographics.Role
-import domain.security.RolesID
 import org.scalatest.{BeforeAndAfter, FunSuite}
 import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json

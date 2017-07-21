@@ -26,7 +26,7 @@ abstract class RawContentTable extends Table[RawContentTable, RawContent] {
 
   object content extends StringColumn
 
-  object contentType extends StringColumn
+  object contentTypeId extends StringColumn
 
   object status extends StringColumn
 
@@ -47,7 +47,7 @@ abstract class RawContentTableImpl extends RawContentTable with RootConnector {
       .value(_.category, content.category)
       .value(_.title, content.title)
       .value(_.content, content.content)
-      .value(_.contentType, content.contentType)
+      .value(_.contentTypeId, content.contentTypeId)
       .value(_.status, content.status)
       .value(_.state, content.state)
       .future()

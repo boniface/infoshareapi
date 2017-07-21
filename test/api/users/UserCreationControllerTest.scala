@@ -2,7 +2,7 @@ package api.users
 
 import java.time.LocalDateTime
 
-import domain.security.RolesID
+import conf.util.RolesID
 import domain.users.User
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerTest

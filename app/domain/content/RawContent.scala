@@ -11,7 +11,7 @@ case class RawContent(org: String,
                       category: String,
                       title: String,
                       content: String,
-                      contentType: String,
+                      contentTypeId: String,
                       status: String,
                       state: String)
 

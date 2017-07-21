@@ -17,7 +17,7 @@ class UserContactCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
   val title = "user contact"
 
   before {
-    entity = UserContact(emailId = "test@test.com", id = "1", addressTypeId = "1",
+    entity = UserContact(emailId = "test@test.com", id = "1", contactTypeId = "1",
       contactNumber = "+2774 791 3185", date = LocalDateTime.now(), state = "ACTIVE")
   }
 
@@ -32,7 +32,7 @@ class UserContactCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppP
   }
 
   test("update "+title){
-    updateEntity = entity.copy(contactNumber="074 791 3185",addressTypeId = "home address")
+    updateEntity = entity.copy(contactNumber="074 791 3185",contactTypeId = "2")
     val request = route(app, FakeRequest(POST, baseUrl+"create")
       .withJsonBody(Json.toJson(updateEntity))
       .withHeaders(TestUtils.getHeaders:_*)

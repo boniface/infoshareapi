@@ -1,62 +1,51 @@
 package services.users
 
-import java.time.{LocalDateTime=>LocalDateTime}
+import java.time.LocalDateTime
 
 import domain.users.UserDemographics
 import org.scalatest.{BeforeAndAfter, FunSuite}
+import util.factories
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
 class UserDemographicsServiceTest extends FunSuite with BeforeAndAfter{
 
-  val userDemoService = UserDemographicsService
-  var userDemoEntity, updateEntity: UserDemographics = _
+  val service = UserDemographicsService
+  var entity, updateEntity: UserDemographics = _
+  var kwargs: Map[String,String] =  _
 
   before{
-    userDemoEntity = UserDemographics(emailId="test@email.com",id="1",genderId = "Male",raceId = "African",
-      dateOfBirth = LocalDateTime.now(),maritalStatusId = "single",numberOfDependencies = 5,date =LocalDateTime.now(),
-      state = "Active")
+    entity = factories.getUserDemographics
+    kwargs = Map("emailId"-> entity.emailId,"id"-> entity.id)
   }
+
   test("Create USER_DEMO"){
-    val resp = Await.result(userDemoService.save(userDemoEntity),2.minutes)
+    val resp = Await.result(service.save(entity),2.minutes)
     assert(resp.isExhausted)
   }
 
   test("Get USER_DOME BY_ID"){
-    val resp = Await.result(userDemoService.getDemoById(Map("emailId"-> userDemoEntity.emailId,"id"-> userDemoEntity.id)),2.minutes)
-
-    assert(resp.head.id == userDemoEntity.id)
-    assert(resp.head.emailId  == userDemoEntity.emailId)
-    assert(resp.head.genderId == userDemoEntity.genderId)
-    assert(resp.head.raceId  == userDemoEntity.raceId)
-    assert(resp.head.maritalStatusId  == userDemoEntity.maritalStatusId)
-    assert(resp.head.numberOfDependencies  == userDemoEntity.numberOfDependencies)
-    assert(resp.head.state  == userDemoEntity.state)
-
+    val resp = Await.result(service.getDemoById(kwargs),2.minutes)
+    assert(resp.get equals entity)
   }
 
   test("UPDATE USER_DEMOGRAPHICS"){
-    updateEntity = userDemoEntity.copy(dateOfBirth = LocalDateTime.now(),genderId = "Male")
-    val update = Await.result(userDemoService.save(updateEntity), 2.minutes)
+    updateEntity = entity.copy(dateOfBirth = LocalDateTime.now(),genderId = "Male")
+    val update = Await.result(service.save(updateEntity), 2.minutes)
+    val resp = Await.result(service.getDemoById(kwargs),2.minutes)
+
     assert(update.isExhausted)
-
-    val resp = Await.result(userDemoService.getDemoById(Map("emailId"-> updateEntity.emailId,"id"-> updateEntity.id)),2.minutes)
-
-    assert(resp.head.id == userDemoEntity.id)
-    assert(resp.head.emailId  == userDemoEntity.emailId)
-    assert(resp.head.genderId == userDemoEntity.genderId)
-    assert(resp.head.raceId  == userDemoEntity.raceId)
-    assert(resp.head.maritalStatusId  == userDemoEntity.maritalStatusId)
-    assert(resp.head.numberOfDependencies  == userDemoEntity.numberOfDependencies)
-    assert(resp.head.state  == userDemoEntity.state)
+    assert(resp.get != entity)
+    assert(resp.get equals updateEntity)
 
   }
 
   test("GET ALL USER_DEMOGRAPHICS"){
-    val saveResp = Await.result(userDemoService.save(userDemoEntity.copy(id = "10",numberOfDependencies = 10)), 2.minutes)
-    val resp = Await.result(userDemoService.getUserDemographics(userDemoEntity.emailId),2.minutes)
-    assert(resp.size > 1)
+    val saveResp = Await.result(service.save(entity.copy(id = "10",numberOfDependencies = 10)), 2.minutes)
+    val resp = Await.result(service.getUserDemographics(entity.emailId),2.minutes)
+
+    assert(resp.nonEmpty)
     assert(saveResp.isExhausted)
   }
 

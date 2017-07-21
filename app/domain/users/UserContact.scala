@@ -5,7 +5,7 @@ import play.api.libs.json.Json
 
 case class UserContact(emailId: String,
                        id: String,
-                       addressTypeId: String,
+                       contactTypeId: String,
                        contactNumber: String,
                        date: LocalDateTime,
                        state: String)
