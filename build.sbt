@@ -8,8 +8,8 @@ lazy val root = (project in file("."))
 
 scalaVersion := "2.12.2"
 
-val PhantomVersion = "2.12.1"
-val PlayFrameWorkVersion = "2.6.0"
+val PhantomVersion = "2.13.0"
+val PlayFrameWorkVersion = "2.6.2"
 val circeVersion = "0.8.0"
 
 maintainer := "Boniface Kabaso <boniface@kabaso.com>"
@@ -49,15 +49,11 @@ libraryDependencies ++= Seq(
   "io.circe" %% "circe-parser"
 ).map(_ % circeVersion)
 
+libraryDependencies += guice
 libraryDependencies += filters
-libraryDependencies += "org.scalatestplus.play" % "scalatestplus-play_2.12" % "3.0.0"
+libraryDependencies += "org.scalatestplus.play" % "scalatestplus-play_2.12" % "3.1.1" % "test"
 libraryDependencies += "javax.mail" % "javax.mail-api" % "1.5.6"
 libraryDependencies += "org.typelevel" %% "cats" % "0.9.0"
-
-libraryDependencies += "com.outworkers" % "phantom-dsl_2.12" % PhantomVersion
-libraryDependencies += "com.outworkers" % "phantom-connectors_2.12" % PhantomVersion
-libraryDependencies += "com.outworkers" % "phantom-streams_2.12" % PhantomVersion
-libraryDependencies += "com.outworkers" % "phantom-jdk8_2.12" % PhantomVersion
 
 libraryDependencies += "com.github.romix.akka" % "akka-kryo-serialization_2.12" % "0.5.2"
 libraryDependencies += "com.esotericsoftware" % "kryo" % "4.0.0"
@@ -72,6 +68,11 @@ libraryDependencies += "org.bitbucket.b_c" % "jose4j" % "0.5.6"
 
 libraryDependencies += "com.typesafe.play" % "play-iteratees_2.12" % "2.6.1"
 libraryDependencies += "com.typesafe.play" % "play-iteratees-reactive-streams_2.12" % "2.6.1"
+
+libraryDependencies += "com.outworkers" % "phantom-dsl_2.12" % PhantomVersion
+libraryDependencies += "com.outworkers" % "phantom-connectors_2.12" % PhantomVersion
+libraryDependencies += "com.outworkers" % "phantom-streams_2.12" % PhantomVersion
+libraryDependencies += "com.outworkers" % "phantom-jdk8_2.12" % PhantomVersion
 
 libraryDependencies += "com.typesafe.play" % "play-json_2.12" % PlayFrameWorkVersion
 libraryDependencies += "com.typesafe.play" % "play-akka-http-server_2.12" % PlayFrameWorkVersion

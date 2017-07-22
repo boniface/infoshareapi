@@ -6,6 +6,5 @@ target
 /.project
 /.settings
 /RUNNING_PID
-logback.xml
 project/project/
 *.orig
