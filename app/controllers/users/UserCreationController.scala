@@ -19,8 +19,9 @@ class UserCreationController extends InjectedController {
   def createUser(roleId: String) = Action.async(parse.json) { request =>
     val entity = Json.fromJson[User](request.body).get
     val role = UserRole(entity.siteId,entity.email, LocalDateTime.now, roleId)
+
     val response: Future[Boolean] = for {
-      _ <- TokenCheckService.apply.getToken(request)
+//      _ <- TokenCheckService.apply.getToken(request)
       results: Boolean <- UserCreationService.apply.createUser(entity, role)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
