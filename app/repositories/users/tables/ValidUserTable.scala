@@ -45,8 +45,11 @@ abstract class ValidUserTableImpl extends ValidUserTable with RootConnector {
     })
   }
 
-  def getValidUserEvents(userId: String): Future[Seq[ValidUser]] = {
-    select.where(_.userId eqs userId).fetchEnumerator() run Iteratee.collect()
+  def getValidUserEvents(siteId: String,userId: String): Future[Seq[ValidUser]] = {
+    select
+      .where(_.siteId eqs siteId)
+      .and(_.userId eqs userId)
+      .fetchEnumerator() run Iteratee.collect()
   }
 
   def getValidUsers: Future[Int] = {

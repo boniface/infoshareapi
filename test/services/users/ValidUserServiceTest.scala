@@ -52,7 +52,7 @@ class ValidUserServiceTest extends FunSuite with BeforeAndAfterEach {
 
   test("testGetValidUserEvents") {
 
-    val result = Await.result(service.getValidUserEvents("1"), 2 minutes)
+    val result = Await.result(service.getValidUserEvents("CPUT","1"), 2 minutes)
     print(" THE RESPONSE IS FOR VALID USESRS ", result)
 
   }

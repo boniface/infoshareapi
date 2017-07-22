@@ -99,8 +99,8 @@ class UsersRouter @Inject()(userCreationRouter: UserCreationController,
       validUserController.create
     case GET(p"/valid/user/$siteId/$userId") =>
       validUserController.isUserValid(siteId,userId)
-    case GET(p"/valid/events/$userId") =>
-      validUserController.getValidUserEvents(userId)
+    case GET(p"/valid/events/$siteId/$userId") =>
+      validUserController.getValidUserEvents(siteId,userId)
     case GET(p"/valid/users") =>
       validUserController.getValidUsers
 

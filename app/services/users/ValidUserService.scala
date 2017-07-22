@@ -26,8 +26,8 @@ trait ValidUserService extends ValidUserRepository {
     database.validUserTable.isUserValid(siteId,userId)
   }
 
-  def getValidUserEvents(userId: String): Future[Seq[ValidUser]] = {
-    database.validUserTable.getValidUserEvents(userId)
+  def getValidUserEvents(siteId:String,userId: String): Future[Seq[ValidUser]] = {
+    database.validUserTable.getValidUserEvents(siteId,userId)
   }
 
   def getValidUsers: Future[Int] = {
