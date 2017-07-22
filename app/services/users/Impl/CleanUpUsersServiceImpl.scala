@@ -11,8 +11,8 @@ class CleanUpUsersServiceImpl extends CleanUpUsersService {
   def cleanUpInactiveUsers(siteId:String) = {
 
     val accounts = for {
-      recentUsers <- UserService.getUsersAccountsOlderThanOneDay
-      recentValidUser <- ValidUserService.getValidUsersInLast24hours
+      recentUsers <- UserService.getUsersAccountsOlderThanOneDay(siteId)
+      recentValidUser <- ValidUserService.getValidUsersInLast24hours(siteId)
     } yield {
       val recentAccounts = recentUsers map (user => user.email)
       val validAccounts = recentValidUser map (user => user.userId)

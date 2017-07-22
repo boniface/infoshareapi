@@ -30,9 +30,9 @@ class ValidUserController extends InjectedController {
     }
   }
 
-  def isUserValid(userId: String) = Action.async {
+  def isUserValid(siteId:String, userId: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      validUserService.isUserValid(userId) map { msg =>
+      validUserService.isUserValid(siteId,userId) map { msg =>
         Ok(Json.toJson(msg))
       }
   }

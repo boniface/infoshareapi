@@ -20,7 +20,6 @@ class UserCreationControllerTest extends PlaySpec with GuiceOneAppPerTest {
         "YOU EMAIL ",
         Some("NAME"),
         Some("NAME"),
-        None,
         "Geek",
         "test123",
         "ACTIVE",

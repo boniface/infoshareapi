@@ -117,9 +117,9 @@ abstract class UserSiteTableImpl extends UserSiteTable with RootConnector {
 
 abstract class UserTimeLineTable extends Table[UserTimeLineTable, User] {
 
-  object date extends Col[LocalDateTime] with PartitionKey
+  object siteId extends StringColumn with PartitionKey
 
-  object siteId extends StringColumn with PrimaryKey
+  object date extends Col[LocalDateTime] with PrimaryKey
 
   object email extends StringColumn with PrimaryKey
 
@@ -153,26 +153,28 @@ abstract class UserTimeLineTableImpl extends UserTimeLineTable with RootConnecto
       .future()
   }
 
-  def getUsersAccountsOlderThanOneDay: Future[Seq[User]] = {
+  def getUsersAccountsOlderThanOneDay(siteId:String): Future[Seq[User]] = {
     val date = LocalDateTime.now()
     val last24hrs = date.minusHours(24.toLong)
     val last48hrs = date.minusHours(48.toLong)
     select
-      .where(_.date lt last24hrs)
+      .where(_.siteId lt siteId)
+      .and(_.date lt last24hrs)
       .and(_.date gt last48hrs)
       .fetchEnumerator() run Iteratee.collect()
   }
 
-  def getUsersCreateAfterPeriod(date: LocalDateTime): Future[Seq[User]] = {
+  def getUsersCreateAfterPeriod(siteId:String, date: LocalDateTime): Future[Seq[User]] = {
     select
-      .where(_.date gt date)
+      .where(_.siteId eqs siteId)
+      .and(_.date gt date)
       .fetchEnumerator() run Iteratee.collect()
   }
 
   def deleteUser(date: LocalDateTime,siteId: String, email: String): Future[ResultSet] = {
     delete
-      .where(_.date eqs date)
-      .and(_.siteId eqs siteId)
+      .where(_.siteId eqs siteId)
+      .and(_.date eqs date)
       .and(_.email eqs email)
       .future()
   }

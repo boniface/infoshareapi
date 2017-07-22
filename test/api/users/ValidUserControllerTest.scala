@@ -17,9 +17,10 @@ class ValidUserControllerTest extends PlaySpec with GuiceOneAppPerTest {
 
   "Valid User Controller " should {
     val userId = "test@test.com"
+    val siteId="CPUT"
 
     "Create Valid User Record" in {
-      val validUser = ValidUser(userId,LocalDateTime.now,Events.VALIDATED)
+      val validUser = ValidUser(siteId,userId,LocalDateTime.now,Events.VALIDATED)
       val request = route(app, FakeRequest(POST, "/users/valid/create")
         .withJsonBody(Json.toJson(validUser))
         .withHeaders(AUTHORIZATION -> "Token")
