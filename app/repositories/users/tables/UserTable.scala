@@ -158,7 +158,7 @@ abstract class UserTimeLineTableImpl extends UserTimeLineTable with RootConnecto
     val last24hrs = date.minusHours(24.toLong)
     val last48hrs = date.minusHours(48.toLong)
     select
-      .where(_.siteId lt siteId)
+      .where(_.siteId eqs siteId)
       .and(_.date lt last24hrs)
       .and(_.date gt last48hrs)
       .fetchEnumerator() run Iteratee.collect()
