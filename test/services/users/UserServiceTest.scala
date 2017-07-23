@@ -9,6 +9,7 @@ import scala.concurrent.duration._
 
 class UserServiceTest extends FunSuite {
 
+  val updatedEntity = entity.copy(state = "INACTIVE")
   val service = UserService
   val entity: User = factories.getUser
 

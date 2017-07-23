@@ -12,7 +12,9 @@ import scala.concurrent.Future
 
 abstract class ValidUserTable extends Table[ValidUserTable, ValidUser] {
 
-  object userId extends StringColumn with PartitionKey
+  object siteId extends StringColumn with PartitionKey
+
+  object userId extends StringColumn with PrimaryKey
 
   object date extends Col[LocalDateTime] with PrimaryKey
 
@@ -26,21 +28,28 @@ abstract class ValidUserTableImpl extends ValidUserTable with RootConnector {
 
   def save(user: ValidUser): Future[ResultSet] = {
     insert
+      .value(_.siteId, user.siteId)
       .value(_.userId, user.userId)
       .value(_.date, user.date)
       .value(_.action, user.action)
       .future()
   }
 
-  def isUserValid(userId: String): Future[Boolean] = {
-    select.where(_.userId eqs userId).one() map ((user: Option[ValidUser]) => user match {
+  def isUserValid(siteId: String, userId: String): Future[Boolean] = {
+    select
+      .where(_.siteId eqs siteId)
+      .and(_.userId eqs userId)
+      .one() map ((user: Option[ValidUser]) => user match {
       case Some(_) => true
       case None => false
     })
   }
 
-  def getValidUserEvents(userId: String): Future[Seq[ValidUser]] = {
-    select.where(_.userId eqs userId).fetchEnumerator() run Iteratee.collect()
+  def getValidUserEvents(siteId: String,userId: String): Future[Seq[ValidUser]] = {
+    select
+      .where(_.siteId eqs siteId)
+      .and(_.userId eqs userId)
+      .fetchEnumerator() run Iteratee.collect()
   }
 
   def getValidUsers: Future[Int] = {
@@ -52,7 +61,9 @@ abstract class ValidUserTableImpl extends ValidUserTable with RootConnector {
 
 abstract class TimeLineValidUserTable extends Table[TimeLineValidUserTable, ValidUser] {
 
-  object date extends Col[LocalDateTime] with PartitionKey
+  object siteId extends StringColumn with PartitionKey
+
+  object date extends Col[LocalDateTime] with PrimaryKey
 
   object userId extends StringColumn with PrimaryKey
 
@@ -66,17 +77,19 @@ abstract class TimeLineValidUserTableImpl extends TimeLineValidUserTable with Ro
 
   def save(user: ValidUser): Future[ResultSet] = {
     insert
+      .value(_.siteId, user.siteId)
       .value(_.userId, user.userId)
       .value(_.date, user.date)
       .value(_.action, user.action)
       .future()
   }
 
-  def getValidUsersInLast24hours: Future[Seq[ValidUser]] = {
+  def getValidUsersInLast24hours(siteId: String): Future[Seq[ValidUser]] = {
     val date = LocalDateTime.now()
     val last24hrs = date.minusHours(24.toLong)
     select
-      .where(_.date gt last24hrs)
+      .where(_.siteId eqs siteId)
+      .and(_.date gt last24hrs)
       .fetchEnumerator() run Iteratee.collect()
   }
 }

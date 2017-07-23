@@ -31,7 +31,6 @@ class LoginController @Inject()(cc: ControllerComponents) extends AbstractContro
   def login(email: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val response: Future[Seq[Login]] = for {
-//        _ <- TokenCheckService.apply.getTokenfromParam(request)
         results<- LoginService.apply.getLogins(email)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {

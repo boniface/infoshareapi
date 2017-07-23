@@ -5,7 +5,7 @@ import org.apache.commons.mail.{DefaultAuthenticator, HtmlEmail}
 
 import scala.util.Try
 
-
+@Deprecated
 object MailerService {
 
   def send(emailMessage: EmailMessage) = Try({

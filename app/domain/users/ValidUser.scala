@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 import play.api.libs.json.Json
 
-case class ValidUser(userId: String, date: LocalDateTime, action: String) {
+case class ValidUser(siteId:String, userId: String, date: Date, action: String) {
 
   override def hashCode(): Int = {
     val prime = 31
@@ -21,5 +21,5 @@ case class ValidUser(userId: String, date: LocalDateTime, action: String) {
 
 object ValidUser {
   implicit val validUsersFmt = Json.format[ValidUser]
-  def identity: ValidUser = ValidUser("", LocalDateTime.now(), "")
+  def identity: ValidUser = ValidUser("","", Date.now(), "")
 }

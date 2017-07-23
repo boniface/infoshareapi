@@ -30,16 +30,16 @@ class ValidUserController @Inject()(cc: ControllerComponents) extends AbstractCo
     }
   }
 
-  def isUserValid(userId: String) = Action.async {
+  def isUserValid(siteId:String, userId: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      validUserService.isUserValid(userId) map { msg =>
+      validUserService.isUserValid(siteId,userId) map { msg =>
         Ok(Json.toJson(msg))
       }
   }
 
-  def getValidUserEvents(userId: String) = Action.async {
+  def getValidUserEvents(siteId:String,userId: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      validUserService.getValidUserEvents(userId).map { msg =>
+      validUserService.getValidUserEvents(siteId,userId).map { msg =>
         Ok(Json.toJson(msg))
       }
   }

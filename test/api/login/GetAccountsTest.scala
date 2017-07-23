@@ -10,10 +10,12 @@ import util.TestUtils
   */
 class GetAccountsTest extends PlaySpec with GuiceOneAppPerTest{
 
+  val token = "eyJraWQiOiJQVUJMSUNLRVkiLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJIQVNIQ09ERS5aTSIsImF1ZCI6IlNJVEVVU0VSUyIsImV4cCI6MTUwMDgzMDgxMSwianRpIjoiUUlYVE1yR3c2NnpFYTFpTUdGOC1XdyIsImlhdCI6MTUwMDc0NDQxMSwibmJmIjoxNTAwNzQ0MjkxLCJzdWIiOiJTaXRlIEFjY2VzcyIsImVtYWlsIjoiYm9uaWZhY2VAa2FiYXNvLmNvbSIsInJvbGUiOiJSRUFERVIiLCJvcmdDb2RlIjoiQ1BVVCIsImFnZW50IjoiJDJhJDEyJDl0QjhvUkQzRGkzQVJubmJKQjVnTS4wT0ZsM0dIVDUwbkI5WDk0SU9rVnl3ZllCUGhWNncuIn0.Z0PAd0YyKN3_rm_AKiCwXfzKEkB9AApqrodtcqVLYZZ0Zqr2CHAGdErpT0FjVvCcVkSKvSbbn8tsbFnVufy8lg"
+
   "LoginController" should {
 
-    "Give you Accounts when and Email is Supplied" in {
-      val email = "boniface@gmail.com"
+    "Given you Accounts when and Email is Supplied" in {
+      val email = "test@test.com"
 
       val request = route(app, FakeRequest(GET, "/login/accounts/"+email)
         .withHeaders(TestUtils.getHeaders:_*)

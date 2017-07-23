@@ -29,10 +29,10 @@ class ValidUserServiceTest extends FunSuite with BeforeAndAfterEach {
   }
 
   test("testSave") {
-    val vuser1 = ValidUser("1",LocalDateTime.now(),Events.VALIDATED)
-    val vuser2 = ValidUser("1",LocalDateTime.now(),Events.LOGGEDIN)
-    val vuser3 = ValidUser("1",LocalDateTime.now(),Events.LOGGEOUT)
-    val vuser4 = ValidUser("2",LocalDateTime.now(),Events.VALIDATED)
+    val vuser1 = ValidUser("CPUT","1",LocalDateTime.now(),Events.VALIDATED)
+    val vuser2 = ValidUser("CPUT","1",LocalDateTime.now(),Events.LOGGEDIN)
+    val vuser3 = ValidUser("CPUT","1",LocalDateTime.now(),Events.LOGGEOUT)
+    val vuser4 = ValidUser("CPUT","2",LocalDateTime.now(),Events.VALIDATED)
 
     service.save(vuser1)
     Thread.sleep(2000)
@@ -45,14 +45,14 @@ class ValidUserServiceTest extends FunSuite with BeforeAndAfterEach {
   }
 
   test("testIsUserValid") {
-    val result = Await.result(service.isUserValid("1"), 2 minutes)
+    val result = Await.result(service.isUserValid("CPUT","1"), 2 minutes)
     print(" THE RESPONSE IS ", result)
 
   }
 
   test("testGetValidUserEvents") {
 
-    val result = Await.result(service.getValidUserEvents("1"), 2 minutes)
+    val result = Await.result(service.getValidUserEvents("CPUT","1"), 2 minutes)
     print(" THE RESPONSE IS FOR VALID USESRS ", result)
 
   }
