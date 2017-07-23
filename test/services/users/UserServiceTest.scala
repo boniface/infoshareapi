@@ -9,9 +9,9 @@ import scala.concurrent.duration._
 
 class UserServiceTest extends FunSuite {
 
+  val entity: User = factories.getUser
   val updatedEntity = entity.copy(state = "INACTIVE")
   val service = UserService
-  val entity: User = factories.getUser
 
   test("Create USER"){
     val result = Await.result(service.saveOrUpdate(entity),2.minutes)

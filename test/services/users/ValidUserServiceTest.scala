@@ -5,6 +5,7 @@ import java.time.LocalDateTime
 import conf.util.Events
 import domain.users.ValidUser
 import org.scalatest.{BeforeAndAfterEach, FunSuite}
+import util.factories
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -29,10 +30,11 @@ class ValidUserServiceTest extends FunSuite with BeforeAndAfterEach {
   }
 
   test("testSave") {
-    val vuser1 = ValidUser("CPUT","1",LocalDateTime.now(),Events.VALIDATED)
-    val vuser2 = ValidUser("CPUT","1",LocalDateTime.now(),Events.LOGGEDIN)
-    val vuser3 = ValidUser("CPUT","1",LocalDateTime.now(),Events.LOGGEOUT)
-    val vuser4 = ValidUser("CPUT","2",LocalDateTime.now(),Events.VALIDATED)
+
+    val vuser1 = factories.getValidUser
+    val vuser2 = vuser1.copy(action = Events.LOGGEDIN)
+    val vuser3 = vuser1.copy(action = Events.LOGGEOUT)
+    val vuser4 = vuser1.copy(userId = "2", action = Events.VALIDATED)
 
     service.save(vuser1)
     Thread.sleep(2000)

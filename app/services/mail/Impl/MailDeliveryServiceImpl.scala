@@ -17,8 +17,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-@Deprecated
 
+@Deprecated
 class MailDeliveryServiceImpl extends MailDeliveryService {
 
   override def sendMail(user: User): Future[String] = {

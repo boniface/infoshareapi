@@ -175,10 +175,13 @@ object factories {
 
   def getUser: User = {
     User(siteId="CPUT",email="test@test.com",firstName=Some("First Name"),lastName=Some("Last Name"),
-      middleName= None, screenName="CODER",password= AuthenticationService.apply.getHashedPassword("passwd"),
+     screenName="CODER",password= AuthenticationService.apply.getHashedPassword("passwd"),
       state = HashcodeKeys.ACTIVE,date=LocalDateTime.now() )
   }
 
+  def getValidUser: ValidUser = {
+    ValidUser(siteId = "CPUT", userId = "1", date = LocalDateTime.now(), action = Events.VALIDATED)
+  }
   /*****************************************************
     *                  utils
     ****************************************************/

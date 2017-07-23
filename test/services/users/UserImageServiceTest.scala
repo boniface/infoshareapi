@@ -1,7 +1,5 @@
 package services.users
 
-import java.time.LocalDateTime
-
 import domain.users.UserImages
 import org.scalatest.{BeforeAndAfter, FunSuite}
 import util.factories

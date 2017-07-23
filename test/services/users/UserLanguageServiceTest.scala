@@ -2,7 +2,7 @@ package services.users
 
 import java.time.LocalDateTime
 
-import domain.users.{User, UserLanguage}
+import domain.users.UserLanguage
 import org.scalatest.{BeforeAndAfter, FunSuite}
 import util.factories
 
