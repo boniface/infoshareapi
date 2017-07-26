@@ -56,6 +56,7 @@ class UserCreationController @Inject()(cc: ControllerComponents) extends Abstrac
     }
   }
 
+  @Deprecated
   def login = Action.async(parse.json) { request =>
     val input = request.body
     val entity = Json.fromJson[Credential](input).get

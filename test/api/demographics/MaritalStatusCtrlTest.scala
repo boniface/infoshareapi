@@ -3,64 +3,73 @@ package api.demographics
 import conf.util.MaritalStatusList
 import domain.demographics.MaritalStatus
 import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import util.TestUtils
+import util.{TestUtils, factories}
 
-class MaritalStatusCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
+class MaritalStatusCtrlTest extends PlaySpec with BeforeAndAfter with GuiceOneAppPerTest {
 
   var entity, updateEntity : MaritalStatus = _
   var baseUrl = "/demo/maritalstatus/"
-  val title = "marital status"
+  val title = "Marital status"
 
   before{
-    entity = MaritalStatus(id = "1", name = MaritalStatusList.MARRIED, state = "Active")
+    entity = factories.getMaritalStatus
   }
 
-  test("Create "+title){
-    val request = route(app, FakeRequest(POST, baseUrl + "create")
-      .withJsonBody(Json.toJson(entity))
-      .withHeaders(TestUtils.getHeaders:_*)
-    ).get
+  title + " Controller " should {
 
-    assert(status(request) equals OK)
-    assert(contentAsString(request) equals Json.toJson(entity).toString() )
-  }
+    "Create " + title in {
+      val request = route(app, FakeRequest(POST, baseUrl + "create")
+        .withJsonBody(Json.toJson(entity))
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
 
-  test("update "+title){
-    updateEntity = entity.copy(name = MaritalStatusList.DIVORCED)
-    val request = route(app, FakeRequest(POST, baseUrl+"create")
-      .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(TestUtils.getHeaders:_*)
-    ).get
-    assert(status(request) equals OK)
-    assert(contentAsString(request) != Json.toJson(entity).toString())
-    assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
-  }
+      assert(status(request) equals OK)
+      assert(contentAsString(request) equals Json.toJson(entity).toString())
+    }
 
-  test("get "+title+" by id"){
-    val request = route(app, FakeRequest(GET, baseUrl+entity.id)
-      .withHeaders(TestUtils.getHeaders:_*)
-    ).get
-    assert(status(request) equals OK)
-    assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
-  }
+    "update " + title in {
+      updateEntity = entity.copy(name = MaritalStatusList.DIVORCED)
+      val request = route(app, FakeRequest(POST, baseUrl + "create")
+        .withJsonBody(Json.toJson(updateEntity))
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
 
-  test("get all "+title){
-    val request = route(app, FakeRequest(GET, baseUrl+"all")
-      .withHeaders(TestUtils.getHeaders:_*)
-    ).get
-    assert(status(request) equals OK)
-  }
+      assert(status(request) equals OK)
+      assert(contentAsString(request) != Json.toJson(entity).toString())
+      assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
+    }
+
+    "get " + title + " by id" in {
+      val request = route(app, FakeRequest(GET, baseUrl + entity.id)
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+      assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
+    }
+
+    "get all " + title in {
+      val request = route(app, FakeRequest(GET, baseUrl + "all")
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+      assert(!contentAsString(request).isEmpty)
+    }
 
 
-  test("delete "+title){
-    val request = route(app, FakeRequest(POST, baseUrl+"delete/"+entity.id)
-      .withHeaders(TestUtils.getHeaders:_*)
-    ).get
-    assert(status(request) equals OK)
+    "delete " + title in {
+      val request = route(app, FakeRequest(POST, baseUrl + "delete/" + entity.id)
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+    }
   }
 
 }

@@ -136,7 +136,7 @@ object factories {
   }
 
   def getSystemLog: SystemLogEvents = {
-    SystemLogEvents(siteId = "CPUT", id = "1", eventName = "email failed",eventType = "creating new user",
+    SystemLogEvents(siteId = "CPUT", id = "1", eventName = "email failed", eventType = "creating new user",
     message = "user already exist",date = LocalDateTime.now())
   }
 
@@ -169,14 +169,14 @@ object factories {
       speaking = "eng", date = LocalDateTime.now(),state = HashcodeKeys.ACTIVE)
   }
 
-  def getUserRole: UserRole = {
-    UserRole(siteId= "CPUT", emailId="test@test.com",date = LocalDateTime.now(), roleId = RolesID.READER)
-  }
-
   def getUser: User = {
     User(siteId="CPUT",email="test@test.com",firstName=Some("First Name"),lastName=Some("Last Name"),
-     screenName="CODER",password= AuthenticationService.apply.getHashedPassword("passwd"),
-      state = HashcodeKeys.ACTIVE,date=LocalDateTime.now() )
+    screenName="CODER",password= AuthenticationService.apply.getHashedPassword("PASSWD"),
+    state = HashcodeKeys.ACTIVE,date=LocalDateTime.now() )
+  }
+
+  def getUserRole: UserRole = {
+    UserRole(siteId= "CPUT", emailId="test@test.com",date = LocalDateTime.now(), roleId = RolesID.READER)
   }
 
   def getValidUser: ValidUser = {

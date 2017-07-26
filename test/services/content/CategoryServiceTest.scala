@@ -40,7 +40,6 @@ class CategoryServiceTest extends FunSuite with BeforeAndAfter {
   test("Get all Categories") {
     val result = Await.result(service.save(entity.copy(id = "3")), 2.minutes)
     val resp = Await.result(service.getAll, 2.minutes)
-
     assert(result.isExhausted)
     assert(resp.nonEmpty)
   }

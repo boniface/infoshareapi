@@ -1,57 +1,65 @@
 package api.storage
 
 import domain.storage.FileResults
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
+import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import util.TestUtils
+import util.{TestUtils, factories}
 
-class FileResultsCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
+class FileResultsCtrlTest extends PlaySpec with BeforeAndAfter with GuiceOneAppPerTest {
 
   var entity, updateEntity : FileResults = _
   var baseUrl = "/storage/fileresult/"
-  val title = "file result"
+  val title = "File result"
 
   before {
-    entity = FileResults(id = "1", url = "http://www.google.com/file.png", size = Some("512MB"), mime = ".png")
+    entity = factories.getFileResults
   }
 
-  test("Create "+title){
-    val request = route(app, FakeRequest(POST, baseUrl + "create")
-      .withJsonBody(Json.toJson(entity))
-      .withHeaders(TestUtils.getHeaders:_*)
-    ).get
+  title + " Controller " should {
 
-    assert(status(request) equals OK)
-    assert(contentAsString(request) equals Json.toJson(entity).toString() )
-  }
+    "Create " + title in {
+      val request = route(app, FakeRequest(POST, baseUrl + "create")
+        .withJsonBody(Json.toJson(entity))
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
 
-  test("update "+title){
-    updateEntity = entity.copy(url = "http://www.cput.ac.za/logo.jpg", mime = ".jpg")
-    val request = route(app, FakeRequest(POST, baseUrl + "create")
-      .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(TestUtils.getHeaders:_*)
-    ).get
-    assert(status(request) equals OK)
-    assert(contentAsString(request) != Json.toJson(entity).toString())
-    assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
-  }
+      assert(status(request) equals OK)
+      assert(contentAsString(request) equals Json.toJson(entity).toString())
+    }
 
-  test("get "+title+" by id"){
-    val request = route(app, FakeRequest(GET, baseUrl+entity.id)
-      .withHeaders(TestUtils.getHeaders:_*)
-    ).get
-    assert(status(request) equals OK)
-    assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
-  }
+    "update " + title in {
+      updateEntity = entity.copy(url = "http://www.cput.ac.za/logo.jpg", mime = ".jpg")
+      val request = route(app, FakeRequest(POST, baseUrl + "create")
+        .withJsonBody(Json.toJson(updateEntity))
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
 
-  test("get all "+title){
-    val request = route(app, FakeRequest(GET, baseUrl+"all")
-      .withHeaders(TestUtils.getHeaders:_*)
-    ).get
-    assert(status(request) equals OK)
+      assert(status(request) equals OK)
+      assert(contentAsString(request) != Json.toJson(entity).toString())
+      assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
+    }
+
+    "get " + title + " by id" in {
+      val request = route(app, FakeRequest(GET, baseUrl + entity.id)
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+      assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
+    }
+
+    "get all " + title in {
+      val request = route(app, FakeRequest(GET, baseUrl + "all")
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+      assert(!contentAsString(request).isEmpty)
+    }
   }
 
 }

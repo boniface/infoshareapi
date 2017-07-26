@@ -2,55 +2,63 @@ package api.content
 
 import domain.content.ContentType
 import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerTest
-import play.api.libs.json.Json
+import play.api.libs.json.Json._
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import util.TestUtils
+import util.{TestUtils, factories}
 
-class ContentTypeCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
+class ContentTypeCtrlTest extends PlaySpec with BeforeAndAfter with GuiceOneAppPerTest {
 
   var entity, updateEntity : ContentType = _
-  var baseUrl = "/content/"
+  val baseUrl = "/content/"
+  val title = "Content Type"
+
   before{
-     entity = ContentType(id = "1", name = "TEXT", description = "text content")
+     entity = factories.getContentType
   }
 
-  test("Create content type"){
-    val request = route(app, FakeRequest(POST, baseUrl + "contenttype/create")
-      .withJsonBody(Json.toJson( entity))
-      .withHeaders(TestUtils.getHeaders:_*)
-    ).get
+  title + " Controller " should {
 
-    assert(status(request) equals OK)
-    assert(contentAsString(request) equals Json.toJson( entity).toString() )
+    "Create "+ title in {
+      val request = route(app, FakeRequest(POST, baseUrl + "contenttype/create")
+        .withJsonBody(toJson(entity))
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+      assert(contentAsString(request) equals toJson(entity).toString())
+    }
+
+    "update " + title in {
+      updateEntity = entity.copy(name = "images")
+      val request = route(app, FakeRequest(POST, baseUrl + "contenttype/create")
+        .withJsonBody(toJson(updateEntity))
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+      assert(contentAsString(request) != toJson(entity).toString())
+      assert(contentAsString(request) equals toJson(updateEntity).toString())
+    }
+
+    "get " + title + " by id" in {
+      val request = route(app, FakeRequest(GET, baseUrl + "contenttype/" + entity.id)
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+      assert(contentAsString(request) equals toJson(updateEntity).toString())
+    }
+
+    "get all " + title + "s" in {
+      val request = route(app, FakeRequest(GET, baseUrl + "contenttypes")
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+      assert(!contentAsString(request).isEmpty)
+    }
   }
-
-  test("update content type"){
-    updateEntity =  entity.copy(name="images")
-    val request = route(app, FakeRequest(POST, baseUrl+"contenttype/create")
-      .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(TestUtils.getHeaders:_*)
-    ).get
-    assert(status(request) equals OK)
-    assert(contentAsString(request) != Json.toJson( entity).toString())
-    assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
-  }
-
-  test("get content type by id"){
-    val request = route(app, FakeRequest(GET, baseUrl+"contenttype/"+ entity.id)
-      .withHeaders(TestUtils.getHeaders:_*)
-    ).get
-    assert(status(request) equals OK)
-    assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
-  }
-
-  test("get all content type"){
-    val request = route(app, FakeRequest(GET, baseUrl+"contenttypes")
-      .withHeaders(TestUtils.getHeaders:_*)
-    ).get
-    assert(status(request) equals OK)
-    println(contentAsString(request))
-  }
-
 }
