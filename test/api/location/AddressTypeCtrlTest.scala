@@ -31,7 +31,7 @@ class AddressTypeCtrlTest extends PlaySpec with BeforeAndAfter with GuiceOneAppP
       assert(contentAsString(request) equals Json.toJson(entity).toString())
     }
 
-    "update " + title in{
+    "update " + title in {
       updateEntity = entity.copy(name = "Work")
       val request = route(app, FakeRequest(POST, baseUrl + "create")
         .withJsonBody(Json.toJson(updateEntity))

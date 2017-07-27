@@ -42,8 +42,7 @@ object factories {
   def getEditedContent: EditedContent = {
     EditedContent(org = "CPUT", id = "1", dateCreated = LocalDateTime.now(), creator = "test@test.com",
     source = "1", category = "1", title = "scala code", content = "this is scala",
-    contentTypeId = "1", status = ContentKeys.EDITED, state = HashcodeKeys.ACTIVE
-    )
+    contentTypeId = "1", status = ContentKeys.EDITED, state = HashcodeKeys.ACTIVE )
   }
 
   def getPublishedContent: PublishedContent = {
@@ -126,7 +125,6 @@ object factories {
     *           storage and  system log event
     ****************************************************/
 
-
   def getFileResults: FileResults = {
     FileResults(id = "1", url = "http://www.google.com/file.png", size = Some("512MB"), mime = ".png")
   }
@@ -185,6 +183,7 @@ object factories {
   /*****************************************************
     *                  utils
     ****************************************************/
+
   def getItemStatus: ItemStatus = {
     ItemStatus(itemId = "1",date = LocalDateTime.now(), status = HashcodeKeys.ACTIVE, description = "USER")
   }

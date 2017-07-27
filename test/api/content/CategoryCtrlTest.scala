@@ -53,13 +53,13 @@ class CategoryCtrlTest extends PlaySpec with BeforeAndAfter with GuiceOneAppPerT
       assert(contentAsString(request) equals toJson(updateEntity).toString())
     }
 
-//    "get all "+ title in {
-//      val request = route(app, FakeRequest(GET, baseUrl + "categories")
-//        .withHeaders(TestUtils.getHeaders: _*)
-//      ).get
-//
-//      assert(status(request) equals OK)
-//      assert(!contentAsString(request).isEmpty)
-//    }
+    "get all "+ title in {
+      val request = route(app, FakeRequest(GET, baseUrl + "categories")
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+      assert(!contentAsString(request).isEmpty)
+    }
   }
 }
