@@ -21,9 +21,9 @@ class AuthenticateAccountTest extends PlaySpec with GuiceOneAppPerTest {
 
       val request = route(app, FakeRequest(POST, "/login/authenticate/")
         .withJsonBody(Json.toJson(entity))
-        .withHeaders(TestUtils.getHeaders:_*)
+        .withHeaders(TestUtils.getHeaders.last)
       ).get
-
+      println(TestUtils.getHeaders.last)
       status(request) mustBe OK
       contentType(request) mustBe Some("application/json")
       println(" The Content is ", contentAsString(request))

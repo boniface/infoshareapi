@@ -62,6 +62,7 @@ class SystemLogEventCtrlTest extends PlaySpec with BeforeAndAfter with GuiceOneA
 
       assert(status(request) equals OK)
       assert(!contentAsString(request).isEmpty)
+      println(contentAsString(request))
     }
   }
 }

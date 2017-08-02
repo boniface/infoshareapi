@@ -11,7 +11,7 @@ import util.{TestUtils, factories}
 class UserCreationControllerTest extends PlaySpec with GuiceOneAppPerTest {
 
   "UserCreationController" should {
-    val user = factories.getUser.copy(email = "2leradebe@gmail.com", firstName = Some("Thulebona"),
+    val user = factories.getUser.copy(email = "thulehadebe@outlook.com", firstName = Some("Thulebona"),
       lastName = Some("Hadebe"))
 
     "Create User" in {

@@ -9,7 +9,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import util.TestUtils
+import util.{TestUtils, factories}
 
 /**
   * Created by hashcode on 2017/06/11.
@@ -17,11 +17,10 @@ import util.TestUtils
 class ValidUserControllerTest extends PlaySpec with GuiceOneAppPerTest {
 
   "Valid User Controller " should {
-    val userId = "test@test.com"
-    val siteId="CPUT"
+    val user = factories.getUser
 
     "Create Valid User Record" in {
-      val validUser = ValidUser(siteId,userId,LocalDateTime.now,Events.VALIDATED)
+      val validUser = ValidUser(user.siteId, user.email,LocalDateTime.now,Events.VALIDATED)
       val request = route(app, FakeRequest(POST, "/users/valid/create")
         .withJsonBody(Json.toJson(validUser))
         .withHeaders(TestUtils.getHeaders:_*)
@@ -34,7 +33,7 @@ class ValidUserControllerTest extends PlaySpec with GuiceOneAppPerTest {
 
 
     "Test if  User is Valid " in {
-      val request = route(app, FakeRequest(GET, "/users/valid/user/"+userId)
+      val request = route(app, FakeRequest(GET, "/users/valid/user/" + user.email)
         .withHeaders(TestUtils.getHeaders:_*)
       ).get
       status(request) mustBe OK
@@ -44,9 +43,10 @@ class ValidUserControllerTest extends PlaySpec with GuiceOneAppPerTest {
 
 
     "Get Valid User Events  " in {
-      val request = route(app, FakeRequest(GET, "/users/valid/events/"+userId)
+      val request = route(app, FakeRequest(GET, "/users/valid/events/" + user.email)
         .withHeaders(TestUtils.getHeaders:_*)
       ).get
+
       status(request) mustBe OK
       contentType(request) mustBe Some("application/json")
       println(" The Content is ", contentAsString(request))
@@ -57,6 +57,7 @@ class ValidUserControllerTest extends PlaySpec with GuiceOneAppPerTest {
       val request = route(app, FakeRequest(GET, "/users/valid/users")
         .withHeaders(TestUtils.getHeaders:_*)
       ).get
+
       status(request) mustBe OK
       contentType(request) mustBe Some("application/json")
       println(" The Content is ", contentAsString(request))
