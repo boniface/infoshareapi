@@ -7,7 +7,6 @@ version := "1.0-SNAPSHOT"
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, DebianPlugin, DockerPlugin,JavaServerAppPackaging,SystemdPlugin)
 
-
 scalaVersion := "2.12.3"
 
 val PhantomVersion = "2.13.3"
