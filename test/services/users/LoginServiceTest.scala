@@ -1,7 +1,6 @@
 package services.users
 
 import org.scalatest.{BeforeAndAfterEach, FunSuite}
-import services.security.LoginService
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
