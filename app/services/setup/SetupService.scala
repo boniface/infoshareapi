@@ -18,7 +18,6 @@ import repositories.util._
 import services.demographics.RoleService
 import services.security.TokenGenerationService
 import services.users.UserService
-import services.util.KeysService
 
 import scala.concurrent.Future
 

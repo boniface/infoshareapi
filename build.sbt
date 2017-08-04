@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.docker.{Cmd, ExecCmd}
+
 name := """infoshareapi"""
 
 version := "1.0-SNAPSHOT"
@@ -6,41 +8,32 @@ lazy val root = (project in file("."))
   .enablePlugins(PlayScala, DebianPlugin, DockerPlugin,JavaServerAppPackaging,SystemdPlugin)
 
 
-scalaVersion := "2.12.2"
+scalaVersion := "2.12.3"
 
-val PhantomVersion = "2.12.1"
-val PlayFrameWorkVersion = "2.6.0"
+val PhantomVersion = "2.13.3"
+val PlayFrameWorkVersion = "2.6.2"
 val circeVersion = "0.8.0"
 
 maintainer := "Boniface Kabaso <boniface@kabaso.com>"
 packageSummary in Linux := "Infoshare REST API"
 packageDescription := "Infoshare For Clients REST API "
 
+dockerCommands := Seq(
+  Cmd("FROM", "anapsix/alpine-java:jdk8"),
+  Cmd("MAINTAINER", maintainer.value),
+  Cmd("WORKDIR", "/opt/docker"),
+  Cmd("ADD", "/opt /opt"),
+  ExecCmd("RUN", "chown", "-R", "daemon:daemon", "."),
+  Cmd("USER", "daemon"),
+  ExecCmd("ENTRYPOINT", "bin/infoshareapi"),
+  ExecCmd("CMD", "")
+)
+
 javaOptions in Universal ++= Seq(
-  // -J params will be added as jvm parameters
+  // JVM memory tuning
   "-J-Xms4g",
   "-J-Xmx4g",
-  "-J-Xmn2g",
-  // Since play uses separate pidfile we have to provide it with a proper path
-  // name of the pid file must be play.pid
-  s"-Dpidfile.path=/var/run/${packageName.value}/play.pid",
-  // alternative, you can remove the PID file
-  // s"-Dpidfile.path=/dev/null",
-
-//  // Use separate configuration file for production environment
-//  s"-Dconfig.file=/usr/share/${packageName.value}/conf/production.conf",
-//
-//  // Use separate logger configuration file for production environment
-//  s"-Dlogger.file=/usr/share/${packageName.value}/conf/production-logger.xml",
-//
-//  // You may also want to include this setting if you use play evolutions
-//  "-DapplyEvolutions.default=true",
-
-  // others will be added as app parameters
-  "-Dproperty=true",
-  "-port=8080",
-  // you can access any build setting/task here
-  s"-version=${version.value}"
+  "-J-Xmn2g"
 )
 
 libraryDependencies ++= Seq(
