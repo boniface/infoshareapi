@@ -1,4 +1,4 @@
-package domain.security
+package conf.util
 
 import javax.inject.Singleton
 

@@ -2,6 +2,7 @@ package services.demographics
 
 import domain.demographics.LanguageProficiency
 import org.scalatest.{BeforeAndAfter, FunSuite}
+import util.factories
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -9,47 +10,47 @@ import scala.concurrent.duration._
 
 class LanguageProficiencyServiceTest extends FunSuite with BeforeAndAfter {
 
-  val languageProService = LanguageProficiencyService
-  var languageProEntity, updateEntity: LanguageProficiency = _
+  val service = LanguageProficiencyService
+  var entity, updateEntity: LanguageProficiency = _
 
   before{
-    languageProEntity = LanguageProficiency(id = "1", name = "Isizulu", state = "Active")
+    entity = factories.getLanguageProficiency
   }
 
   test("create languageProficiency"){
-    val resp = Await.result(languageProService.save(languageProEntity), 2.minutes)
+    val resp = Await.result(service.save(entity), 2.minutes)
     assert(resp.isExhausted)
   }
 
   test("get languageProficiency by id"){
-    val resp = Await.result(languageProService.getById(languageProEntity.id), 2.minutes)
-    assert(resp.head.id == languageProEntity.id)
-    assert(resp.head.name == languageProEntity.name)
-    assert(resp.head.state == languageProEntity.state)
+    val resp = Await.result(service.getById(entity.id), 2.minutes)
+    assert(resp.get equals entity)
   }
 
   test("update languageProficiency"){
-    updateEntity = languageProEntity.copy(name = "English")
-    val update = Await.result(languageProService.save(updateEntity), 2.minutes)
-    val resp = Await.result(languageProService.getById(updateEntity.id), 2.minutes)
+    updateEntity = entity.copy(name = "English")
+    val update = Await.result(service.save(updateEntity), 2.minutes)
+    val resp = Await.result(service.getById(updateEntity.id), 2.minutes)
 
     assert(update.isExhausted)
-    assert(resp.head.name == updateEntity.name)
-    assert(resp.head.name != languageProEntity.name)
+    assert(resp.get != entity)
+    assert(resp.get equals updateEntity)
   }
 
   test("get all languageProficiency"){
-    val result = Await.result(languageProService.save(languageProEntity.copy(id = "2")), 2.minutes)
-    val resp = Await.result(languageProService.getAll, 2.minutes)
+    val result = Await.result(service.save(entity.copy(id = "2")), 2.minutes)
+    val resp = Await.result(service.getAll, 2.minutes)
+
+    assert(resp.nonEmpty)
     assert(result.isExhausted)
-    assert(resp.size > 1)
   }
 
   test("delete languageProficiency"){
-    val result = Await.result(languageProService.deleteById(languageProEntity.id), 2.minutes)
-    val resp = Await.result(languageProService.getById(languageProEntity.id), 2.minutes)
-    assert(result.isExhausted)
+    val result = Await.result(service.deleteById(entity.id), 2.minutes)
+    val resp = Await.result(service.getById(entity.id), 2.minutes)
+
     assert(resp.isEmpty)
+    assert(result.isExhausted)
   }
 
 }

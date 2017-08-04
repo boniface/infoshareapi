@@ -1,6 +1,6 @@
 package repositories.util.tables
 
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
@@ -14,7 +14,7 @@ abstract class ItemStatusTable extends Table[ItemStatusTable, ItemStatus] {
 
   object itemId extends StringColumn with PartitionKey
 
-  object date extends Col[Date] with PrimaryKey with ClusteringOrder with Ascending
+  object date extends Col[LocalDateTime] with PrimaryKey with ClusteringOrder with Ascending
 
   object status extends StringColumn
 

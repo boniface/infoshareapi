@@ -1,6 +1,6 @@
 package controllers.organisation
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.organisation.Organisation
 import domain.security.TokenFailException
@@ -12,7 +12,7 @@ import services.security.TokenCheckService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class OrganisationCtrl extends InjectedController {
+class OrganisationCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   val service = OrganisationService
 
   def create = Action.async(parse.json) { request =>

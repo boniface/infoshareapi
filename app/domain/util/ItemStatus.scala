@@ -1,7 +1,6 @@
 package domain.util
 
 import java.time.LocalDateTime
-
 import play.api.libs.json.Json
 
 case class ItemStatus(itemId: String,

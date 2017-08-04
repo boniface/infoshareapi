@@ -1,6 +1,6 @@
 package controllers.users
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.TokenFailException
 import domain.users.ValidUser
@@ -12,7 +12,7 @@ import services.users.ValidUserService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class ValidUserController extends InjectedController {
+class ValidUserController @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
 
   private val validUserService: ValidUserService = ValidUserService
 

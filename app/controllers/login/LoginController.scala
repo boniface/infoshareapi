@@ -1,22 +1,23 @@
 package controllers.login
 
+import javax.inject.{Inject, Singleton}
+
 import domain.security.{Credential, TokenFailException, UserGeneratedToken}
 import domain.users.Login
 import play.api.libs.json.Json
-import play.api.mvc.{AnyContent, InjectedController, Request}
+import play.api.mvc._
 import services.security.{LoginService, TokenCheckService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-/**
-  * Created by hashcode on 6/27/17.
-  */
-class LoginController extends InjectedController{
+
+
+@Singleton
+class LoginController @Inject()(cc: ControllerComponents) extends AbstractController(cc){
 
   def authenticate = Action.async(parse.json) { request =>
-    val input = request.body
-    val entity = Json.fromJson[Credential](input).get
+    val entity = Json.fromJson[Credential](request.body).get
     val agent = request.headers.toSimpleMap.getOrElse("User-Agent", "")
     val response: Future[UserGeneratedToken] = for {
       results: UserGeneratedToken <- LoginService.apply.createNewToken(entity, agent)

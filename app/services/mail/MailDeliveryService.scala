@@ -5,9 +5,7 @@ import services.mail.Impl.MailDeliveryServiceImpl
 
 import scala.concurrent.Future
 
-/**
-  * Created by hashcode on 6/24/17.
-  */
+
 trait MailDeliveryService {
   def sendMail(user:User):Future[String]
   def resetAccount(user:User):Future[String]

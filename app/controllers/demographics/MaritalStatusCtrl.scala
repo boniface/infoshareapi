@@ -1,6 +1,6 @@
 package controllers.demographics
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.demographics.MaritalStatus
 import domain.security.TokenFailException
@@ -12,7 +12,7 @@ import services.security.TokenCheckService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class MaritalStatusCtrl extends InjectedController {
+class MaritalStatusCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   private val service = MaritalStatusService
 
   def create = Action.async(parse.json) { implicit request =>

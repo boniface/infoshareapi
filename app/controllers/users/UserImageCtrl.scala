@@ -1,6 +1,6 @@
 package controllers.users
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.TokenFailException
 import domain.users.UserImages
@@ -12,7 +12,7 @@ import services.users.UserImageService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class UserImageCtrl extends InjectedController {
+class UserImageCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   private val service = UserImageService
 
   def create = Action.async(parse.json) { request =>

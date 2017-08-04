@@ -12,19 +12,19 @@ import scala.concurrent.Future
 
 abstract class UserTable extends Table[UserTable, User] {
 
-  object email extends StringColumn with PartitionKey
+  object siteId extends StringColumn with PartitionKey
 
-  object siteId extends StringColumn with PrimaryKey
+  object email extends StringColumn with PrimaryKey
 
-  object state extends StringColumn
-
-  object screenName extends StringColumn
-
-  object firstname extends OptionalStringColumn
+  object firstName extends OptionalStringColumn
 
   object lastName extends OptionalStringColumn
 
+  object screenName extends StringColumn
+
   object password extends StringColumn
+
+  object state extends StringColumn
 
   object date extends Col[LocalDateTime]
 
@@ -40,7 +40,7 @@ abstract class UserTableImpl extends UserTable with RootConnector {
       .value(_.email, user.email)
       .value(_.state, user.state)
       .value(_.screenName, user.screenName)
-      .value(_.firstname, user.firstName)
+      .value(_.firstName, user.firstName)
       .value(_.lastName, user.lastName)
       .value(_.password, user.password)
       .value(_.date, user.date)
@@ -70,15 +70,15 @@ abstract class UserSiteTable extends Table[UserSiteTable, User] {
 
   object email extends StringColumn with PrimaryKey
 
-  object state extends StringColumn
-
-  object screenName extends StringColumn
-
-  object firstname extends OptionalStringColumn
+  object firstName extends OptionalStringColumn
 
   object lastName extends OptionalStringColumn
 
+  object screenName extends StringColumn
+
   object password extends StringColumn
+
+  object state extends StringColumn
 
   object date extends Col[LocalDateTime]
 
@@ -94,7 +94,7 @@ abstract class UserSiteTableImpl extends UserSiteTable with RootConnector {
       .value(_.email, user.email)
       .value(_.state, user.state)
       .value(_.screenName, user.screenName)
-      .value(_.firstname, user.firstName)
+      .value(_.firstName, user.firstName)
       .value(_.lastName, user.lastName)
       .value(_.password, user.password)
       .value(_.date, user.date)
@@ -119,19 +119,19 @@ abstract class UserTimeLineTable extends Table[UserTimeLineTable, User] {
 
   object siteId extends StringColumn with PartitionKey
 
-  object date extends Col[LocalDateTime] with PrimaryKey
-
   object email extends StringColumn with PrimaryKey
 
-  object state extends StringColumn
-
-  object screenName extends StringColumn
-
-  object firstname extends OptionalStringColumn
+  object firstName extends OptionalStringColumn
 
   object lastName extends OptionalStringColumn
 
+  object screenName extends StringColumn
+
   object password extends StringColumn
+
+  object state extends StringColumn
+
+  object date extends Col[LocalDateTime]  with PrimaryKey
 
 }
 
@@ -146,7 +146,7 @@ abstract class UserTimeLineTableImpl extends UserTimeLineTable with RootConnecto
       .value(_.email, user.email)
       .value(_.state, user.state)
       .value(_.screenName, user.screenName)
-      .value(_.firstname, user.firstName)
+      .value(_.firstName, user.firstName)
       .value(_.lastName, user.lastName)
       .value(_.password, user.password)
       .value(_.date, user.date)
@@ -157,27 +157,17 @@ abstract class UserTimeLineTableImpl extends UserTimeLineTable with RootConnecto
     val date = LocalDateTime.now()
     val last24hrs = date.minusHours(24.toLong)
     val last48hrs = date.minusHours(48.toLong)
-    select
-      .where(_.siteId eqs siteId)
-      .and(_.date lt last24hrs)
-      .and(_.date gt last48hrs)
-      .fetchEnumerator() run Iteratee.collect()
+    select.where(_.siteId lt siteId).and(_.date lt last24hrs)
+      .and(_.date gt last48hrs).fetchEnumerator() run Iteratee.collect()
   }
 
   def getUsersCreateAfterPeriod(siteId:String, date: LocalDateTime): Future[Seq[User]] = {
-    select
-      .where(_.siteId eqs siteId)
-      .and(_.date gt date)
+    select.where(_.siteId eqs siteId).and(_.date gt date)
       .fetchEnumerator() run Iteratee.collect()
   }
 
   def deleteUser(date: LocalDateTime,siteId: String, email: String): Future[ResultSet] = {
-    delete
-      .where(_.siteId eqs siteId)
-      .and(_.date eqs date)
-      .and(_.email eqs email)
-      .future()
+    delete.where(_.siteId eqs siteId).and(_.date eqs date)
+      .and(_.email eqs email).future()
   }
 }
-
-

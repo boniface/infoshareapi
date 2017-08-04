@@ -1,6 +1,6 @@
 package controllers.content
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.content.RawContent
 import domain.security.TokenFailException
@@ -12,7 +12,7 @@ import services.security.TokenCheckService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class RawContentCtrl extends InjectedController {
+class RawContentCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   private val service = RawContentService
 
   def create = Action.async(parse.json) { request =>

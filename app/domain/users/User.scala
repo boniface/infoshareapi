@@ -13,9 +13,7 @@ case class User(siteId: String,
                 date: LocalDateTime)
 
 object User {
-
   implicit val userFmt = Json.format[User]
-
   def identity: User = User("", "", None, None, "", "", "", LocalDateTime.now())
 
 }

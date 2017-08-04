@@ -1,6 +1,6 @@
 package services.util
-import domain.security.Roles
 import org.scalatest.FunSuite
+import util.factories
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -10,7 +10,7 @@ import scala.concurrent.duration._
   */
 class RolesServiceTest extends FunSuite{
 
-  val entity = Roles("1","USER")
+  val entity = factories.getRoles
   val updatedEntity = entity.copy(rolename = "ADMIN")
   val service = RolesService
 
@@ -19,7 +19,7 @@ class RolesServiceTest extends FunSuite{
     assert(result.isExhausted)
   }
 
-  test{"Read  Role Value "}{
+  test("Read  Role Value "){
     val result = Await.result(service.getRoleById("1"),2 minutes)
     assert(result.get.rolename=="USER")
 
