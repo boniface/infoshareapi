@@ -63,12 +63,12 @@ trait UserService extends UserRepository {
     } yield deleteUserRole
   }
 
-  def getUsersAccountsOlderThanOneDay: Future[Seq[User]] = {
-    database.userTimeLineTable.getUsersAccountsOlderThanOneDay
+  def getUsersAccountsOlderThanOneDay(siteId:String): Future[Seq[User]] = {
+    database.userTimeLineTable.getUsersAccountsOlderThanOneDay(siteId)
   }
 
-  def getUsersCreateAfterPeriod(date: LocalDateTime): Future[Seq[User]] = {
-    database.userTimeLineTable.getUsersCreateAfterPeriod(date)
+  def getUsersCreateAfterPeriod(siteId:String,date: LocalDateTime): Future[Seq[User]] = {
+    database.userTimeLineTable.getUsersCreateAfterPeriod(siteId,date)
 
   }
 

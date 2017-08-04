@@ -8,6 +8,7 @@ import scala.util.Try
 /**
   * Created by hashcode on 2016/10/05.
   */
+@Deprecated
 object MailerService {
 
   def send(emailMessage: EmailMessage) = Try({

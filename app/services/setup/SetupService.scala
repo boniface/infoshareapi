@@ -49,7 +49,7 @@ object SetupService {
     )
     roles.foreach(role => RoleService.save(role))
 
-    val admin = User("CPUT", "test@test.com", None, None, None, "passwd", HashcodeKeys.ACTIVE, " ", LocalDateTime.now)
+    val admin = User("CPUT", "test@test.com", None, None, "passwd", HashcodeKeys.ACTIVE, " ", LocalDateTime.now)
 
     for {
      save <- UserService.saveOrUpdate(admin)

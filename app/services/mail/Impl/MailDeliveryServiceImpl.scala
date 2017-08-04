@@ -19,6 +19,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /**
   * Created by hashcode on 6/24/17.
   */
+@Deprecated
 class MailDeliveryServiceImpl extends MailDeliveryService{
 
   override def sendMail(user: User): Future[String] = {

@@ -12,7 +12,6 @@ class UserServiceTest extends FunSuite{
     "test@test.com",
     Some("NAME"),
     Some("NAME"),
-    None,
     "Geek",
     "test123",
     "ACTIVE",
@@ -26,7 +25,7 @@ class UserServiceTest extends FunSuite{
   }
 
   test{"Get Site User "}{
-    val result = Await.result(service.database.userTimeLineTable.getUsersAccountsOlderThanOneDay,2 minutes)
+    val result = Await.result(service.database.userTimeLineTable.getUsersAccountsOlderThanOneDay("CPUT"),2 minutes)
     println("The value of Site User is ",result)
 //    assert(result.getOrElse(User.identity).state=="ACTIVE")
   }

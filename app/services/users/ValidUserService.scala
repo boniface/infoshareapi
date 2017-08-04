@@ -22,20 +22,20 @@ trait ValidUserService extends ValidUserRepository {
 
   }
 
-  def isUserValid(userId: String): Future[Boolean] = {
-    database.validUserTable.isUserValid(userId)
+  def isUserValid(siteId:String, userId: String): Future[Boolean] = {
+    database.validUserTable.isUserValid(siteId,userId)
   }
 
-  def getValidUserEvents(userId: String): Future[Seq[ValidUser]] = {
-    database.validUserTable.getValidUserEvents(userId)
+  def getValidUserEvents(siteId:String,userId: String): Future[Seq[ValidUser]] = {
+    database.validUserTable.getValidUserEvents(siteId,userId)
   }
 
   def getValidUsers: Future[Int] = {
     database.validUserTable.getValidUsers
   }
 
-  def getValidUsersInLast24hours: Future[Seq[ValidUser]] = {
-    database.timeLineValidUserTable.getValidUsersInLast24hours
+  def getValidUsersInLast24hours(siteId:String): Future[Seq[ValidUser]] = {
+    database.timeLineValidUserTable.getValidUsersInLast24hours(siteId)
   }
 
 }

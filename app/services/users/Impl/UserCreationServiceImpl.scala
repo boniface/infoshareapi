@@ -25,6 +25,7 @@ class UserCreationServiceImpl extends UserCreationService {
   override def createUser(user: User, role: UserRole): Future[Boolean] = {
     val message: (String, User) = UserCreationMessageService.apply.accountCreatedMessage(user)
     val subject = "New Account Created for " + user.email
+
     val successLog = SystemLogEvents(
       user.email,
       Util.md5Hash(UUID.randomUUID().toString),
