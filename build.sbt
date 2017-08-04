@@ -6,7 +6,7 @@ lazy val root = (project in file("."))
   .enablePlugins(PlayScala, DebianPlugin, DockerPlugin,JavaServerAppPackaging,SystemdPlugin)
 
 
-scalaVersion := "2.12.2"
+scalaVersion := "2.12.3"
 
 val PhantomVersion = "2.13.0"
 val PlayFrameWorkVersion = "2.6.2"
