@@ -42,7 +42,7 @@ libraryDependencies ++= Seq(
 ).map(_ % circeVersion)
 
 libraryDependencies += filters
-libraryDependencies += "org.scalatestplus.play" % "scalatestplus-play_2.12" % "3.0.0"
+libraryDependencies += "org.scalatestplus.play" % "scalatestplus-play_2.12" % "3.1.1"
 libraryDependencies += "javax.mail" % "javax.mail-api" % "1.5.6"
 libraryDependencies += "org.typelevel" %% "cats" % "0.9.0"
 
