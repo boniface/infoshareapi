@@ -11,16 +11,15 @@ import util.{TestUtils, factories}
 class UserCreationControllerTest extends PlaySpec with GuiceOneAppPerTest {
 
   "UserCreationController" should {
-    val user = factories.getUser.copy(email = "thulehadebe@outlook.com", firstName = Some("Thulebona"),
+    val user = factories.getUser.copy(email = "2leradebe@gmail.com", firstName = Some("Thulebona"),
       lastName = Some("Hadebe"))
 
     "Create User" in {
       val request = route(app, FakeRequest(POST, "/users/usercreation/create/" + RolesID.READER)
         .withJsonBody(Json.toJson(user))
-        .withHeaders(TestUtils.getHeaders: _*)
+        .withHeaders(TestUtils.getHeaders.last)
       ).get
 
-      println(" The Content is ", contentAsString(request))
       status(request) mustBe OK
       contentType(request) mustBe Some("application/json")
       println(" The Content is ", contentAsString(request))
