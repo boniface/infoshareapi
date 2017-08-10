@@ -14,16 +14,16 @@ import util.{TestUtils, factories}
 class AuthenticateAccountTest extends PlaySpec with GuiceOneAppPerTest {
 
   "LoginController" should {
-
+    val user_pass = "PASSWD" // Get generated password on the emails
     "Given a token when credentials are Supplied" in {
       val user = factories.getUser
-      val entity = Credential(email = user.email, password = user.password, siteId = user.siteId)
+      val entity = Credential(email = user.email, password = user_pass, siteId = user.siteId)
 
       val request = route(app, FakeRequest(POST, "/login/authenticate/")
         .withJsonBody(Json.toJson(entity))
         .withHeaders(TestUtils.getHeaders.last)
       ).get
-      println(TestUtils.getHeaders.last)
+
       status(request) mustBe OK
       contentType(request) mustBe Some("application/json")
       println(" The Content is ", contentAsString(request))

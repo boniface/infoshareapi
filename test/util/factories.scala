@@ -18,6 +18,9 @@ import services.security.AuthenticationService
 
 @Singleton
 object factories {
+
+  val email = "test@test.com"
+  val org = "CPUT"
   /*****************************************************
     *                    content                       *
     ****************************************************/
@@ -26,7 +29,7 @@ object factories {
   }
 
   def getSource: Source = {
-    Source(org="CPUT", id="1",name= ContentKeys.RAW, description = "raw data")
+    Source(org= org, id="1",name= ContentKeys.RAW, description = "raw data")
   }
 
   def getContentType: ContentType = {
@@ -34,19 +37,19 @@ object factories {
   }
 
   def getRawContent: RawContent = {
-    RawContent(org = "CPUT", id = "1", dateCreated = LocalDateTime.now(), creator = "test@test.com",
+    RawContent(org = org, id = "1", dateCreated = LocalDateTime.now(), creator = email,
     source = "1", category = "1", title = "scala code", content = "this is scala",
     contentTypeId = "1", status = ContentKeys.RAW, state = HashcodeKeys.ACTIVE)
   }
 
   def getEditedContent: EditedContent = {
-    EditedContent(org = "CPUT", id = "1", dateCreated = LocalDateTime.now(), creator = "test@test.com",
+    EditedContent(org = org, id = "1", dateCreated = LocalDateTime.now(), creator = email,
     source = "1", category = "1", title = "scala code", content = "this is scala",
     contentTypeId = "1", status = ContentKeys.EDITED, state = HashcodeKeys.ACTIVE )
   }
 
   def getPublishedContent: PublishedContent = {
-    PublishedContent(org = "CPUT", id = "1", dateCreated = LocalDateTime.now(), creator = "test@test.com",
+    PublishedContent(org = org, id = "1", dateCreated = LocalDateTime.now(), creator = email,
     source = "1", category = "1", title = "scala code", content = "this is scala",
     contentTypeId = "1", status = ContentKeys.PUBLISHED, state = HashcodeKeys.ACTIVE
     )
@@ -107,17 +110,17 @@ object factories {
     ****************************************************/
 
   def getLocation: Location = {
-    Location(id = "1",org = "cput",name = "cape town", locationTypeId="53",code="7580", latitude="68",
+    Location(id = "1",org = org,name = "cape town", locationTypeId="53",code="7580", latitude="68",
       longitude="454",parentId="1",state = HashcodeKeys.ACTIVE,date = LocalDateTime.now())
   }
 
   def getOrganisationLogo: OrganisationLogo = {
-    OrganisationLogo(org = "cput",id="3",url="http://www.google.com/e.jpg",size = Some("512MB"),
+    OrganisationLogo(org = org,id="3",url="http://www.google.com/e.jpg",size = Some("512MB"),
       description = "cput logo",mime = ".jpg",date = LocalDateTime.now())
   }
 
   def getOrganisation: Organisation = {
-    Organisation(id = "1",name = "cput",details = Map(),adminAttached = "admin",
+    Organisation(id = "1",name = org,details = Map(),adminAttached = "admin",
       date = LocalDateTime.now(),state = HashcodeKeys.ACTIVE)
   }
 
@@ -134,7 +137,7 @@ object factories {
   }
 
   def getSystemLog: SystemLogEvents = {
-    SystemLogEvents(siteId = "CPUT", id = "1", eventName = "email failed", eventType = "creating new user",
+    SystemLogEvents(siteId = org, id = "1", eventName = "email failed", eventType = "creating new user",
     message = "user already exist",date = LocalDateTime.now())
   }
 
@@ -143,42 +146,41 @@ object factories {
     ****************************************************/
 
   def getUserAddress: UserAddress = {
-    UserAddress(emailId="test@test.com", id="1", addressTypeId="1", description="16 abbey st camelot",
+    UserAddress(emailId= email, id="1", addressTypeId="1", description="16 abbey st camelot",
       postalCode="7530",date= LocalDateTime.now(),state = HashcodeKeys.ACTIVE)
   }
 
   def getUserContact: UserContact = {
-    UserContact(emailId = "test@test.com",id= "1", contactTypeId = "1",
+    UserContact(emailId = email,id= "1", contactTypeId = "1",
       contactNumber = "+2774 791 3185", date = LocalDateTime.now(), state = HashcodeKeys.ACTIVE)
   }
 
   def getUserDemographics: UserDemographics = {
-    UserDemographics(emailId="test@test.com",id="1",genderId = "1",raceId = "1", dateOfBirth = LocalDateTime.now(),
+    UserDemographics(emailId= email,id="1",genderId = "1",raceId = "1", dateOfBirth = LocalDateTime.now(),
       maritalStatusId = MaritalStatusList.MARRIED,numberOfDependencies = 5,date =LocalDateTime.now(), state = HashcodeKeys.ACTIVE)
   }
 
   def getUserImages: UserImages= {
-    UserImages(org = "CPUT", emailId = "test@test.com", id="2", description = "profile pic",
+    UserImages(org = org, emailId = email, id="2", description = "profile pic",
       url="http://www.cput.ac.za/logo.png", mime = ".png", size = Some("512MB") ,date = LocalDateTime.now())
   }
 
   def getUserLanguage: UserLanguage = {
-    UserLanguage(emailId = "test@test.com", id = "1", languageId = "1", reading = "eng", writing = "eng",
+    UserLanguage(emailId = email, id = "1", languageId = "1", reading = "eng", writing = "eng",
       speaking = "eng", date = LocalDateTime.now(),state = HashcodeKeys.ACTIVE)
   }
 
   def getUser: User = {
-    User(siteId="CPUT",email="test@test.com",firstName=Some("First Name"),lastName=Some("Last Name"),
-    screenName="CODER",password= AuthenticationService.apply.getHashedPassword("PASSWD"),
-    state = HashcodeKeys.ACTIVE,date=LocalDateTime.now() )
+    User(siteId= org,email= email,firstName=Some("First Name"),lastName=Some("Last Name"),
+    screenName="CODER",password= "PASSWD", state = HashcodeKeys.ACTIVE,date=LocalDateTime.now() )
   }
 
   def getUserRole: UserRole = {
-    UserRole(siteId= "CPUT", emailId="test@test.com",date = LocalDateTime.now(), roleId = RolesID.READER)
+    UserRole(siteId= org, emailId= email,date = LocalDateTime.now(), roleId = RolesID.READER)
   }
 
   def getValidUser: ValidUser = {
-    ValidUser(siteId = "CPUT", userId = "1", date = LocalDateTime.now(), action = Events.VALIDATED)
+    ValidUser(siteId = org, userId = "1", date = LocalDateTime.now(), action = Events.VALIDATED)
   }
   /*****************************************************
     *                  utils

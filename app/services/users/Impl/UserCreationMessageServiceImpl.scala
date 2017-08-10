@@ -13,7 +13,7 @@ class UserCreationMessageServiceImpl extends UserCreationMessageService{
   def accountCreatedMessage(user:User): (String, User)={
     val password = AuthenticationService.apply.generateRandomPassword()
     val createdUser = user.copy(password=AuthenticationService.apply.getHashedPassword(password))
-    val message = new_login_details.render(createdUser)
+    val message = new_login_details.render(createdUser.copy(password=password))
     (message.toString(),createdUser)
   }
 

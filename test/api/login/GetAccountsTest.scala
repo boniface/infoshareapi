@@ -15,9 +15,7 @@ class GetAccountsTest extends PlaySpec with GuiceOneAppPerTest{
 
     "Given you Accounts when and Email is Supplied" in {
       val user = factories.getUser
-
-      val request = route(app, FakeRequest(GET, "/login/accounts/" + user.email)
-      ).get
+      val request = route(app, FakeRequest(GET, "/login/accounts/" + user.email)).get
 
       status(request) mustBe OK
       contentType(request) mustBe Some("application/json")

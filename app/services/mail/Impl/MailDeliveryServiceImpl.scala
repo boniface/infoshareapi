@@ -26,9 +26,9 @@ class MailDeliveryServiceImpl extends MailDeliveryService {
 
     val result = mailer map (_ => {
 
-      val updatePerson = setUserPassword(user)
+      val updateUser = setUserPassword(user)
       val subject = "New Login Credentials "
-      val message = new_login_details.render(updatePerson)
+      val message = new_login_details.render(updateUser._1.copy(password = updateUser._2))
       getMailResp(message.toString(),subject, user)
     })
     result flatMap  { response => response}
@@ -39,9 +39,9 @@ class MailDeliveryServiceImpl extends MailDeliveryService {
     val mailer = MailService.getMailer(HashcodeKeys.MAILORG)
 
     val result = mailer map (_ => {
-      val updatePerson = setUserPassword(user)
+      val updateUser = setUserPassword(user)
       val subject = "Your Reset New Login Credentials "
-      val message = new_login_details.render(updatePerson)
+      val message = new_login_details.render(updateUser._1.copy(password = updateUser._2))
       getMailResp(message.toString(), subject, user)
     })
     result flatMap  { response => response}
@@ -51,7 +51,6 @@ class MailDeliveryServiceImpl extends MailDeliveryService {
   override def sendMail(message: String, subject: String, user: User): Future[String] = {
 
     val mailer = MailService.getMailer(HashcodeKeys.MAILORG)
-    println(message)
     mailer map (mail=> {
       val smtp = SmtpConfig(port = mail.port.toInt, host = mail.host, user = mail.key, password = mail.value)
       MailerService.send(EmailMessage(subject, user.email, mail.key, message, message, smtp)) match {
@@ -83,10 +82,10 @@ class MailDeliveryServiceImpl extends MailDeliveryService {
     })
   }
 
-  def setUserPassword(user: User): User = {
+  def setUserPassword(user: User): (User, String) = {
     val passwd = AuthenticationService.apply.generateRandomPassword()
     val updatePerson = user.copy(password = AuthenticationService.apply.getHashedPassword(passwd))
     UserService.saveOrUpdate(updatePerson)
-    updatePerson
+    (updatePerson, passwd)
   }
 }
