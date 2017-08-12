@@ -1,41 +1,35 @@
 package services.users
 
 import domain.users.User
-import java.time.{LocalDateTime => Date}
 import org.scalatest.FunSuite
+import util.factories
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-class UserServiceTest extends FunSuite{
-  val entity = User("CPUT",
-    "test@test.com",
-    Some("NAME"),
-    Some("NAME"),
-    "Geek",
-    "test123",
-    "ACTIVE",
-    Date.now())
+class UserServiceTest extends FunSuite {
+
+  val entity: User = factories.getUser
   val updatedEntity = entity.copy(state = "INACTIVE")
   val service = UserService
 
   test("Create USER"){
-    val result = Await.result(service.saveOrUpdate(entity),2 minutes)
+    val result = Await.result(service.saveOrUpdate(entity),2.minutes)
     assert(result.isExhausted)
+    println(result)
   }
 
-  test{"Get Site User "}{
-    val result = Await.result(service.database.userTimeLineTable.getUsersAccountsOlderThanOneDay("CPUT"),2 minutes)
+  test("Get Site User "){
+    val result = Await.result(service.getSiteUsers(entity.siteId),2.minutes)
+    assert(result.head.siteId equals entity.siteId)
     println("The value of Site User is ",result)
-//    assert(result.getOrElse(User.identity).state=="ACTIVE")
   }
 
-  test{"Get Site Users "}{
-    val result = Await.result(service.getSiteUsers("CPUT"),2 minutes)
-//    assert(result.head.state=="ACTIVE")
+  test("Get User "){
+    val result = Await.result(service.getSiteUser(entity.email, entity.siteId),2.minutes)
+    assert(result.isDefined)
+    println(result)
   }
-
-
 
 }
 

@@ -1,0 +1,13 @@
+@import domain.users.User
+@(user :User)
+
+@mail_base(){
+    <h2 ><u>The Message Content</u></h2>
+    <p>Dear @user.firstName  @user.lastName </p>
+    <p>Your Login Details are Username: @user.email And the Password: @user.password</p>
+    <p>You can access the Site Provided to you By the Provider.
+        <b>PLEASE REMEMBER TO CHANGE YOUR PASSWORD</b>
+    </p>
+    <p>We are Sure your Superiors have told you that Great Powers Come with Great Responsibility</p>
+}
+

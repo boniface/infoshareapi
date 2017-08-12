@@ -20,7 +20,6 @@ trait UserImageService extends UserImagesRepository {
 
   def getAllUserImages(map: Map[String, String]): Future[Seq[UserImages]] = {
     database.userImagesTable.getUserImages(map)
-
   }
 
   def getAllUserCompanyImages(org: String): Future[Seq[UserImages]] = {

@@ -1,6 +1,8 @@
 package services.util
+import conf.util.HashcodeKeys
 import domain.util.Keys
 import org.scalatest.FunSuite
+import util.factories
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -11,8 +13,8 @@ import scala.concurrent.duration._
 class KeyServiceTest extends FunSuite{
 
 
-  val entity = Keys("1","CDN_URL","ACTIVE")
-  val updatedEntity = entity.copy(status = "INACTIVE")
+  val entity = factories.getKeys
+  val updatedEntity = entity.copy(status = HashcodeKeys.INACTIVE)
   val service = KeysService
 
   test("Create Key"){
@@ -21,7 +23,7 @@ class KeyServiceTest extends FunSuite{
 
   }
 
-  test{"Read Key value "}{
+  test("Read Key value "){
     val result = Await.result(service.getKeyById("1"),2 minutes)
     assert(result.get.status=="ACTIVE")
 

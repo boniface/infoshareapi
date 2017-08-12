@@ -18,8 +18,8 @@ trait SyslogService extends SyslogRepository {
     database.systemLogEventsTable.getById(map)
   }
 
-  def getAll(org: String): Future[Seq[SystemLogEvents]] = {
-    database.systemLogEventsTable.getAll(org)
+  def getAll(siteId: String): Future[Seq[SystemLogEvents]] = {
+    database.systemLogEventsTable.getAll(siteId)
   }
 
 }

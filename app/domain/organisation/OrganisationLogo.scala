@@ -1,6 +1,6 @@
 package domain.organisation
 
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 import play.api.libs.json.Json
 
 case class OrganisationLogo(org: String,
@@ -9,9 +9,9 @@ case class OrganisationLogo(org: String,
                             size: Option[String],
                             description: String,
                             mime: String,
-                            date: Date)
+                            date: LocalDateTime)
 
 object OrganisationLogo {
   implicit val orgLogoFmt = Json.format[OrganisationLogo]
-  def identity: OrganisationLogo = OrganisationLogo("", "", "", None, "", "", Date.now())
+  def identity: OrganisationLogo = OrganisationLogo("", "", "", None, "", "", LocalDateTime.now())
 }

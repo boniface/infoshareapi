@@ -1,6 +1,6 @@
 package controllers.users
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.TokenFailException
 import domain.users.UserContact
@@ -12,7 +12,7 @@ import services.users.UserContactService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class UserContactCtrl extends InjectedController {
+class UserContactCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   private val service = UserContactService
 
   def create = Action.async(parse.json) { request =>

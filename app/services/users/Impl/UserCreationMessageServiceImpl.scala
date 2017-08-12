@@ -3,6 +3,7 @@ package services.users.Impl
 import domain.users.User
 import services.security.AuthenticationService
 import services.users.UserCreationMessageService
+import views.html.email.new_login_details
 
 /**
   * Created by hashcode on 6/24/17.
@@ -11,12 +12,9 @@ class UserCreationMessageServiceImpl extends UserCreationMessageService{
 
   def accountCreatedMessage(user:User): (String, User)={
     val password = AuthenticationService.apply.generateRandomPassword()
-    val message = "Your Login Details are Username: " + user.email + " And the Password: " + password + "" +
-      "</p> You can access the Site  Provided to you By the Provider. " +
-      "<b>PLEASE REMEMBER TO CHANGE YOUR PASSWORD</b><p/>" +
-      "We are Sure your Superiors have told you that Great Powers Come with Great Responsibility"
     val createdUser = user.copy(password=AuthenticationService.apply.getHashedPassword(password))
-    (message,createdUser)
+    val message = new_login_details.render(createdUser.copy(password=password))
+    (message.toString(),createdUser)
   }
 
   def customUserMessage(user: User, message:String):(String, User)={

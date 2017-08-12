@@ -1,6 +1,6 @@
 package repositories.content.tables
 
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
@@ -14,7 +14,7 @@ abstract class EditedContentTable extends Table[EditedContentTable, EditedConten
 
   object id extends StringColumn with PrimaryKey
 
-  object dateCreated extends Col[Date]
+  object dateCreated extends Col[LocalDateTime]
 
   object creator extends StringColumn
 
@@ -26,7 +26,7 @@ abstract class EditedContentTable extends Table[EditedContentTable, EditedConten
 
   object content extends StringColumn
 
-  object contentType extends StringColumn
+  object contentTypeId extends StringColumn
 
   object status extends StringColumn
 
@@ -47,7 +47,7 @@ abstract class EditedContentTableImpl extends EditedContentTable with RootConnec
       .value(_.category, content.category)
       .value(_.title, content.title)
       .value(_.content, content.content)
-      .value(_.contentType, content.contentType)
+      .value(_.contentTypeId, content.contentTypeId)
       .value(_.status, content.status)
       .value(_.state, content.state)
       .future()

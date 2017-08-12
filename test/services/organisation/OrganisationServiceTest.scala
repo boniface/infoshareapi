@@ -1,9 +1,8 @@
 package services.organisation
 
-import java.time.{LocalDateTime => Date}
-
 import domain.organisation.Organisation
 import org.scalatest.{BeforeAndAfter, FunSuite}
+import util.factories
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -15,7 +14,7 @@ class OrganisationServiceTest extends FunSuite with BeforeAndAfter {
   var entity, updateEntity: Organisation = _
 
   before{
-    entity = Organisation(id = "1",name = "cput",details = Map(),adminAttached = "admin",date = Date.now(),state = "ACTIVE")
+    entity = factories.getOrganisation
   }
 
   test("create Organisation"){
@@ -25,26 +24,25 @@ class OrganisationServiceTest extends FunSuite with BeforeAndAfter {
 
   test("get Organisation by id"){
     val resp = Await.result(service.getById(entity.id), 2.minutes)
-    assert(resp.head.id == entity.id)
-    assert(resp.head.name == entity.name)
-    assert(resp.head.state == entity.state)
+    assert(resp.get equals entity)
   }
 
   test("update Organisation"){
-    updateEntity = entity.copy(name="dut")
+    updateEntity = entity.copy(name="DUT")
     val update = Await.result(service.save(updateEntity), 2.minutes)
     val resp = Await.result(service.getById(updateEntity.id), 2.minutes)
 
     assert(update.isExhausted)
-    assert(resp.head.name == updateEntity.name)
-    assert(resp.head.name != entity.name)
+    assert(resp.get != entity)
+    assert(resp.get equals updateEntity)
   }
 
   test("get all Organisation"){
     val result = Await.result(service.save(entity.copy(id = "2")), 2.minutes)
     val resp = Await.result(service.getAll, 2.minutes)
+
+    assert(resp.nonEmpty)
     assert(result.isExhausted)
-    assert(resp.size > 1)
   }
 
 

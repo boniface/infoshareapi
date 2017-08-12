@@ -1,6 +1,6 @@
 package controllers.storage
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.TokenFailException
 import domain.storage.StorageUrl
@@ -12,7 +12,7 @@ import services.storage.StorageUrlService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class StorageUrlCtrl extends InjectedController {
+class StorageUrlCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   val service = StorageUrlService
 
   def create = Action.async(parse.json) { request =>

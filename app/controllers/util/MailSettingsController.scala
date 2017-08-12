@@ -1,6 +1,6 @@
 package controllers.util
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.TokenFailException
 import domain.util.Mail
@@ -12,7 +12,7 @@ import services.security.TokenCheckService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class MailSettingsController extends InjectedController {
+class MailSettingsController @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
 
   def create = Action.async(parse.json) { request =>
     val input = request.body

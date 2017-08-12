@@ -1,6 +1,6 @@
 package controllers.syslog
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.TokenFailException
 import domain.syslog.SystemLogEvents
@@ -12,7 +12,7 @@ import services.syslog.SyslogService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class SystemLogEventsCtrl extends InjectedController {
+class SystemLogEventsCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   val service = SyslogService
 
   def create = Action.async(parse.json) { request =>
@@ -29,7 +29,7 @@ class SystemLogEventsCtrl extends InjectedController {
 
   def getById(org: String, id: String) = Action.async {
     implicit request: Request[AnyContent] =>
-      val args = Map("org" -> org, "id" -> id)
+      val args = Map("siteId" -> org, "id" -> id)
       val resp = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
         results <- service.getById(args)
@@ -40,11 +40,11 @@ class SystemLogEventsCtrl extends InjectedController {
       }
   }
 
-  def getAll(org: String) = Action.async {
+  def getAll(siteId: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
         _ <- TokenCheckService.apply.getTokenfromParam(request)
-        results <- service.getAll(org)
+        results <- service.getAll(siteId)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
         case _: TokenFailException => Unauthorized

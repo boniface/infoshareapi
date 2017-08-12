@@ -1,6 +1,6 @@
 package repositories.organisation.tables
 
-import java.time.{LocalDateTime => Date}
+import java.time.LocalDateTime
 import com.outworkers.phantom.dsl._
 import com.outworkers.phantom.jdk8._
 import com.outworkers.phantom.streams._
@@ -23,7 +23,7 @@ abstract class OrganisationLogoTable extends Table[OrganisationLogoTable, Organi
 
   object mime extends StringColumn
 
-  object date extends Col[Date]
+  object date extends Col[LocalDateTime]
 
 }
 

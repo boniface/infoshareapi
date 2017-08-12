@@ -1,5 +1,6 @@
 package domain.security
 
+import conf.util.RolesID
 import play.api.libs.json.Json
 
 case class Roles(id: String, rolename: String)

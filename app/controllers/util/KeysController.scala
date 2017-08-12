@@ -1,6 +1,6 @@
 package controllers.util
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.TokenFailException
 import domain.util.Keys
@@ -12,7 +12,7 @@ import services.util.KeysService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class KeysController extends InjectedController {
+class KeysController @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
 
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[Keys](request.body).get
