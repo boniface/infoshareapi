@@ -41,26 +41,26 @@ abstract class  VoteUpTableImpl extends VoteUpTable with RootConnector {
       .future()
   }
 
-  def getVoteId(siteId: String, itemId: String, ipAddress: String): Future[Option[VoteUp]] = {
+  def getVoteId(map: Map[String, String]): Future[Option[VoteUp]] = {
     select
-      .where(_.siteId eqs siteId)
-      .and(_.itemId eqs itemId)
-      .and(_.ipAddress eqs ipAddress)
+      .where(_.siteId eqs map("siteId"))
+      .and(_.itemId eqs map("itemId"))
+      .and(_.ipAddress eqs map("ipAddress"))
       .one()
   }
 
-  def getVotes(siteId: String, itemId: String): Future[Seq[VoteUp]] = {
+  def getVotes(map: Map[String, String]): Future[Seq[VoteUp]] = {
     select
-      .where(_.siteId eqs siteId)
-      .and(_.itemId eqs itemId)
+      .where(_.siteId eqs map("siteId"))
+      .and(_.itemId eqs map("itemId"))
       .fetchEnumerator() run Iteratee.collect()
   }
 
-  def deleteVote(siteId: String, itemId: String, ipAddress: String): Future[ResultSet] = {
+  def deleteVote(map: Map[String, String]): Future[ResultSet] = {
     delete
-      .where(_.siteId eqs siteId)
-      .and(_.itemId eqs itemId)
-      .and(_.ipAddress eqs ipAddress)
+      .where(_.siteId eqs map("siteId"))
+      .and(_.itemId eqs map("itemId"))
+      .and(_.ipAddress eqs map("ipAddress"))
       .future()
   }
 }
@@ -92,19 +92,19 @@ abstract class  UserUpVotesTableImpl extends UserUpVotesTable with RootConnector
       .future()
   }
 
-  def getUserVotes(siteId:String,itemOwnerId: String): Future[Seq[VoteUp]] = {
+  def getUserVotes(map: Map[String, String]): Future[Seq[VoteUp]] = {
     select
-      .where(_.siteId eqs siteId)
-      .and(_.itemOwnerId eqs itemOwnerId)
+      .where(_.siteId eqs map("siteId"))
+      .and(_.itemOwnerId eqs map("itemOwnerId"))
       .fetchEnumerator() run Iteratee.collect()
   }
 
-  def deleteVote(siteId:String,itemOwnerId:String,itemId: String, ipAddress: String): Future[ResultSet] = {
+  def deleteVote(map: Map[String, String]): Future[ResultSet] = {
     delete
-      .where(_.siteId eqs siteId)
-      .and(_.itemOwnerId eqs itemOwnerId)
-      .and(_.itemId eqs itemId)
-      .and(_.ipAddress eqs ipAddress)
+      .where(_.siteId eqs map("siteId"))
+      .and(_.itemOwnerId eqs map("itemOwnerId"))
+      .and(_.itemId eqs map("itemId"))
+      .and(_.ipAddress eqs map("ipAddress"))
       .future()
   }
 }
