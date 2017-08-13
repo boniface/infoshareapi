@@ -53,14 +53,10 @@ abstract class AbuseByUserTable extends Table[AbuseByUserTable, Abuse]{
   object date extends Col[LocalDateTime]  with PrimaryKey
   object details extends StringColumn
 
-
 }
 
 abstract class  AbuseByUserTableImpl extends AbuseByUserTable with RootConnector {
-
   override lazy val tableName = "userabuse"
-
-
 
   def save(abuse: Abuse): Future[ResultSet] = {
     insert

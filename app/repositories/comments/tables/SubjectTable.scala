@@ -9,18 +9,18 @@ import domain.comments.Subject
 
 import scala.concurrent.Future
 
-/**
-  * Created
-  */
 
 abstract class SubjectTable  extends Table[SubjectTable, Subject]{
 
   object siteId extends StringColumn with PartitionKey
-  object subjectId extends StringColumn with PrimaryKey
-  object name extends StringColumn
-  object url extends StringColumn
-  object date extends Col[LocalDateTime]
 
+  object subjectId extends StringColumn with PrimaryKey
+
+  object name extends StringColumn
+
+  object url extends StringColumn
+
+  object date extends Col[LocalDateTime]
 
 }
 

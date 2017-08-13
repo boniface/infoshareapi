@@ -10,9 +10,6 @@ import domain.comments.CommentStatus
 import scala.concurrent.Future
 
 
-/**
-  * Created
-  */
 
 abstract class CommentStatusTable extends Table[CommentStatusTable, CommentStatus] {
 
@@ -28,7 +25,6 @@ abstract class CommentStatusTable extends Table[CommentStatusTable, CommentStatu
 abstract class CommentStatusTableImpl extends CommentStatusTable with RootConnector {
 
   override lazy val tableName = "commentstatus"
-
 
   def save(commentStatus: CommentStatus): Future[ResultSet] = {
     insert

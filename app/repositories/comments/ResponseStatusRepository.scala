@@ -5,10 +5,6 @@ import conf.connections.DataConnection
 import repositories.comments.tables.ResponseStatusTableImpl
 
 
-
-/**
-  * Created by hashcode
-  */
 class ResponseStatusDatabase (override val connector: KeySpaceDef) extends Database[ResponseStatusDatabase](connector) {
   object responseStatusTable extends ResponseStatusTableImpl with connector.Connector
 }

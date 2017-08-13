@@ -9,9 +9,6 @@ import domain.comments.ResponseStatus
 
 import scala.concurrent.Future
 
-/**
-  * Created
-  */
 
 abstract class ResponseStatusTable extends Table[ResponseStatusTable, ResponseStatus] {
 

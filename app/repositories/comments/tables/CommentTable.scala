@@ -9,11 +9,9 @@ import domain.comments.Comment
 
 import scala.concurrent.Future
 
-
 /**
   * Created by Bonga on 10/28/2016.
   */
-
 
 abstract class CommentTable  extends Table[CommentTable, Comment] {
 
@@ -33,7 +31,7 @@ abstract class CommentTable  extends Table[CommentTable, Comment] {
 
 }
 
-abstract class  CommentTableImpl extends CommentTable with RootConnector {
+abstract class CommentTableImpl extends CommentTable with RootConnector {
 
   override lazy val tableName = "sitecomments"
 
@@ -56,18 +54,18 @@ abstract class  CommentTableImpl extends CommentTable with RootConnector {
       .fetchEnumerator() run Iteratee.collect()
   }
 
-  def getSubjectComments(siteId: String,subjectId:String): Future[Seq[Comment]] = {
+  def getSubjectComments(map: Map[String,String]): Future[Seq[Comment]] = {
     select
-      .where(_.siteId eqs siteId)
-      .and(_.subjectId eqs subjectId)
+      .where(_.siteId eqs map("siteId"))
+      .and(_.subjectId eqs map("subjectId"))
       .fetchEnumerator() run Iteratee.collect()
   }
 
-  def getComment(siteId: String, subjectId: String, commentId:String): Future[Option[Comment]] = {
+  def getComment(map: Map[String, String]): Future[Option[Comment]] = {
     select
-      .where(_.siteId eqs siteId)
-      .and(_.subjectId eqs subjectId)
-      .and(_.commentId eqs commentId)
+      .where(_.siteId eqs map("siteId"))
+      .and(_.subjectId eqs map("subjectId"))
+      .and(_.commentId eqs map("commentId"))
       .one()
   }
 }
@@ -108,10 +106,10 @@ abstract class CommentsByUserTableImpl extends CommentsByUserTable with RootConn
   }
 
 
-  def getUserComments(siteId: String, emailId: String): Future[Seq[Comment]] = {
+  def getUserComments(map: Map[String, String]): Future[Seq[Comment]] = {
     select
-      .where(_.siteId eqs siteId)
-      .and(_.emailId eqs emailId)
+      .where(_.siteId eqs map("siteId"))
+      .and(_.emailId eqs  map("emailId"))
       .fetchEnumerator() run Iteratee.collect()
   }
 }
