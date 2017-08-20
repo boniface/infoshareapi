@@ -9,9 +9,7 @@ import repositories.users.ValidUserRepository
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-/**
-  * Created by hashcode on 2017/06/11.
-  */
+
 trait ValidUserService extends ValidUserRepository {
 
   def save(user: ValidUser): Future[ResultSet] = {

@@ -1,12 +1,12 @@
 package controllers.users
 
 import java.time.LocalDateTime
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.{Credential, TokenFailException, UserGeneratedToken}
 import domain.users.{User, UserRole}
 import play.api.libs.json.Json
-import play.api.mvc.{AnyContent, InjectedController, Request}
+import play.api.mvc._
 import services.security.{LoginService, TokenCheckService}
 import services.users.UserCreationService
 
@@ -14,7 +14,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 @Singleton
-class UserCreationController extends InjectedController {
+class UserCreationController @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
 
   def createUser(roleId: String) = Action.async(parse.json) { request =>
     val entity = Json.fromJson[User](request.body).get
@@ -56,11 +56,11 @@ class UserCreationController extends InjectedController {
     }
   }
 
+  @Deprecated
   def login = Action.async(parse.json) { request =>
     val input = request.body
     val entity = Json.fromJson[Credential](input).get
     val agent = request.headers.toSimpleMap.getOrElse("User-Agent", "")
-    val siteId = request.headers.get("SiteID").getOrElse("")
     val response: Future[UserGeneratedToken] = for {
       _ <- TokenCheckService.apply.getToken(request)
       results: UserGeneratedToken <- LoginService.apply.createNewToken(entity, agent)

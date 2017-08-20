@@ -8,9 +8,9 @@ class UserDatabase(override val connector: KeySpaceDef) extends Database[UserDat
 
   object userTable extends UserTableImpl with connector.Connector
 
-  object siteUserTable extends UserSiteTableImpl with connector.Connector
-
   object userTimeLineTable extends UserTimeLineTableImpl with connector.Connector
+
+  object siteUserTable extends UserSiteTableImpl with connector.Connector
 
 }
 

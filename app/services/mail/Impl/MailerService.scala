@@ -5,9 +5,6 @@ import org.apache.commons.mail.{DefaultAuthenticator, HtmlEmail}
 
 import scala.util.Try
 
-/**
-  * Created by hashcode on 2016/10/05.
-  */
 @Deprecated
 object MailerService {
 

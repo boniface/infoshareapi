@@ -26,17 +26,13 @@ class HomeController @Inject()
   }
 
   def setup = Action.async {
-
-
-
-//    SetupService.setup()
-//    UserService.userNotAvailable("admin@africahash.com")
+//  SetupService.setup()
+//  UserService.userNotAvailable("admin@africahash.com")
     UserService.userNotAvailable("admin@africahash.com","SiteID") map ( result=> Ok("Dow we have something "+result))
 
   }
 
   def save = Action {
-
     Ok("Created ")
   }
 

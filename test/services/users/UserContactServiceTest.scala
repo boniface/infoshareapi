@@ -1,9 +1,10 @@
 package services.users
 
-import java.time.{LocalDateTime =>Date}
+import java.time.LocalDateTime
 
 import domain.users.UserContact
 import org.scalatest.{BeforeAndAfter, FunSuite}
+import util.factories
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -11,46 +12,42 @@ import scala.concurrent.duration._
 
 class UserContactServiceTest extends FunSuite with BeforeAndAfter  {
 
-  val userContactService = UserContactService
-  var userContactEntity, updateEntity: UserContact = _
+  val service = UserContactService
+  var entity, updateEntity: UserContact = _
+  var kwargs: Map[String,String] =  _
 
   before{
-    userContactEntity = UserContact(emailId = "test@test.com",id= "1", addressTypeId = "1",
-      contactNumber = "+2774 791 3185", date = Date.now(), state = "ACTIVE")
+    entity = factories.getUserContact
+    kwargs = Map("emailId"->entity.emailId, "id"->entity.id)
   }
 
   test("Create USER_Contact"){
-    val resp = Await.result(userContactService.save(userContactEntity),2.minutes)
+    val resp = Await.result(service.save(entity),2.minutes)
     assert(resp.isExhausted)
   }
 
   test("Get USER_Contact"){
-    val resp = Await.result(userContactService.getById(Map("emailId"-> userContactEntity.emailId,"id"-> userContactEntity.id)),2.minutes)
-
-    assert(resp.head.id == userContactEntity.id)
-    assert(resp.head.emailId  == userContactEntity.emailId)
-    assert(resp.head.addressTypeId == userContactEntity.addressTypeId)
-    assert(resp.head.contactNumber  == userContactEntity.contactNumber)
-    assert(resp.head.state  == userContactEntity.state)
+    val resp = Await.result(service.getById(kwargs),2.minutes)
+    assert(resp.get equals entity)
 
   }
 
   test("UPDATE USER_Contact"){
-    updateEntity = userContactEntity.copy(contactNumber = "021 784 3598",date = Date.now())
-    val update = Await.result(userContactService.save(updateEntity), 2.minutes)
+    updateEntity = entity.copy(contactNumber = "021 784 3598",date = LocalDateTime.now())
+    val update = Await.result(service.save(updateEntity), 2.minutes)
+    val resp = Await.result(service.getById(kwargs),2.minutes)
+
     assert(update.isExhausted)
-
-    val resp = Await.result(userContactService.getById(Map("emailId"-> updateEntity.emailId,"id"-> updateEntity.id)),2.minutes)
-
-    assert(resp.head.id == updateEntity.id)
-    assert(resp.head.contactNumber  == updateEntity.contactNumber)
+    assert(resp.get != entity)
+    assert(resp.get equals updateEntity)
 
   }
 
   test("GET ALL USER_Contact"){
-    val saveResp = Await.result(userContactService.save(updateEntity.copy(id = "9",contactNumber = "083 995 78452")), 2.minutes)
-    val resp = Await.result(userContactService.getAllUserContacts(updateEntity.emailId),2.minutes)
-    assert(resp.size > 1)
+    val saveResp = Await.result(service.save(updateEntity.copy(id = "9",contactNumber = "083 995 78452")), 2.minutes)
+    val resp = Await.result(service.getAllUserContacts(kwargs("emailId")),2.minutes)
+
+    assert(resp.nonEmpty)
     assert(saveResp.isExhausted)
   }
 

@@ -1,8 +1,9 @@
 package controllers.demographics
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
-import domain.security.{Roles, TokenFailException}
+import domain.demographics.Role
+import domain.security.TokenFailException
 import play.api.libs.json._
 import play.api.mvc._
 import services.demographics.RoleService
@@ -11,12 +12,11 @@ import services.security.TokenCheckService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class RoleCtrl extends InjectedController {
+class RoleCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   private val service = RoleService
 
   def create = Action.async(parse.json) { implicit request =>
-    val entity = Json.fromJson[Roles](request.body).get
-
+    val entity = Json.fromJson[Role](request.body).get
     val resp = for {
       _ <- TokenCheckService.apply.getToken(request)
       results <- service.save(entity)

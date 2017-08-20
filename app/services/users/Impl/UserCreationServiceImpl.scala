@@ -3,21 +3,15 @@ package services.users.Impl
 import java.time.LocalDateTime
 import java.util.UUID
 
-import conf.util.{UserEvents, Util}
+import conf.util.{UserEvents, Util, MailEvents}
 import domain.syslog.SystemLogEvents
 import domain.users.{User, UserRole}
-import domain.util.MailEvents
 import services.mail.SendMailService
 import services.syslog.SyslogService
 import services.users.{UserCreationMessageService, UserCreationService, UserRoleService, UserService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-
-
-/**
-  * Created by hashcode on 2017/02/27.
-  */
 
 
 class UserCreationServiceImpl extends UserCreationService {

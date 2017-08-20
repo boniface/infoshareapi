@@ -3,6 +3,7 @@ package services.demographics
 import conf.util.MaritalStatusList
 import domain.demographics.MaritalStatus
 import org.scalatest.{BeforeAndAfter, FunSuite}
+import util.factories
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -14,7 +15,7 @@ class MartialStatusServiceTest extends FunSuite with BeforeAndAfter {
   var entity, updateEntity: MaritalStatus = _
 
   before{
-    entity = MaritalStatus(id = "1", name = MaritalStatusList.MARRIED, state = "Active")
+    entity = factories.getMaritalStatus
   }
 
   test("create martial status"){
@@ -24,9 +25,7 @@ class MartialStatusServiceTest extends FunSuite with BeforeAndAfter {
 
   test("get martial status by id"){
     val resp = Await.result(service.getById(entity.id), 2.minutes)
-    assert(resp.head.id == entity.id)
-    assert(resp.head.name == entity.name)
-    assert(resp.head.state == entity.state)
+    assert(resp.get equals entity)
   }
 
   test("update martial status"){
@@ -35,22 +34,24 @@ class MartialStatusServiceTest extends FunSuite with BeforeAndAfter {
     val resp = Await.result(service.getById(updateEntity.id), 2.minutes)
 
     assert(update.isExhausted)
-    assert(resp.head.name == updateEntity.name)
-    assert(resp.head.name != entity.name)
+    assert(resp.get != entity)
+    assert(resp.get equals updateEntity)
   }
 
   test("get all martial status"){
     val result = Await.result(service.save(entity.copy(id = "2")), 2.minutes)
     val resp = Await.result(service.getAll, 2.minutes)
+
+    assert(resp.nonEmpty)
     assert(result.isExhausted)
-    assert(resp.size > 1)
   }
 
   test("delete martial status"){
     val result = Await.result(service.delete(entity.id), 2.minutes)
     val resp = Await.result(service.getById(entity.id), 2.minutes)
-    assert(result.isExhausted)
+
     assert(resp.isEmpty)
+    assert(result.isExhausted)
   }
 
 }

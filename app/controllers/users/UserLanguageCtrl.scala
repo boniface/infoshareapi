@@ -1,6 +1,6 @@
 package controllers.users
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import domain.security.TokenFailException
 import domain.users.UserLanguage
@@ -12,7 +12,7 @@ import services.users.UserLanguageService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class UserLanguageCtrl extends InjectedController {
+class UserLanguageCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc)  {
   private val service = UserLanguageService
 
   def create = Action.async(parse.json) { request =>

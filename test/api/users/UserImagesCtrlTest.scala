@@ -1,68 +1,72 @@
 package api.users
 
-import java.time.{LocalDateTime => Date}
-
-import domain.users.{UserAddress, UserImages}
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import domain.users.UserImages
+import org.scalatest.BeforeAndAfter
+import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import util.{TestUtils, factories}
 
-class UserImagesCtrlTest extends FunSuite with BeforeAndAfter with GuiceOneAppPerTest {
+class UserImagesCtrlTest extends PlaySpec with BeforeAndAfter with GuiceOneAppPerTest {
 
   var entity, updateEntity : UserImages = _
   var baseUrl = "/users/image/"
-  val title = "user image"
+  val title = "User image"
 
   before{
-    entity =  UserImages(org = "CPUT", emailId = "test@email.com", id="2", description = "my pic",
-      url="http://www.cput.ac.za/logo.png", mime = ".png", size = None ,date = Date.now())
+    entity = factories.getUserImages
   }
 
-  test("Create "+title){
-    val request = route(app, FakeRequest(POST, baseUrl + "create")
-      .withJsonBody(Json.toJson(entity))
-      .withHeaders(AUTHORIZATION -> "Token")
-    ).get
+  title + " Controller " should {
 
-    assert(status(request) equals OK)
-    assert(contentAsString(request) equals Json.toJson(entity).toString() )
+    "Create " + title in {
+      val request = route(app, FakeRequest(POST, baseUrl + "create")
+        .withJsonBody(Json.toJson(entity))
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+      assert(contentAsString(request) equals Json.toJson(entity).toString())
+    }
+
+    "update " + title in {
+      updateEntity = entity.copy(size = Some("7530"), description = "cput logo")
+      val request = route(app, FakeRequest(POST, baseUrl + "create")
+        .withJsonBody(Json.toJson(updateEntity))
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+      assert(contentAsString(request) != Json.toJson(entity).toString())
+      assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
+    }
+
+    "get " + title + " by id" in {
+      val request = route(app, FakeRequest(GET, baseUrl + entity.org + "/" + entity.emailId + "/" + entity.id)
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+      assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
+    }
+
+    "get all " + title in {
+      val request = route(app, FakeRequest(GET, baseUrl + "user/" + entity.org + "/" + entity.emailId)
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+      assert(status(request) equals OK)
+      assert(contentAsJson(request).result.isDefined)
+    }
+
+    "get all org " + title + "'s" in {
+      val request = route(app, FakeRequest(GET, baseUrl + "org/" + entity.org)
+        .withHeaders(TestUtils.getHeaders: _*)
+      ).get
+
+      assert(status(request) equals OK)
+      assert(!contentAsString(request).isEmpty)
+    }
   }
-
-  test("update "+title){
-    updateEntity = entity.copy(size= Some("7530"), description= "cput logo")
-    val request = route(app, FakeRequest(POST, baseUrl+"create")
-      .withJsonBody(Json.toJson(updateEntity))
-      .withHeaders(AUTHORIZATION -> "Token")
-    ).get
-    assert(status(request) equals OK)
-    assert(contentAsString(request) != Json.toJson(entity).toString())
-    assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
-  }
-
-  test("get "+title+" by id"){ //user/$org/$emailId
-    val request = route(app, FakeRequest(GET, baseUrl + entity.org + "/" + entity.emailId + "/" + entity.id)
-      .withHeaders(AUTHORIZATION -> "Token")
-    ).get
-    assert(status(request) equals OK)
-    assert(contentAsString(request) equals Json.toJson(updateEntity).toString())
-  }
-
-  test("get all "+title){
-    val request = route(app, FakeRequest(GET, baseUrl + "user/" + entity.org + "/" + entity.emailId)
-      .withHeaders(AUTHORIZATION -> "Token")
-    ).get
-    assert(status(request) equals OK)
-    assert(!contentAsJson(request).result.isEmpty)
-  }
-
-  test("get all org images"){
-    val request = route(app, FakeRequest(GET, baseUrl + "org/" + entity.org)
-      .withHeaders(AUTHORIZATION -> "Token")
-    ).get
-    assert(status(request) equals OK)
-    assert(!contentAsJson(request).result.isEmpty)
-  }
-
 }
