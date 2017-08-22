@@ -9,8 +9,8 @@ lazy val root = (project in file("."))
 
 scalaVersion := "2.12.3"
 
-val PhantomVersion = "2.13.3"
-val PlayFrameWorkVersion = "2.6.2"
+val PhantomVersion = "2.13.4"
+val PlayFrameWorkVersion = "2.6.3"
 val circeVersion = "0.8.0"
 
 maintainer := "Boniface Kabaso <boniface@kabaso.com>"
@@ -25,7 +25,11 @@ dockerCommands := Seq(
   ExecCmd("RUN", "chown", "-R", "daemon:daemon", "."),
   Cmd("USER", "daemon"),
   ExecCmd("ENTRYPOINT", "bin/infoshareapi"),
-  ExecCmd("CMD", "")
+  Cmd("VOLUME", "/opt/docker"),
+  Cmd("EXPOSE", "9000"),
+  Cmd("EXPOSE", "9999"),
+  Cmd("EXPOSE", "8888")
+
 )
 
 javaOptions in Universal ++= Seq(
