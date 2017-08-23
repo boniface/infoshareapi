@@ -17,8 +17,7 @@ class ValidUserController @Inject()(cc: ControllerComponents) extends AbstractCo
   private val validUserService: ValidUserService = ValidUserService
 
   def create = Action.async(parse.json) { request =>
-    val input = request.body
-    val entity = Json.fromJson[ValidUser](input).get
+    val entity = Json.fromJson[ValidUser](request.body).get
 
     val response = for {
       _ <- TokenCheckService.apply.getToken(request)

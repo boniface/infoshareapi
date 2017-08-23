@@ -12,7 +12,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
-
 @Singleton
 class LoginController @Inject()(cc: ControllerComponents) extends AbstractController(cc){
 
