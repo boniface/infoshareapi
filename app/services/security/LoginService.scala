@@ -14,7 +14,6 @@ trait LoginService {
 
   def getLogins(email: String): Future[Seq[Login]]
 
-
   def getUser(email: String, siteId: String): Future[Option[User]]
 
   def createNewToken(credential: Credential, agent: String): Future[UserGeneratedToken]

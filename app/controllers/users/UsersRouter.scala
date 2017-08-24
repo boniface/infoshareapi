@@ -53,8 +53,6 @@ class UsersRouter @Inject()(userCreationRouter: UserCreationController,
       userCreationRouter.updateUser
     case POST(p"/usercreation/registered") =>
       userCreationRouter.isRegistered
-    case POST(p"/usercreation/login") =>
-      userCreationRouter.login
     case GET(p"/usercreation/user/$email") =>
       userCreationRouter.getUser(email)
 

@@ -15,7 +15,7 @@ class CategoryCtrlTest extends PlaySpec with BeforeAndAfter with GuiceOneAppPerT
   val baseUrl = "/content/"
   val title = "Category"
 
-  before{
+  before {
     entity = factories.getCategory
   }
 

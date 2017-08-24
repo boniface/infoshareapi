@@ -10,10 +10,6 @@ import domain.comments.Response
 import scala.concurrent.Future
 
 
-/**
-  * Created
-  */
-
 abstract class ResponseTable extends Table[ResponseTable, Response] {
 
   object commentId extends StringColumn with PartitionKey

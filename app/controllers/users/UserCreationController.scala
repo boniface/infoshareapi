@@ -56,21 +56,6 @@ class UserCreationController @Inject()(cc: ControllerComponents) extends Abstrac
     }
   }
 
-  @Deprecated
-  def login = Action.async(parse.json) { request =>
-    val input = request.body
-    val entity = Json.fromJson[Credential](input).get
-    val agent = request.headers.toSimpleMap.getOrElse("User-Agent", "")
-    val response: Future[UserGeneratedToken] = for {
-      _ <- TokenCheckService.apply.getToken(request)
-      results: UserGeneratedToken <- LoginService.apply.createNewToken(entity, agent)
-    } yield results
-    response.map(ans => Ok(Json.toJson(ans))).recover {
-      case _: TokenFailException => Unauthorized
-      case _: Exception => InternalServerError
-    }
-  }
-
   def isRegistered = Action.async(parse.json) { request =>
     val input = request.body
     val entity = Json.fromJson[User](input).get

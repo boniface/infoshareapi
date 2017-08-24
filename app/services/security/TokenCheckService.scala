@@ -13,21 +13,30 @@ import scala.reflect.io.File
   */
 trait TokenCheckService{
 
+  /**
+  * all these methods are doing the same thing, the only difference is Request[<>]
+  * from the controller we already passing the request type e.g request: Request[AnyContent],
+  * we can use a generic method getToken[A](request: Request[A]) and
+  * get the request type from the controller
+  **/
+
+  @deprecated("use generic a method getUserToken[A](request: Request[A])")
   def getTokenForUpload(request: Request[MultipartFormData[File]]): Future[LogInStatus]
 
+  @deprecated("use generic a method getUserToken[A](request: Request[A])")
   def getTokenfromParam(request: Request[AnyContent]): Future[LogInStatus]
 
+  @deprecated("use generic a method getUserToken[A](request: Request[A])")
   def getToken(request: Request[JsValue]): Future[LogInStatus]
 
-  def getTokenValue(token: String, agent:String): Future[LogInStatus]
+  def getUserToken[A](request: Request[A]): Future[LogInStatus]
+
+  protected def getTokenValue(token: String, agent:String): Future[LogInStatus]
 
 }
 
 
 object TokenCheckService {
-
   def apply: TokenCheckService = new TokenCheckServiceImpl()
-
-
 }
 
