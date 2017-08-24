@@ -3,7 +3,9 @@ package controllers
 import javax.inject._
 
 import play.api.mvc._
+import services.setup.SetupService
 import services.users.UserService
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 
@@ -26,14 +28,21 @@ class HomeController @Inject()
   }
 
   def setup = Action.async {
-//  SetupService.setup()
-//  UserService.userNotAvailable("admin@africahash.com")
-    UserService.userNotAvailable("admin@africahash.com","SiteID") map ( result=> Ok("Dow we have something "+result))
+    SetupService.init map( results =>Ok("Done") )
+  }
 
+  def cleanup = Action.async {
+    SetupService.cleanup map( results =>Ok("Done" ) )
+  }
+
+  def init = Action.async {
+    SetupService.init map( results =>Ok("Done") )
   }
 
   def save = Action {
     Ok("Created ")
   }
+
+
 
 }
