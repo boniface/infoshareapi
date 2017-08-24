@@ -21,7 +21,7 @@ class UserCreationController @Inject()(cc: ControllerComponents) extends Abstrac
     val role = UserRole(entity.siteId,entity.email, LocalDateTime.now, roleId)
 
     val response: Future[Boolean] = for {
-//      _ <- TokenCheckService.apply.getToken(request)
+//      _ <- TokenCheckService.apply.getUserToken(request)
       results: Boolean <- UserCreationService.apply.createUser(entity, role)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
@@ -34,7 +34,7 @@ class UserCreationController @Inject()(cc: ControllerComponents) extends Abstrac
     val input = request.body
     val entity = Json.fromJson[User](input).get
     val response: Future[Boolean] = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results: Boolean <- UserCreationService.apply.updateUser(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
@@ -47,7 +47,7 @@ class UserCreationController @Inject()(cc: ControllerComponents) extends Abstrac
     val input = request.body
     val entity = Json.fromJson[User](input).get
     val response: Future[Boolean] = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- UserCreationService.apply.registerUser(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
@@ -60,7 +60,7 @@ class UserCreationController @Inject()(cc: ControllerComponents) extends Abstrac
     val input = request.body
     val entity = Json.fromJson[User](input).get
     val response: Future[Boolean] = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- UserCreationService.apply.isUserRegistered(entity)
     } yield results
     response.map(ans => Ok(Json.toJson(ans))).recover {
@@ -73,7 +73,7 @@ class UserCreationController @Inject()(cc: ControllerComponents) extends Abstrac
     implicit request: Request[AnyContent] =>
      val siteId = request.headers.get("SiteID").getOrElse("")
       val response: Future[Option[User]] = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results: Option[User] <- UserCreationService.apply.getUser(email,siteId)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {

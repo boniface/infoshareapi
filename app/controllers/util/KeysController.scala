@@ -17,7 +17,7 @@ class KeysController @Inject()(cc: ControllerComponents) extends AbstractControl
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[Keys](request.body).get
     val response = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- KeysService.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
@@ -29,7 +29,7 @@ class KeysController @Inject()(cc: ControllerComponents) extends AbstractControl
   def getKeyById(id: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val response = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- KeysService.getKeyById(id)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {
@@ -40,7 +40,7 @@ class KeysController @Inject()(cc: ControllerComponents) extends AbstractControl
 
   def getKeys = Action.async { implicit request: Request[AnyContent] =>
     val response = for {
-      _ <- TokenCheckService.apply.getTokenfromParam(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- KeysService.getAllkeys
     } yield results
     response.map(ans => Ok(Json.toJson(ans))).recover {
