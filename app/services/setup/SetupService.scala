@@ -15,6 +15,7 @@ import repositories.storage._
 import repositories.syslog._
 import repositories.users._
 import repositories.util._
+import repositories.votes.VoteDatabase
 import services.security.{AuthenticationService, TokenGenerationService}
 import services.users.{UserRoleService, UserService}
 import services.util.RolesService
@@ -118,6 +119,9 @@ object SetupService {
       setup <- OrganisationDatabase.organisationTable.create.ifNotExists().future()
       setup <- OrganisationLogoDatabase.organisationLogoTable.create.ifNotExists().future()
 
+      // votes
+      setup <- VoteDatabase.votesTable.create.ifNotExists().future()
+      setup <- VoteDatabase.userVotesTable.create.ifNotExists().future()
     } yield setup
   }
 
@@ -176,6 +180,9 @@ object SetupService {
       truncate <- LocationDatabase.dropAsync()
       truncate <- OrganisationDatabase.dropAsync()
       truncate <- OrganisationLogoDatabase.dropAsync()
+
+      // votes
+      truncate <- VoteDatabase.dropAsync()
 
     } yield truncate
   }
