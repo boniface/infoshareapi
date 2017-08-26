@@ -1,8 +1,10 @@
 package services.security.Impl
 
-import com.typesafe.config.ConfigFactory
+import javax.inject.Inject
+
 import conf.util.Events
 import domain.security.{LogInStatus, TokenFailException}
+import play.api.Configuration
 import play.api.libs.json.JsValue
 import play.api.mvc.{AnyContent, MultipartFormData, Request}
 import services.security.{ManageTokenService, TokenCheckService}
@@ -14,7 +16,7 @@ import scala.reflect.io.File
 /**
   * Created by hashcode on 6/20/17.
   */
-class TokenCheckServiceImpl extends TokenCheckService {
+class TokenCheckServiceImpl @Inject()(val config: Configuration) extends TokenCheckService {
 
   override def getTokenForUpload(request: Request[MultipartFormData[File]]): Future[LogInStatus] = {
 
@@ -41,8 +43,7 @@ class TokenCheckServiceImpl extends TokenCheckService {
   }
 
   override protected def getTokenValue(token: String, agent:String): Future[LogInStatus] = {
-    val config = ConfigFactory.load()
-    val flag = config.getBoolean("token-security.enabled")
+    val flag = config.get[Boolean]("token-security.enabled")
 
     if (flag) {
       ManageTokenService.apply.isTokenValid(token, agent) map (isValid => {
