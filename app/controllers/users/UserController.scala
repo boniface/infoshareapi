@@ -19,7 +19,7 @@ class UserController @Inject()(cc: ControllerComponents) extends AbstractControl
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[User](request.body).get
     val resp = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- service.saveOrUpdate(entity)
     } yield results
     resp.map(_ => Ok(Json.toJson(entity))).recover {
@@ -31,7 +31,7 @@ class UserController @Inject()(cc: ControllerComponents) extends AbstractControl
   def getUserByEmail(siteId: String, email: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getSiteUser(email,siteId)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
@@ -43,7 +43,7 @@ class UserController @Inject()(cc: ControllerComponents) extends AbstractControl
   def getUserAccounts(email: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getUserAccounts(email)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
@@ -55,7 +55,7 @@ class UserController @Inject()(cc: ControllerComponents) extends AbstractControl
   def getSiteUsers(siteUsers: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getSiteUsers(siteUsers)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {

@@ -18,7 +18,7 @@ class UserContactCtrl @Inject()(cc: ControllerComponents) extends AbstractContro
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[UserContact](request.body).get
     val response = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- service.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
@@ -31,7 +31,7 @@ class UserContactCtrl @Inject()(cc: ControllerComponents) extends AbstractContro
     implicit request: Request[AnyContent] =>
       val args = Map("emailId" -> emailId, "id" -> id)
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getById(args)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
@@ -43,7 +43,7 @@ class UserContactCtrl @Inject()(cc: ControllerComponents) extends AbstractContro
   def getAll(emailId: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getAllUserContacts(emailId)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {

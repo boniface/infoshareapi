@@ -17,7 +17,7 @@ class RoleController @Inject()(cc: ControllerComponents) extends AbstractControl
     val input = request.body
     val entity = Json.fromJson[Roles](input).get
     val response = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- RolesService.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
@@ -29,7 +29,7 @@ class RoleController @Inject()(cc: ControllerComponents) extends AbstractControl
   def getRoleById(id: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val response = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- RolesService.getRoleById(id)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {
@@ -40,7 +40,7 @@ class RoleController @Inject()(cc: ControllerComponents) extends AbstractControl
 
   def getRoles = Action.async { implicit request: Request[AnyContent] =>
     val response = for {
-      _ <- TokenCheckService.apply.getTokenfromParam(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- RolesService.getRoles
     } yield results
     response.map(ans => Ok(Json.toJson(ans))).recover {

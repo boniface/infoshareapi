@@ -19,7 +19,7 @@ class UserRoleCtrl @Inject()(cc: ControllerComponents) extends AbstractControlle
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[UserRole](request.body).get
     val response = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- service.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
@@ -31,7 +31,7 @@ class UserRoleCtrl @Inject()(cc: ControllerComponents) extends AbstractControlle
   def getById(siteId: String,emailId:String)  = Action.async {
     implicit request: Request[AnyContent] =>
       val resp: Future[UserRole] = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         user <-UserService.getSiteUser(emailId,siteId)
         results <- service.getUserRole(user.getOrElse(User.identity))
       } yield results
@@ -44,7 +44,7 @@ class UserRoleCtrl @Inject()(cc: ControllerComponents) extends AbstractControlle
   def getAll(siteId: String,emailId:String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
        user <-UserService.getSiteUser(emailId,siteId)
         results <- service.getUserRoles(user.getOrElse(User.identity))
       } yield results
@@ -58,7 +58,7 @@ class UserRoleCtrl @Inject()(cc: ControllerComponents) extends AbstractControlle
     implicit request: Request[AnyContent] =>
 
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         user <-UserService.getSiteUser(emailId,siteId)
         results <- service.deleteUserRoles(user.getOrElse(User.identity))
       } yield results

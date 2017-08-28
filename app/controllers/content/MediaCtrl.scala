@@ -18,7 +18,7 @@ class MediaCtrl @Inject()(cc: ControllerComponents) extends AbstractController(c
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[Media](request.body).get
     val resp = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- service.save(entity)
     } yield results
     resp.map(_ => Ok(Json.toJson(entity))).recover {
@@ -31,7 +31,7 @@ class MediaCtrl @Inject()(cc: ControllerComponents) extends AbstractController(c
     implicit request: Request[AnyContent] =>
       val args = Map("contentId" -> content_Id, "id" -> id)
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getById(args)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
@@ -43,7 +43,7 @@ class MediaCtrl @Inject()(cc: ControllerComponents) extends AbstractController(c
   def getAll(content_id: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getAll(content_id)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {

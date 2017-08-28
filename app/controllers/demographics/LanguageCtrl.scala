@@ -19,7 +19,7 @@ class LanguageCtrl @Inject()(cc: ControllerComponents) extends AbstractControlle
     val entity = Json.fromJson[Language](request.body).get
 
     val resp = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- service.save(entity)
     } yield results
     resp.map(_ => Ok(Json.toJson(entity))).recover {
@@ -31,7 +31,7 @@ class LanguageCtrl @Inject()(cc: ControllerComponents) extends AbstractControlle
   def getById(id: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getById(id)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
@@ -42,7 +42,7 @@ class LanguageCtrl @Inject()(cc: ControllerComponents) extends AbstractControlle
 
   def getAll = Action.async { implicit request: Request[AnyContent] =>
     val resp = for {
-      _ <- TokenCheckService.apply.getTokenfromParam(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- service.getAll
     } yield results
     resp.map(msg => Ok(Json.toJson(msg))).recover {
@@ -54,7 +54,7 @@ class LanguageCtrl @Inject()(cc: ControllerComponents) extends AbstractControlle
   def delete(id: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.deleteById(id)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg.isExhausted))).recover {

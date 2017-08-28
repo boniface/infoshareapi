@@ -18,7 +18,7 @@ class MailSettingsController @Inject()(cc: ControllerComponents) extends Abstrac
     val input = request.body
     val entity = Json.fromJson[Mail](input).get
     val response = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- MailService.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
@@ -30,7 +30,7 @@ class MailSettingsController @Inject()(cc: ControllerComponents) extends Abstrac
   def getMailSettingById(siteId: String, id: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val response = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- MailService.getMailSettingById(siteId, id)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {
@@ -42,7 +42,7 @@ class MailSettingsController @Inject()(cc: ControllerComponents) extends Abstrac
   def getSiteMailSettings(siteId: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val response = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- MailService.getAllMailSettings(siteId)
       } yield results
       response.map(ans => Ok(Json.toJson(ans))).recover {
