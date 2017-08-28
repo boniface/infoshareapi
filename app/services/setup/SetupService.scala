@@ -18,7 +18,7 @@ import repositories.util._
 import repositories.votes.VoteDatabase
 import services.security.{AuthenticationService, TokenGenerationService}
 import services.users.{UserRoleService, UserService}
-import services.util.RolesService
+import services.util.{KeysService, RolesService}
 
 import scala.concurrent.Future
 
@@ -33,11 +33,11 @@ object SetupService {
     val key = TokenGenerationService.apply.getJsonKey(publicKey)
     val keys = Keys(HashcodeKeys.PUBLICKEY, key, HashcodeKeys.ACTIVE)
 
-//    KeysService.save(keys)
+    KeysService.save(keys)
 
     val mailKey = Keys(HashcodeKeys.MAILKEY, "", HashcodeKeys.ACTIVE)
 
-//        KeysService.save(mailKey)
+        KeysService.save(mailKey)
 
     val roles = Seq(
       Roles(RolesID.ADMIN, RolesID.ADMIN),
