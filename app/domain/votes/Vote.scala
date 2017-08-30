@@ -13,5 +13,5 @@ case class Vote(siteId: String,
 
 object Vote {
   implicit val voteFmt = Json.format[Vote]
-  def identity: Vote= Vote("", "", "", "", LocalDateTime.now(), "")
+  def identity: Vote = Vote("", "", "", "", LocalDateTime.now(), "")
 }
