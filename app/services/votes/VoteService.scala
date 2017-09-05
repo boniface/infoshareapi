@@ -12,11 +12,17 @@ import scala.concurrent.Future
 
 trait VoteService extends VoteRepository {
 
-  def castVote(entity: Vote): Future[ResultSet] = {
+  def castVote(entity: Vote): Future[Boolean] = {
     val params = Map("siteId"->entity.siteId, "itemId"->entity.itemId, "ipAddress"->entity.ipAddress)
+
     getVoteId(params).flatMap { vote =>
-      if (vote.nonEmpty && vote.get.status.equals(entity.siteId))
-        deleteVote(entity) else save(entity)
+      if (vote.nonEmpty && vote.get.status.equals(entity.status)) {
+        deleteVote(entity)
+        Future.successful(true)
+      } else {
+        save(entity)
+        Future.successful(false)
+      }
     }
   }
 

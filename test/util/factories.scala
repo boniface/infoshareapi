@@ -13,6 +13,7 @@ import domain.demographics._
 import domain.organisation._
 import domain.security.Roles
 import domain.syslog.SystemLogEvents
+import domain.votes.Vote
 import services.security.AuthenticationService
 
 
@@ -201,5 +202,9 @@ object factories {
 
   def getRoles: Roles = {
     Roles(id = RolesID.READER, rolename = RolesID.READER)
+  }
+
+  def getVote: Vote = {
+    Vote(org,"1","10.10.0.1","1", LocalDateTime.now(),"LIKED")
   }
 }

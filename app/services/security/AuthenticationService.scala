@@ -8,7 +8,8 @@ import services.security.Impl.AuthenticationServiceImpl
 trait AuthenticationService {
   def getHashedPassword(key: String): String
 
-  def generateRandomPassword(): String
+  def generateRandomPassword(length: Int = 8,useLetters: Boolean = true, useNumbers: Boolean = true): String
+//  def generateRandomPassword(): String
 
   def checkPassword(candidate: String, hash: String): Boolean
 }
