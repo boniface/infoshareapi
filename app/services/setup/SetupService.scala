@@ -97,7 +97,7 @@ object SetupService {
       setup <- LanguageProficiencyDatabase.languageProficiencyTable.create.ifNotExists().future()
       setup <- RaceDatabase.raceTable.create.ifNotExists().future()
       setup <- MaritalStatusDatabase.maritalStatusTable.create.ifNotExists().future()
-      setup <- RolesDatabase.rolesTable.create.ifNotExists().future()
+      setup <- RoleDatabase.roleTable.create.ifNotExists().future()
 
       //    location
       setup <- AddressTypeDatabase.addressTypeTable.create.ifNotExists().future()

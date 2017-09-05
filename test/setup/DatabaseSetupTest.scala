@@ -12,7 +12,7 @@ import scala.concurrent.duration._
 class DatabaseSetupTest extends FunSuite{
 
   test("Create Tables in Cassandra"){
-//    val createTable = Await.result(SetupService.setup, 2.minutes)
+    val createTable = Await.result(SetupService.setup, 2.minutes)
 //    val initialiseDAta = Await.result(SetupService.init, 2.minutes)
 //    assert(createTable.isExhausted)
 //    assert(initialiseDAta)
