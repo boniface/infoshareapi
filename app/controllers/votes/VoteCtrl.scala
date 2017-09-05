@@ -4,7 +4,7 @@ import javax.inject.{Inject, Singleton}
 
 import domain.security.TokenFailException
 import domain.votes.Vote
-import play.api.libs.json.Json
+import play.api.libs.json.Json._
 import play.api.mvc._
 import services.security.TokenCheckService
 import services.votes.VoteService
@@ -18,12 +18,12 @@ class VoteCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc
   private val service = VoteService
 
   def castVote = Action.async(parse.json) { request =>
-    val entity = Json.fromJson[Vote](request.body).get
+    val entity = fromJson[Vote](request.body).get
     val response = for {
       _ <- TokenCheckService.apply.getUserToken(request)
       results <- service.castVote(entity)
     } yield results
-    response.map(res => Ok(Json.toJson(res.isExhausted))).recover {
+    response.map(res => if(res) Ok(toJson(res)) else Created(toJson(entity)) ).recover {
       case _: TokenFailException => Unauthorized
       case _: Exception => InternalServerError
     }
@@ -36,7 +36,7 @@ class VoteCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc
         _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getVoteId(params)
       } yield results
-      resp.map(res => Ok(Json.toJson(res))).recover {
+      resp.map(res => Ok(toJson(res))).recover {
         case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
@@ -48,7 +48,7 @@ class VoteCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc
         _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getAllVotes(siteId, itemId)
       } yield results
-      resp.map(res => Ok(Json.toJson(res))).recover {
+      resp.map(res => Ok(toJson(res))).recover {
         case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
@@ -60,7 +60,7 @@ class VoteCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc
         _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getAllUserVotes(siteId, itemOwnerId)
       } yield results
-      resp.map(res => Ok(Json.toJson(res))).recover {
+      resp.map(res => Ok(toJson(res))).recover {
         case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
@@ -73,7 +73,7 @@ class VoteCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc
         _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getVotesByState(params)
       } yield results
-      resp.map(res => Ok(Json.toJson(res))).recover {
+      resp.map(res => Ok(toJson(res))).recover {
         case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }
@@ -86,7 +86,7 @@ class VoteCtrl @Inject()(cc: ControllerComponents) extends AbstractController(cc
         _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getUserVotesByState(params)
       } yield results
-      resp.map(res => Ok(Json.toJson(res))).recover {
+      resp.map(res => Ok(toJson(res))).recover {
         case _: TokenFailException => Unauthorized
         case _: Exception => InternalServerError
       }

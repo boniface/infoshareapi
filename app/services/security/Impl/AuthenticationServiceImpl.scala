@@ -12,10 +12,10 @@ class AuthenticationServiceImpl extends AuthenticationService{
     BCrypt.hashpw(password, BCrypt.gensalt(12))
   }
 
-  override def generateRandomPassword(): String = {
-    val length: Int = 8
-    val useLetters: Boolean = true
-    val useNumbers: Boolean = true
+  override def generateRandomPassword(length: Int = 8,useLetters: Boolean = true, useNumbers: Boolean = true): String = {
+//    val length: Int = 8
+//    val useLetters: Boolean = true
+//    val useNumbers: Boolean = true
     RandomStringUtils.random(length, useLetters, useNumbers)
   }
 
