@@ -23,7 +23,7 @@ abstract  class VoteTable extends Table[VoteTable, Vote] {
 
   object date extends Col[LocalDateTime]
 
-  object status extends StringColumn with PrimaryKey
+  object status extends StringColumn with Index
 
 }
 
@@ -61,7 +61,7 @@ abstract class VoteTableImpl extends VoteTable with RootConnector {
     select
       .where(_.siteId eqs entity("siteId"))
       .and(_.itemId eqs entity("itemId"))
-      .and(_.status eqs entity("status"))
+      .and(_.status eqs  entity("status"))
       .fetchEnumerator() run Iteratee.collect()
   }
 
@@ -86,7 +86,7 @@ abstract class UserVotesTable extends Table[UserVotesTable, Vote] {
 
   object date extends Col[LocalDateTime]
 
-  object status extends StringColumn with PrimaryKey
+  object status extends StringColumn with Index
 
 
 }
@@ -117,7 +117,7 @@ abstract class UserVotesTableImpl extends UserVotesTable with RootConnector {
     select
       .where(_.siteId eqs entity("siteId"))
       .and(_.itemOwnerId eqs entity("itemOwnerId"))
-      .and(_.status eqs entity("status"))
+      .and(_.status eqs  entity("status"))
       .fetchEnumerator() run Iteratee.collect()
   }
 

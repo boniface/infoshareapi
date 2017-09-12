@@ -21,19 +21,21 @@ class VoteCtrlTest extends PlaySpec with BeforeAndAfter with GuiceOneAppPerTest 
 
   title + " Controller " should {
 
-    "castvotes a "+ title + "and return true if deleted or entity data if created" in {
+    "castvotes a "+ title + "and return true if deleted or vote obj if created" in {
       val request = route(app, FakeRequest(POST, baseUrl + "castvote")
         .withJsonBody(toJson(entity))
         .withHeaders(TestUtils.getHeaders: _*)
       ).get
 
-      val test_params =  if (status(request) equals OK)
-        contentAsString(request) equals "true"
-      else{
-        println("created")
-        contentAsJson(request) equals toJson(entity)
+      if (status(request) equals OK){
+        println("deleted")
+        assert(contentAsString(request) equals "true")
       }
-      assert(test_params)
+
+      if (status(request) equals CREATED) {
+        println("created")
+        assert(contentAsJson(request) equals toJson(entity))
+      }
     }
 
     "get "+ title + " by id" in {
@@ -44,7 +46,6 @@ class VoteCtrlTest extends PlaySpec with BeforeAndAfter with GuiceOneAppPerTest 
       assert(status(request) equals OK)
       println(contentAsString(request))
       assert(contentAsString(request).nonEmpty)
-//      assert(contentAsJson(request) equals toJson(entity))
     }
 
     "get all " + title + "s" in {
