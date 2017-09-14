@@ -13,9 +13,6 @@ class AuthenticationServiceImpl extends AuthenticationService{
   }
 
   override def generateRandomPassword(length: Int = 8,useLetters: Boolean = true, useNumbers: Boolean = true): String = {
-//    val length: Int = 8
-//    val useLetters: Boolean = true
-//    val useNumbers: Boolean = true
     RandomStringUtils.random(length, useLetters, useNumbers)
   }
 

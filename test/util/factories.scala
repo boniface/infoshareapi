@@ -205,6 +205,6 @@ object factories {
   }
 
   def getVote: Vote = {
-    Vote(org,"1","10.10.0.1","1", LocalDateTime.now(),"LIKED")
+    Vote(siteId = org, itemId = "1", ipAddress ="10.10.0.1", itemOwnerId = "1", LocalDateTime.now(), status = "LIKED")
   }
 }

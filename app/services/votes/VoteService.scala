@@ -14,15 +14,11 @@ trait VoteService extends VoteRepository {
 
   def castVote(entity: Vote): Future[Boolean] = {
     val params = Map("siteId"->entity.siteId, "itemId"->entity.itemId, "ipAddress"->entity.ipAddress)
-
     getVoteId(params).flatMap { vote =>
-      if (vote.nonEmpty && vote.get.status.equals(entity.status)) {
-        deleteVote(entity)
-        Future.successful(true)
-      } else {
-        save(entity)
-        Future.successful(false)
-      }
+      val is_existing = vote.nonEmpty && vote.get.status.equals(entity.status)
+      println(is_existing)
+      if(is_existing) deleteVote(entity) else save(entity)
+      Future.successful(is_existing)
     }
   }
 

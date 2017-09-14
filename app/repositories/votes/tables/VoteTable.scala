@@ -43,10 +43,11 @@ abstract class VoteTableImpl extends VoteTable with RootConnector {
   }
 
   def getVoteId(entity: Map[String,String]): Future[Option[Vote]] = {
+    println(entity)
     select
       .where(_.siteId eqs entity("siteId"))
-      .and(_.itemId eqs entity("itemId"))
       .and(_.ipAddress eqs entity("ipAddress"))
+      .and(_.itemId eqs entity("itemId"))
       .one()
   }
 
