@@ -20,7 +20,7 @@ class ValidUserController @Inject()(cc: ControllerComponents) extends AbstractCo
     val entity = Json.fromJson[ValidUser](request.body).get
 
     val response = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- ValidUserService.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {

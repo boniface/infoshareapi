@@ -1,9 +1,7 @@
 package api.users
 
 import domain.users.UserAddress
-import java.time.LocalDateTime
-
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.libs.json.Json

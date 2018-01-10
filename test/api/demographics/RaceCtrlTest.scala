@@ -32,7 +32,7 @@ class RaceCtrlTest extends PlaySpec with BeforeAndAfter with GuiceOneAppPerTest 
     }
 
     "update " + title in {
-      updateEntity = entity.copy(name = "African")
+      updateEntity = entity.copy(name = "west")
       val request = route(app, FakeRequest(POST, baseUrl + "create")
         .withJsonBody(Json.toJson(updateEntity))
         .withHeaders(TestUtils.getHeaders: _*)

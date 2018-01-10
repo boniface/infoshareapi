@@ -9,6 +9,7 @@
 ->         /org                 controllers.organisation.OrganisationRouter
 ->         /storage             controllers.storage.StorageRouter
 ->         /events              controllers.syslog.SystemLogRouter
+->         /votes               controllers.votes.VoteRouter
 ->         /login               controllers.login.LoginRouter
 
 

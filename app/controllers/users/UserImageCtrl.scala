@@ -18,7 +18,7 @@ class UserImageCtrl @Inject()(cc: ControllerComponents) extends AbstractControll
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[UserImages](request.body).get
     val response = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- service.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
@@ -31,7 +31,7 @@ class UserImageCtrl @Inject()(cc: ControllerComponents) extends AbstractControll
     implicit request: Request[AnyContent] =>
       val args = Map("org" -> org, "emailId" -> emailId, "id" -> id)
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getUserImageById(args)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
@@ -44,7 +44,7 @@ class UserImageCtrl @Inject()(cc: ControllerComponents) extends AbstractControll
     implicit request: Request[AnyContent] =>
       val args = Map("org" -> org, "emailId" -> emailId)
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getAllUserImages(args)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
@@ -56,7 +56,7 @@ class UserImageCtrl @Inject()(cc: ControllerComponents) extends AbstractControll
   def getAllOrgImages(org: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getAllUserCompanyImages(org)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {

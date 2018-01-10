@@ -18,7 +18,7 @@ class AddressTypeCtrl @Inject()(cc: ControllerComponents) extends AbstractContro
   def create = Action.async(parse.json) { request =>
     val entity = Json.fromJson[AddressType](request.body).get
     val response = for {
-      _ <- TokenCheckService.apply.getToken(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- service.save(entity)
     } yield results
     response.map(_ => Ok(Json.toJson(entity))).recover {
@@ -30,7 +30,7 @@ class AddressTypeCtrl @Inject()(cc: ControllerComponents) extends AbstractContro
   def getById(id: String) = Action.async {
     implicit request: Request[AnyContent] =>
       val resp = for {
-        _ <- TokenCheckService.apply.getTokenfromParam(request)
+        _ <- TokenCheckService.apply.getUserToken(request)
         results <- service.getAddressById(id)
       } yield results
       resp.map(msg => Ok(Json.toJson(msg))).recover {
@@ -41,7 +41,7 @@ class AddressTypeCtrl @Inject()(cc: ControllerComponents) extends AbstractContro
 
   def getAll = Action.async { implicit request: Request[AnyContent] =>
     val resp = for {
-      _ <- TokenCheckService.apply.getTokenfromParam(request)
+      _ <- TokenCheckService.apply.getUserToken(request)
       results <- service.getAllAddresses
     } yield results
     resp.map(msg => Ok(Json.toJson(msg))).recover {
