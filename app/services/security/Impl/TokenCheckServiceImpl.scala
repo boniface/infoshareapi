@@ -48,5 +48,4 @@ class TokenCheckServiceImpl extends TokenCheckService {
       })
     } else Future.successful(LogInStatus(Events.TOKENVALID))
   }
-
 }
